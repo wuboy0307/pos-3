@@ -8,12 +8,12 @@ import edu.txstate.pos.model.User;
 import edu.txstate.pos.storage.BadPasswordException;
 import edu.txstate.pos.storage.ConnectionError;
 import edu.txstate.pos.storage.NoUserFoundException;
-import edu.txstate.pos.storage.RemoteStorage;
 import edu.txstate.pos.storage.UserExistsException;
+import edu.txstate.pos.storage.UserRemoteStorage;
 
 public class UserTest extends AndroidTestCase {
 
-	private RemoteStorage storage = null;
+	private UserRemoteStorage storage = null;
 	
 	public void test_A_Existing() {
 		User user = new User("geoff","5555");
@@ -108,7 +108,7 @@ public class UserTest extends AndroidTestCase {
 	}
 	
 	public void setUp() {
-		storage = new RemoteStorage();
+		storage = new UserRemoteStorage();
 		
 		User user = new User("geoff","5555");
 		

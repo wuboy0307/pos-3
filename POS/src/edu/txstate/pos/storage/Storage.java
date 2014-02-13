@@ -7,30 +7,30 @@ import edu.txstate.pos.model.User;
 
 public class Storage {
 
-	private RemoteStorage remote = null;
+	private UserRemoteStorage userRemote = null;
 	
 	public Storage() {
-		remote = new RemoteStorage();
+		userRemote = new UserRemoteStorage();
 	}
 	
 	public User login(User user) throws ConnectionError, NoUserFoundException, BadPasswordException {
-		return user = remote.login(user);
+		return user = userRemote.login(user);
 	}
 	
 	public User addUser(User user) throws ConnectionError, UserExistsException {
-		return remote.addUser(user);
+		return userRemote.addUser(user);
 	}
 	
 	public void deleteUser(String login) throws ConnectionError, NoUserFoundException {
-		remote.deleteUser(login);
+		userRemote.deleteUser(login);
 	}
 	
 	public void updateUser(User user) throws ConnectionError, NoUserFoundException {
-		remote.updateUser(user);
+		userRemote.updateUser(user);
 	}
 	
 	public List<User> getUsers() throws ConnectionError {
-		return remote.getUsers();
+		return userRemote.getUsers();
 	}
 	
 	public void sellCart(Cart cart) throws InvalidCartException {

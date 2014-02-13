@@ -316,12 +316,17 @@ sub getUsers() {
     my $sth = $dbh->prepare($sql);
     $sth->execute();
 
-    my ($ret, $rc, $rm, $ref, @a);
+    my ($ret, $rc, $rm, $ref, @a, $count);
 
+    $count = 0;
     while ($ref = $sth->fetchrow_hashref()) {
         push @a, $ref;
+        $count++;
     }
     $sth->finish();
+    
+    $rm = "Success: $count";
+    $rc = 0;
     
     $ret->{'returnMessage'} = $rm;
     $ret->{'returnCode'} = $rc;
