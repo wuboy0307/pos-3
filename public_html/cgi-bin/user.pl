@@ -22,7 +22,7 @@ Log::Log4perl::init('../cfg/log4perl.conf');
 my $logger = Log::Log4perl->get_logger('opuma');
 
 use CGI;
-use DAO;
+use UserDAO;
 use JSON;
 
 my $cgi = new CGI;
@@ -40,7 +40,7 @@ print "Content-type: application/json\n\n";
 $logger->debug("USER.PL: $action");
 $logger->debug("ID: $id");
 
-my $dao = new DAO();
+my $dao = new UserDAO();
 my $a = {};
 if ("add" eq $action) {
     if (defined($login) && defined($pin) && defined($isAdmin)) {
@@ -61,6 +61,13 @@ if ("add" eq $action) {
         $a = $dao->updateUser($login,$pin,$isAdmin,$isActive,$id);
     } else {
         $a->{'returnMessage'} = "Login, pin, isActive, and isAdmin are required.";
+        $a->{'returnCode'} = -1;
+    }
+} elsif ("login" eq $action) {
+    if (defined($login) && defined($pin)) {
+        $a = $dao->login($login,$pin);
+    } else {
+        $a->{'returnMessage'} = "Login and pin are required.";
         $a->{'returnCode'} = -1;
     }
 } elsif ("getAll" eq $action) {
