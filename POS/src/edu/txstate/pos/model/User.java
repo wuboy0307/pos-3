@@ -2,7 +2,21 @@ package edu.txstate.pos.model;
 
 public class User {
 	
-	private boolean isAdmin;
+	private boolean isAdmin = false;
+	private String PIN;
+	private boolean isActive = true;
+	private int id = -1;
+	private String login;
+	
+	public User() {
+		
+	}
+	
+	public User (String login, String PIN) {
+		this.login = login;
+		this.PIN = PIN;
+	}
+	
 	public boolean isAdmin() {
 		return isAdmin;
 	}
@@ -35,10 +49,6 @@ public class User {
 		this.id = id;
 	}
 
-	private boolean isActive;
-	private int id = -1;
-	
-	private String login;
 	public String getLogin() {
 		return login;
 	}
@@ -57,14 +67,5 @@ public class User {
 		PIN = pIN;
 	}
 
-	private String PIN;
-	
-	public User() {
-		
-	}
-	
-	public User (String login, String PIN) {
-		this.login = login;
-		this.PIN = PIN;
-	}
+
 }

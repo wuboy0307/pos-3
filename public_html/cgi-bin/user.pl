@@ -41,17 +41,31 @@ $logger->debug("USER.PL: $action");
 $logger->debug("ID: $id");
 
 my $dao = new DAO();
-my $a;
+my $a = {};
 if ("add" eq $action) {
-    $a = $dao->addUser($login,$pin,$isAdmin);
+    if (defined($login) && defined($pin) && defined($isAdmin)) {
+        $a = $dao->addUser($login,$pin,$isAdmin);
+    } else {
+        $a->{'returnMessage'} = "Login, pin, and isAdmin are required.";
+        $a->{'returnCode'} = -1;
+    }
 } elsif ("delete" eq $action) {
-    $a = $dao->deleteUser($login);
+    if (defined($login)) {
+        $a = $dao->deleteUser($login);
+    } else {
+        $a->{'returnMessage'} = "Login is required.";
+        $a->{'returnCode'} = -1;
+    }
 } elsif ("update" eq $action) {
-    $a = $dao->updateUser($login,$pin,$isAdmin,$isActive,$id);
+    if (defined($login) && defined($pin) && defined($isAdmin) && defined($isActive)) {
+        $a = $dao->updateUser($login,$pin,$isAdmin,$isActive,$id);
+    } else {
+        $a->{'returnMessage'} = "Login, pin, isActive, and isAdmin are required.";
+        $a->{'returnCode'} = -1;
+    }
 } elsif ("getAll" eq $action) {
-    $a = dao->getUsers();
+    $a = $dao->getUsers();
 } else {
-    $a = {};
     $a->{'returnMessage'} = "No action parameter given.";
     $a->{'returnCode'} = -1;
 }

@@ -1,5 +1,7 @@
 package test.edu.txstate.pos.storage.remote;
 
+import java.util.List;
+
 import android.test.AndroidTestCase;
 import android.util.Log;
 import edu.txstate.pos.model.User;
@@ -68,13 +70,32 @@ public class UserTest extends AndroidTestCase {
 			Log.e("JUNIT_TEST",e.getMessage());
 			assertTrue(false);
 		} catch (BadPasswordException e) {
+			e.printStackTrace();
 			Log.e("JUNIT_TEST",e.getMessage());
 			assertTrue(false);
 		}
 		
 	}
 	
-	public void test_D_Delete() {
+	public void test_D_All() {
+		List<User> users;
+		try {
+			users = storage.getUsers();
+			boolean foundDeleteMe = false;
+			boolean foundGeoff = false;
+			for (User user : users) {
+				if (user.getLogin().equals("deleteme")) foundDeleteMe = true;
+				if (user.getLogin().equals("geoff")) foundGeoff = true;
+			}
+			assertEquals(true,foundDeleteMe);
+			assertEquals(true,foundGeoff);
+		} catch (ConnectionError e) {
+			assertTrue(false);
+		}
+
+	}
+	
+	public void test_E_Delete() {
 		try {
 			storage.deleteUser("deleteme");
 		} catch (ConnectionError e) {
@@ -93,12 +114,14 @@ public class UserTest extends AndroidTestCase {
 		
 		try {
 			storage.addUser(user);
+
 		} catch (ConnectionError e) {
 			Log.e("JUNIT_TEST",e.getMessage());
 		} catch (UserExistsException e) {
 			// This is OK, just making sure the user
 			// is there
 		}
+
 	}
 	
 }

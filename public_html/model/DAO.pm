@@ -137,6 +137,7 @@ sub addUser {
         $rc = 1;
     } else {
         $sql = "insert into user (login,pin,is_admin) values (?,?,?)";
+        $logger->debug("SQL: $sql / $login / $pin / $isAdmin");
         $sth = $dbh->prepare($sql);
         $sth->execute($login,$pin,$isAdmin);
         
@@ -170,6 +171,12 @@ sub updateUser {
     
     $logger->debug("DAO: $id");
     
+    $login =~ s/'/''/g;
+    $pin =~ s/'/''/g;
+    $isAdmin =~ s/'/''/g;
+    $isActive =~ s/'/''/g;
+    
+    
     my $dbh = $self->{'dbh'};
     
     my $sql;
@@ -189,12 +196,13 @@ sub updateUser {
     
     my $count;
     if (my $ref = $sth->fetchrow_hashref()) {
-        my $id = $sth->{'user_id'};
+        $id = $ref->{'user_id'};
         $sth->finish();
         
-        $sql = "update user set login = ?, pin = ?, is_admin = ?, is_active = ? where user_id = $id";
+        $sql = "update user set login = '$login', pin = '$pin', is_admin = '$isAdmin', is_active = '$isActive' where user_id = $id";
+        $logger->debug("SQL: $sql");
         $sth = $dbh->prepare($sql);
-        $sth->execute($login,$pin,$isAdmin,$isActive);
+        $sth->execute();
         
         $ret->{'user_id'} = $id;
         $ret->{'is_active'} = $isActive;
@@ -283,7 +291,7 @@ sub login {
 			$rm = "Password doesn't match";
 		}
 		$ret = $ref;
-		$ret->{'pin'} = "****";
+		# $ret->{'pin'} = "****";  Do this later??
 	} else {
 		$rc = 1;
 		$rm = "Login not found: $login"; 
@@ -297,3 +305,30 @@ sub login {
 	
 	return $ret;
 }
+
+sub getUsers() {
+    my $self = shift;
+    
+    my $dbh = $self->{'dbh'};
+
+    my $sql = "select * from user order by login";
+    
+    my $sth = $dbh->prepare($sql);
+    $sth->execute();
+
+    my ($ret, $rc, $rm, $ref, @a);
+
+    while ($ref = $sth->fetchrow_hashref()) {
+        push @a, $ref;
+    }
+    $sth->finish();
+    
+    $ret->{'returnMessage'} = $rm;
+    $ret->{'returnCode'} = $rc;
+    $ret->{'data'} = \@a;
+    
+    $dbh->disconnect();
+    
+    return $ret;
+}
+

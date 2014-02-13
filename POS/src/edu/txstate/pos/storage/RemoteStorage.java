@@ -19,6 +19,7 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -32,6 +33,7 @@ public class RemoteStorage {
 	private static final String USER_ACTION_ADD = "add";
 	private static final String USER_ACTION_DELETE = "delete";
 	private static final String USER_ACTION_UPDATE = "update";
+	private static final String USER_ACTION_GET_ALL = "getAll";
 	
 	private static final String LOGIN = "login";
 	private static final String PIN = "pin";
@@ -59,7 +61,7 @@ public class RemoteStorage {
 		Map<String, String> params = new HashMap<String, String>();
 		params.put(LOGIN, user.getLogin());
 		params.put(PIN, user.getPIN());
-		JSONObject ret = call("login",params);
+		JSONObject ret = getObject("login",params);
 		try {
 			if (RC_LOGIN_NO_USER_FOUND == ret.getInt(RETURN_CODE)) {
 				throw new NoUserFoundException(ret.getString(RETURN_MESSAGE));
@@ -83,7 +85,7 @@ public class RemoteStorage {
 		params.put(IS_ADMIN, user.isAdmin() ? "Y" : "N");
 		params.put(ACTION, USER_ACTION_ADD);
 		params.put(IS_ACTIVE,"Y");
-		JSONObject ret = call("user",params);
+		JSONObject ret = getObject("user",params);
 		try {
 			if (RC_USER_NO_ACTION == ret.getInt(RETURN_CODE)) {
 				throw new ConnectionError(ret.getString(RETURN_MESSAGE));
@@ -103,7 +105,7 @@ public class RemoteStorage {
 		Map<String, String> params = new HashMap<String, String>();
 		params.put(LOGIN, login);
 		params.put(ACTION, USER_ACTION_DELETE);
-		JSONObject ret = call("user",params);
+		JSONObject ret = getObject("user",params);
 		try {
 			if (RC_USER_NO_ACTION == ret.getInt(RETURN_CODE)) {
 				throw new ConnectionError(ret.getString(RETURN_MESSAGE));
@@ -126,7 +128,7 @@ public class RemoteStorage {
 		String sID = String.valueOf(user.getId());
 		params.put(USER_ID, sID);
 		params.put(ACTION, USER_ACTION_UPDATE);
-		JSONObject ret = call("user",params);
+		JSONObject ret = getObject("user",params);
 		try {
 			if (RC_USER_NO_ACTION == ret.getInt(RETURN_CODE)) {
 				throw new ConnectionError(ret.getString(RETURN_MESSAGE));
@@ -140,7 +142,54 @@ public class RemoteStorage {
 		}
 	}
 	
-	public JSONObject call(String function, Map<String, String> params) throws ConnectionError {
+	public List<User> getUsers() throws ConnectionError {
+		List<User> ret = new ArrayList<User>();
+		
+		try {
+			Map<String, String> params = new HashMap<String, String>();
+			params.put(ACTION, USER_ACTION_GET_ALL);
+			JSONObject json = getArray("user",params);
+			JSONArray array = json.getJSONArray("data");
+			
+			User user = null;
+			for (int i = 0; i < array.length(); i++) {
+				JSONObject rec = array.getJSONObject(i);
+				user = new User(rec.getString(LOGIN),rec.getString(PIN));
+				user.setActive(rec.getString(IS_ACTIVE));
+				user.setAdmin(rec.getString(IS_ADMIN));
+				ret.add(user);
+			}
+		} catch (ConnectionError e) {
+			e.printStackTrace();
+		} catch (JSONException e) {
+			throw new ConnectionError("JSON parser error: " + e.getMessage());
+		}
+		return ret;
+	}
+	
+	public JSONObject getObject(String function, Map<String, String> params) throws ConnectionError {
+		JSONObject ret = null;
+		try {
+			String json = call(function,params);
+			ret = new JSONObject(json);
+		} catch (JSONException e) {
+			throw new ConnectionError("JSON parser error: " + e.getMessage());
+		}
+		return ret;
+	}
+	
+	public JSONObject getArray(String function, Map<String, String> params) throws ConnectionError {
+		JSONObject ret = null;
+		try {
+			String json = call(function,params);
+			ret = new JSONObject(json);
+		} catch (JSONException e) {
+			throw new ConnectionError("JSON parser error: " + e.getMessage());
+		}
+		return ret;
+	}
+	
+	public String call(String function, Map<String, String> params) throws ConnectionError {
 		StringBuilder buffer = new StringBuilder();
         HttpClient client = new DefaultHttpClient();
         String url = "http://172.16.89.203/~g_m108/cgi-bin/" + function + ".pl";
@@ -180,12 +229,6 @@ public class RemoteStorage {
         } catch (IOException e) {
         	e.printStackTrace();
         }
-        JSONObject ret = null;
-        try {
-			ret = new JSONObject(buffer.toString());
-		} catch (JSONException e) {
-			throw new ConnectionError("JSON parser error: " + e.getMessage());
-		}
-        return ret;
+        return buffer.toString();
       }
 }

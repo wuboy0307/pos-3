@@ -30,7 +30,7 @@ public class Storage {
 	}
 	
 	public List<User> getUsers() throws ConnectionError {
-		return null;
+		return remote.getUsers();
 	}
 	
 	public void sellCart(Cart cart) throws InvalidCartException {
