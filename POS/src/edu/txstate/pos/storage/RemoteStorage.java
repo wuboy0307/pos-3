@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -23,127 +22,49 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.util.Log;
-import edu.txstate.pos.model.User;
 
-public class RemoteStorage {
+public abstract class RemoteStorage {
 	
-	private static final String ACTION = "action";
+	static final String ACTION = "action";
 
-	private static final String USER_ACTION_ADD = "add";
-	private static final String USER_ACTION_DELETE = "delete";
-	private static final String USER_ACTION_UPDATE = "update";
-	
-	private static final String LOGIN = "login";
-	private static final String PIN = "pin";
-	private static final String IS_ACTIVE = "is_active";
-	private static final String IS_ADMIN = "is_admin";
-	private static final String USER_ID = "user_id";
-	
-	private static String RETURN_CODE = "returnCode";
-	private static String RETURN_MESSAGE = "returnMessage";
-	
-	private static int RC_LOGIN_NO_USER_FOUND = 1;
-	private static int RC_LOGIN_BAD_PASSWORD = 2;
-	
-	private static int RC_USER_NO_ACTION = -1;
-	private static int RC_USER_EXISTS = 1;
-	private static int RC_USER_NO_USER_FOUND = 2;
-	
-	private static int RC_SUCCESS = 0;
+	static final String RETURN_CODE = "returnCode";
+	static final String RETURN_MESSAGE = "returnMessage";
+
+	static final int RC_SUCCESS = 0;
 	
 	public RemoteStorage() {
 		
 	}
 	
-	public User login(User user) throws ConnectionError, NoUserFoundException, BadPasswordException {
-		Map<String, String> params = new HashMap<String, String>();
-		params.put(LOGIN, user.getLogin());
-		params.put(PIN, user.getPIN());
-		JSONObject ret = call("login",params);
+	public abstract String getScriptName();
+	
+
+	public JSONObject getObject(String function, Map<String, String> params) throws ConnectionError {
+		JSONObject ret = null;
 		try {
-			if (RC_LOGIN_NO_USER_FOUND == ret.getInt(RETURN_CODE)) {
-				throw new NoUserFoundException(ret.getString(RETURN_MESSAGE));
-			} else if (RC_LOGIN_BAD_PASSWORD == ret.getInt(RETURN_CODE)) {
-				throw new BadPasswordException(ret.getString(RETURN_MESSAGE));
-			} else if (RC_SUCCESS == ret.getInt(RETURN_CODE)) {
-				user.setActive(ret.getString(IS_ACTIVE));
-				user.setAdmin(ret.getString(IS_ADMIN));
-				user.setId(ret.getInt(USER_ID));
-			}
+			String json = call(function,params);
+			ret = new JSONObject(json);
 		} catch (JSONException e) {
 			throw new ConnectionError("JSON parser error: " + e.getMessage());
 		}
-		return user;
+		return ret;
 	}
 	
-	public User addUser(User user) throws ConnectionError, UserExistsException {
-		Map<String, String> params = new HashMap<String, String>();
-		params.put(LOGIN, user.getLogin());
-		params.put(PIN, user.getPIN());
-		params.put(IS_ADMIN, user.isAdmin() ? "Y" : "N");
-		params.put(ACTION, USER_ACTION_ADD);
-		params.put(IS_ACTIVE,"Y");
-		JSONObject ret = call("user",params);
+	public JSONObject getArray(String function, Map<String, String> params) throws ConnectionError {
+		JSONObject ret = null;
 		try {
-			if (RC_USER_NO_ACTION == ret.getInt(RETURN_CODE)) {
-				throw new ConnectionError(ret.getString(RETURN_MESSAGE));
-			} else if (RC_USER_EXISTS == ret.getInt(RETURN_CODE)) {
-				throw new UserExistsException(ret.getString(RETURN_MESSAGE));
-			} else if (RC_SUCCESS == ret.getInt(RETURN_CODE)) {
-				user.setActive(ret.getString(IS_ACTIVE));
-				user.setId(ret.getInt(USER_ID));
-			}
+			String json = call(function,params);
+			ret = new JSONObject(json);
 		} catch (JSONException e) {
 			throw new ConnectionError("JSON parser error: " + e.getMessage());
 		}
-		return user;
+		return ret;
 	}
 	
-	public void deleteUser(String login) throws ConnectionError, NoUserFoundException {
-		Map<String, String> params = new HashMap<String, String>();
-		params.put(LOGIN, login);
-		params.put(ACTION, USER_ACTION_DELETE);
-		JSONObject ret = call("user",params);
-		try {
-			if (RC_USER_NO_ACTION == ret.getInt(RETURN_CODE)) {
-				throw new ConnectionError(ret.getString(RETURN_MESSAGE));
-			} else if (RC_USER_NO_USER_FOUND == ret.getInt(RETURN_CODE)) {
-				throw new NoUserFoundException(ret.getString(RETURN_MESSAGE));
-			} else if (RC_SUCCESS == ret.getInt(RETURN_CODE)) {
-				Log.d("HTTP", "User deleted: " + login);
-			}
-		} catch (JSONException e) {
-			throw new ConnectionError("JSON parser error: " + e.getMessage());
-		}
-	}
-	
-	public void updateUser(User user) throws ConnectionError, NoUserFoundException {
-		Map<String, String> params = new HashMap<String, String>();
-		params.put(LOGIN, user.getLogin());
-		params.put(PIN, user.getPIN());
-		params.put(IS_ACTIVE, user.isActive() ? "Y" : "N");
-		params.put(IS_ADMIN, user.isAdmin() ? "Y" : "N");
-		String sID = String.valueOf(user.getId());
-		params.put(USER_ID, sID);
-		params.put(ACTION, USER_ACTION_UPDATE);
-		JSONObject ret = call("user",params);
-		try {
-			if (RC_USER_NO_ACTION == ret.getInt(RETURN_CODE)) {
-				throw new ConnectionError(ret.getString(RETURN_MESSAGE));
-			} else if (RC_USER_NO_USER_FOUND == ret.getInt(RETURN_CODE)) {
-				throw new NoUserFoundException(ret.getString(RETURN_MESSAGE));
-			} else if (RC_SUCCESS == ret.getInt(RETURN_CODE)) {
-				Log.d("HTTP", "User updated: " + user.getId());
-			}
-		} catch (JSONException e) {
-			throw new ConnectionError("JSON parser error: " + e.getMessage());
-		}
-	}
-	
-	public JSONObject call(String function, Map<String, String> params) throws ConnectionError {
+	public String call(String function, Map<String, String> params) throws ConnectionError {
 		StringBuilder buffer = new StringBuilder();
         HttpClient client = new DefaultHttpClient();
-        String url = "http://172.16.89.203/~g_m108/cgi-bin/" + function + ".pl";
+        String url = "http://172.16.89.203/~g_m108/cgi-bin/" + getScriptName() + ".pl";
         //String url = "http://cs.txstate.edu/~g_m108/cgi-bin/" + function + ".pl";
 
         HttpPost httpPost = new HttpPost(url);
@@ -176,16 +97,10 @@ public class RemoteStorage {
 		    	throw new ConnectionError("BAD HTTP STATUS: " + statusCode);
 		    }
         } catch (ClientProtocolException e) {
-        	e.printStackTrace();
+        	throw new ConnectionError("ClientProtocolException: " + e.getMessage());
         } catch (IOException e) {
-        	e.printStackTrace();
+        	throw new ConnectionError("IOException: " + e.getMessage());
         }
-        JSONObject ret = null;
-        try {
-			ret = new JSONObject(buffer.toString());
-		} catch (JSONException e) {
-			throw new ConnectionError("JSON parser error: " + e.getMessage());
-		}
-        return ret;
+        return buffer.toString();
       }
 }

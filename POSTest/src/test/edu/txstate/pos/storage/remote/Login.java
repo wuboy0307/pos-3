@@ -6,14 +6,14 @@ import edu.txstate.pos.model.User;
 import edu.txstate.pos.storage.BadPasswordException;
 import edu.txstate.pos.storage.ConnectionError;
 import edu.txstate.pos.storage.NoUserFoundException;
-import edu.txstate.pos.storage.RemoteStorage;
+import edu.txstate.pos.storage.UserRemoteStorage;
 
 public class Login extends AndroidTestCase {
 	
 	public void testValid() {
 		Log.d("JUNIT_TEST", "testValid");
 		User user = new User("geoff","5555");
-		RemoteStorage remote = new RemoteStorage();
+		UserRemoteStorage remote = new UserRemoteStorage();
 		try {
 			user = remote.login(user);
 			assertEquals(false, user.isAdmin());
@@ -32,7 +32,7 @@ public class Login extends AndroidTestCase {
 	public void testBadPassword() {
 		Log.d("JUNIT_TEST", "testBadPassword");
 		User user = new User("geoff","WRONG");
-		RemoteStorage remote = new RemoteStorage();
+		UserRemoteStorage remote = new UserRemoteStorage();
 		try {
 			remote.login(user);
 			assertTrue(false);
@@ -48,7 +48,7 @@ public class Login extends AndroidTestCase {
 	public void testNoUser() {
 		Log.d("JUNIT_TEST", "testNoUser");
 		User user = new User("WRONGUSER","5555");
-		RemoteStorage remote = new RemoteStorage();
+		UserRemoteStorage remote = new UserRemoteStorage();
 		try {
 			remote.login(user);
 			assertTrue(false);
