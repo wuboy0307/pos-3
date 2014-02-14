@@ -10,10 +10,12 @@ import edu.txstate.pos.storage.UserRemoteStorage;
 
 public class Login extends AndroidTestCase {
 	
+	private UserRemoteStorage remote = null;
+	
 	public void testValid() {
 		Log.d("JUNIT_TEST", "testValid");
 		User user = new User("geoff","5555");
-		UserRemoteStorage remote = new UserRemoteStorage();
+		
 		try {
 			user = remote.login(user);
 			assertEquals(false, user.isAdmin());
@@ -32,7 +34,7 @@ public class Login extends AndroidTestCase {
 	public void testBadPassword() {
 		Log.d("JUNIT_TEST", "testBadPassword");
 		User user = new User("geoff","WRONG");
-		UserRemoteStorage remote = new UserRemoteStorage();
+		
 		try {
 			remote.login(user);
 			assertTrue(false);
@@ -48,7 +50,7 @@ public class Login extends AndroidTestCase {
 	public void testNoUser() {
 		Log.d("JUNIT_TEST", "testNoUser");
 		User user = new User("WRONGUSER","5555");
-		UserRemoteStorage remote = new UserRemoteStorage();
+		
 		try {
 			remote.login(user);
 			assertTrue(false);
@@ -61,4 +63,7 @@ public class Login extends AndroidTestCase {
 		}
 	}
 	
+	public void setUp() {
+		remote = new UserRemoteStorage("XX");
+	}
 }

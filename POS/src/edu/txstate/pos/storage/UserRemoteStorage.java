@@ -37,12 +37,16 @@ public class UserRemoteStorage extends RemoteStorage {
 		return "user";
 	}
 	
+	public UserRemoteStorage(String androidID) {
+		super(androidID);
+	}
+	
 	public User login(User user) throws ConnectionError, NoUserFoundException, BadPasswordException {
 		Map<String, String> params = new HashMap<String, String>();
 		params.put(LOGIN, user.getLogin());
 		params.put(PIN, user.getPIN());
 		params.put(ACTION, USER_ACTION_LOGIN);
-		JSONObject ret = getObject("login",params);
+		JSONObject ret = getObject(params);
 		try {
 			if (RC_LOGIN_NO_USER_FOUND == ret.getInt(RETURN_CODE)) {
 				throw new NoUserFoundException(ret.getString(RETURN_MESSAGE));
@@ -66,7 +70,7 @@ public class UserRemoteStorage extends RemoteStorage {
 		params.put(IS_ADMIN, user.isAdmin() ? "Y" : "N");
 		params.put(ACTION, USER_ACTION_ADD);
 		params.put(IS_ACTIVE,"Y");
-		JSONObject ret = getObject("user",params);
+		JSONObject ret = getObject(params);
 		try {
 			if (RC_USER_NO_ACTION == ret.getInt(RETURN_CODE)) {
 				throw new ConnectionError(ret.getString(RETURN_MESSAGE));
@@ -86,7 +90,7 @@ public class UserRemoteStorage extends RemoteStorage {
 		Map<String, String> params = new HashMap<String, String>();
 		params.put(LOGIN, login);
 		params.put(ACTION, USER_ACTION_DELETE);
-		JSONObject ret = getObject("user",params);
+		JSONObject ret = getObject(params);
 		try {
 			if (RC_USER_NO_ACTION == ret.getInt(RETURN_CODE)) {
 				throw new ConnectionError(ret.getString(RETURN_MESSAGE));
@@ -109,7 +113,7 @@ public class UserRemoteStorage extends RemoteStorage {
 		String sID = String.valueOf(user.getId());
 		params.put(USER_ID, sID);
 		params.put(ACTION, USER_ACTION_UPDATE);
-		JSONObject ret = getObject("user",params);
+		JSONObject ret = getObject(params);
 		try {
 			if (RC_USER_NO_ACTION == ret.getInt(RETURN_CODE)) {
 				throw new ConnectionError(ret.getString(RETURN_MESSAGE));
@@ -129,7 +133,7 @@ public class UserRemoteStorage extends RemoteStorage {
 		try {
 			Map<String, String> params = new HashMap<String, String>();
 			params.put(ACTION, USER_ACTION_GET_ALL);
-			JSONObject json = getArray("user",params);
+			JSONObject json = getObject(params);
 			if (RC_SUCCESS == json.getInt(RETURN_CODE)) {
 				JSONArray array = json.getJSONArray("data");
 				

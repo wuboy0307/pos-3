@@ -3,6 +3,7 @@ package edu.txstate.pos;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.Settings.Secure;
 import android.view.Menu;
 import android.view.View;
 import android.widget.EditText;
@@ -28,7 +29,8 @@ public class MainActivity extends Activity {
 	}
 	
 	public void login(View view) {
-		Storage storage = new Storage();
+		String androidID = Secure.getString(getBaseContext().getContentResolver(),Secure.ANDROID_ID); 
+		Storage storage = new Storage(androidID);
 		
 		//get userID from EditText
 		EditText inputUserID = (EditText) findViewById(R.id.editText1);

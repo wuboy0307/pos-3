@@ -32,17 +32,19 @@ public abstract class RemoteStorage {
 
 	static final int RC_SUCCESS = 0;
 	
-	public RemoteStorage() {
-		
+	String androidID = null;
+	
+	public RemoteStorage(String androidID) {
+		this.androidID = androidID;
 	}
 	
 	public abstract String getScriptName();
 	
 
-	public JSONObject getObject(String function, Map<String, String> params) throws ConnectionError {
+	public JSONObject getObject(Map<String, String> params) throws ConnectionError {
 		JSONObject ret = null;
 		try {
-			String json = call(function,params);
+			String json = call(params);
 			ret = new JSONObject(json);
 		} catch (JSONException e) {
 			throw new ConnectionError("JSON parser error: " + e.getMessage());
@@ -50,18 +52,7 @@ public abstract class RemoteStorage {
 		return ret;
 	}
 	
-	public JSONObject getArray(String function, Map<String, String> params) throws ConnectionError {
-		JSONObject ret = null;
-		try {
-			String json = call(function,params);
-			ret = new JSONObject(json);
-		} catch (JSONException e) {
-			throw new ConnectionError("JSON parser error: " + e.getMessage());
-		}
-		return ret;
-	}
-	
-	public String call(String function, Map<String, String> params) throws ConnectionError {
+	public String call(Map<String, String> params) throws ConnectionError {
 		StringBuilder buffer = new StringBuilder();
         HttpClient client = new DefaultHttpClient();
         String url = "http://172.16.89.203/~g_m108/cgi-bin/" + getScriptName() + ".pl";

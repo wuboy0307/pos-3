@@ -22,7 +22,7 @@ Log::Log4perl::init('../cfg/log4perl.conf');
 my $logger = Log::Log4perl->get_logger('opuma');
 
 use CGI;
-use UserDAO;
+use ItemDAO;
 use JSON;
 
 my $cgi = new CGI;
@@ -32,17 +32,22 @@ my $description = $cgi->param('description');
 my $id = $cgi->param('item_id');
 my $price = $cgi->param('price');
 my $userID = $cgi->param('user_id');
+my $deviceID = $cgi->param('device_id');
 
 print "Content-type: application/json\n\n";
 # application/json
 
 $logger->debug("USER.PL: $action");
-$logger->debug("ID: $id");
+$logger->debug("ID: $id / $deviceID");
 
-my $dao = new UserDAO();
+my $dao = new ItemDAO();
 my $a = {};
 if ("getAll" eq $action) {
     $a = $dao->getItems();
+} elsif ("reset" eq $action) {
+    $a = $dao->reset($deviceID);
+} elsif ("sync" eq $action) {
+    $a = $dao->sync($deviceID);
 } else {
     $a->{'returnMessage'} = "No action parameter given.";
     $a->{'returnCode'} = -1;

@@ -9,8 +9,8 @@ public class Storage {
 
 	private UserRemoteStorage userRemote = null;
 	
-	public Storage() {
-		userRemote = new UserRemoteStorage();
+	public Storage(String androidID) {
+		userRemote = new UserRemoteStorage(androidID);
 	}
 	
 	public User login(User user) throws ConnectionError, NoUserFoundException, BadPasswordException {
