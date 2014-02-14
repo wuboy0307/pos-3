@@ -8,69 +8,74 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".MainActivity" >
 
-    <Button
-        android:id="@+id/button1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignRight="@+id/editText1"
-        android:layout_below="@+id/editText2"
-        android:layout_marginTop="34dp"
-        android:background="#669900"
-        android:text="@string/button_login" 
-        android:onClick="login" />
-
-    <Button
-        android:id="@+id/button2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/button1"
-        android:layout_alignBottom="@+id/button1"
-        android:layout_alignLeft="@+id/editText1"
-        android:background="#FF4444"
-        android:text="@string/button_clear"
-        android:onClick="clear" />
-
     <TextView
         android:id="@+id/textView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/editText1"
+        android:layout_alignLeft="@+id/editTextUserID"
         android:layout_alignParentTop="true"
         android:layout_marginTop="36dp"
-        android:text="User ID"
+        android:text="@string/user_id"
+        android:textStyle="bold"
+        android:textColor="#58ACFA"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <EditText
-        android:id="@+id/editText1"
+        android:id="@+id/editTextUserID"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/textView1"
         android:layout_centerHorizontal="true"
-        android:ems="10"
         android:background="#FFFFFF"
-        android:inputType="textPersonName" />
+        android:textColor="#000000"
+        android:ems="10"
+        android:hint="@string/user_id"
+        android:inputType="number" />
 
     <TextView
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/editText1"
-        android:layout_below="@+id/editText1"
+        android:layout_alignLeft="@+id/editTextUserID"
+        android:layout_below="@+id/editTextUserID"
         android:layout_marginTop="26dp"
-        android:text="PIN"
+        android:text="@string/user_pin"
+        android:textStyle="bold"
+        android:textColor="#58ACFA"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
-    <EditText
-        android:id="@+id/editText2"
+    <Button
+        android:id="@+id/button1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/textView2"
         android:layout_centerHorizontal="true"
-        android:ems="10"
-        android:background="#FFFFFF"
-        android:inputType="textPassword" >
+        android:layout_centerVertical="true"
+        android:background="#669900"
+        android:onClick="login"
+        android:text="@string/button_login" />
 
-        <requestFocus />
-    </EditText>
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:background="#000000"
+        android:textColor="#424242"
+        android:text="@string/app_version" 
+        android:onClick="offline_login"/>
+
+    <EditText
+        android:id="@+id/editTextUserPIN"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/textView2"
+        android:layout_alignRight="@+id/editTextUserID"
+        android:layout_below="@+id/textView2"
+        android:background="#FFFFFF"
+        android:textColor="#000000"
+        android:hint="@string/user_id"
+        android:ems="10"
+        android:inputType="numberPassword" />
 
 </RelativeLayout>
