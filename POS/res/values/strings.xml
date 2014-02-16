@@ -7,6 +7,9 @@
     <string name="button_clear">CLEAR</string>
     <string name="button_login">LOGIN</string>
     <string name="title_activity_admin">Admin</string>
+    <string name="title_activity_scan">ScanActivity</string>
+    <string name="skip_to_scan">Skip to Scan</string>
+    <string name="button_scan">SCAN</string>
+    <string name="text_scan_test">Testing the Scanning feature</string>
 
 </resources>
-

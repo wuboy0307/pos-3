@@ -84,4 +84,10 @@ public class MainActivity extends Activity {
 		// do whatever when clear button is hit
 	}
 
+	public void openScanActivity(View view) {
+		// Opens the activity_scan Activity to do some scanning stuff
+		Intent intent = new Intent(this, ScanActivity.class);
+		startActivity(intent);
+	}
+	
 }
