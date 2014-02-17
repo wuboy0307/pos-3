@@ -53,12 +53,12 @@ public class SplashActivity extends POSActivity {
 		}
 		
 	    protected void onProgressUpdate(String... progress) {
-	    	TextView txt = (TextView) findViewById(R.id.status);
+	    	TextView txt = (TextView) findViewById(R.id.splash_status);
 	        txt.setText(progress[0]);
 	    }
 
 	    protected void onPostExecute(String result) {
-	    	TextView txt = (TextView) findViewById(R.id.status);
+	    	TextView txt = (TextView) findViewById(R.id.splash_status);
 	        txt.setText("Executed");
 	    }
 

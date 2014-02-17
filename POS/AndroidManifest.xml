@@ -20,7 +20,7 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name="edu.txstate.pos.MainActivity"
-            android:label="@string/app_name" >
+            android:label="POS" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -28,16 +28,12 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="edu.txstate.pos.Admin"
-            android:label="@string/title_activity_admin" >
-        </activity>
-        <activity
             android:name="edu.txstate.pos.SplashActivity"
-            android:label="@string/title_activity_splash" >
+            android:label="POS Starting" >
         </activity>
         <activity
             android:name="edu.txstate.pos.ResendActivity"
-            android:label="@string/title_activity_resend"
+            android:label="Resend Receipt"
             android:windowSoftInputMode="adjustResize|stateVisible" >
         </activity>
     </application>

@@ -53,9 +53,9 @@ public class ResendActivity extends POSActivity {
 		mEmailView = (EditText) findViewById(R.id.email);
 		mEmailView.setText(mEmail);
 
-		mResendFormView = findViewById(R.id.login_form);
-		mResendStatusView = findViewById(R.id.status);
-		mResendStatusMessageView = (TextView) findViewById(R.id.status_message);
+		mResendFormView = findViewById(R.id.resend_form);
+		mResendStatusView = findViewById(R.id.spinner);
+		mResendStatusMessageView = (TextView) findViewById(R.id.spinner_message);
 
 		findViewById(R.id.resend_button).setOnClickListener(
 				new View.OnClickListener() {
@@ -195,7 +195,9 @@ public class ResendActivity extends POSActivity {
 			showProgress(false);
 
 			if (success) {
-				finish();
+				// finish() will make the activity close, so use it
+				// if you want to
+				//finish();
 			}
 		}
 
