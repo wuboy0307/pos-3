@@ -16,6 +16,8 @@ public class ItemRemoteStorage extends RemoteStorage {
 	public static final String ITEM_ACTION_GET_ALL = "getAll";
 	public static final String ITEM_ACTION_SYNC = "sync";
 	
+	public static final String DEVICE_ID = "device_id";
+	
 	public ItemRemoteStorage(String android) {
 		super(android);
 	}
@@ -30,6 +32,7 @@ public class ItemRemoteStorage extends RemoteStorage {
 		try {
 			Map<String, String> params = new HashMap<String, String>();
 			params.put(ACTION, ITEM_ACTION_SYNC);
+			params.put(DEVICE_ID,androidID);
 			JSONObject json = getObject(params);
 			if (RC_SUCCESS == json.getInt(RETURN_CODE)) {
 				JSONArray array = json.getJSONArray("data");
@@ -40,7 +43,7 @@ public class ItemRemoteStorage extends RemoteStorage {
 					item = new Item(
 							rec.getString("item_id"),
 							rec.getString("description"),
-							rec.getDouble("price"),
+							(float) rec.getDouble("price"),
 							rec.getInt("user_id")
 							);
 					ret.add(item);
@@ -72,7 +75,7 @@ public class ItemRemoteStorage extends RemoteStorage {
 					item = new Item(
 							rec.getString("item_id"),
 							rec.getString("description"),
-							rec.getDouble("price"),
+							(float) rec.getDouble("price"),
 							rec.getInt("user_id")
 							);
 					ret.add(item);

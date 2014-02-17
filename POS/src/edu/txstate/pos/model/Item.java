@@ -3,11 +3,11 @@ package edu.txstate.pos.model;
 
 public class Item {
 	private String id;
-	private double price;
+	private float price;
 	private String description;
 	private int userID;
 	
-	public Item(String id, String description, double price, int userID) {
+	public Item(String id, String description, float price, int userID) {
 		this.userID = userID;
 		this.description = description;
 		this.price = price;
@@ -24,7 +24,7 @@ public class Item {
 	public double getPrice() {
 		return price;
 	}
-	public void setPrice(double price) {
+	public void setPrice(float price) {
 		this.price = price;
 	}
 	public String getDescription() {

@@ -7,6 +7,6 @@
     <string name="button_clear">CLEAR</string>
     <string name="button_login">LOGIN</string>
     <string name="title_activity_admin">Admin</string>
+    <string name="title_activity_splash">SplashActivity</string>
 
 </resources>
-

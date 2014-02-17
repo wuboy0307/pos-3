@@ -5,13 +5,15 @@
     android:versionName="1.0" >
 
     <uses-sdk
-        android:minSdkVersion="8"
+        android:minSdkVersion="11"
         android:targetSdkVersion="18" />
-    
+
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+
     <application
+        android:name="edu.txstate.pos.POSApplication"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
@@ -28,6 +30,15 @@
         <activity
             android:name="edu.txstate.pos.Admin"
             android:label="@string/title_activity_admin" >
+        </activity>
+        <activity
+            android:name="edu.txstate.pos.SplashActivity"
+            android:label="@string/title_activity_splash" >
+        </activity>
+        <activity
+            android:name="edu.txstate.pos.ResendActivity"
+            android:label="@string/title_activity_resend"
+            android:windowSoftInputMode="adjustResize|stateVisible" >
         </activity>
     </application>
 

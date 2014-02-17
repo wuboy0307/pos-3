@@ -2,7 +2,7 @@
 
 ############################################
 #
-#   Filename:  login.pl
+#   Filename:  item.pl
 #   Author: Geoff Marinski
 #
 #   Serves the AJAX calls for the login service.

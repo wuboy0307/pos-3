@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.provider.Settings.Secure;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import edu.txstate.pos.model.User;
@@ -13,7 +14,7 @@ import edu.txstate.pos.storage.ConnectionError;
 import edu.txstate.pos.storage.NoUserFoundException;
 import edu.txstate.pos.storage.Storage;
 
-public class MainActivity extends Activity {
+public class MainActivity extends POSActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -30,7 +31,7 @@ public class MainActivity extends Activity {
 	
 	public void login(View view) {
 		String androidID = Secure.getString(getBaseContext().getContentResolver(),Secure.ANDROID_ID); 
-		Storage storage = new Storage(androidID);
+		Storage storage = getStorage();
 		
 		//get userID from EditText
 		EditText inputUserID = (EditText) findViewById(R.id.editText1);
@@ -86,4 +87,22 @@ public class MainActivity extends Activity {
 		// do whatever when clear button is hit
 	}
 
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+	    // Handle presses on the action bar items
+		Intent intent = null;
+	    switch (item.getItemId()) {
+	        case R.id.action_search:
+	            intent = new Intent(this, SplashActivity.class);
+	            startActivity(intent);
+	            return true;
+	        case R.id.action_resend:
+	            intent = new Intent(this, ResendActivity.class);
+	            startActivity(intent);
+	            return true;	            
+	        default:
+	            return super.onOptionsItemSelected(item);
+	    }
+	}
+	
 }
