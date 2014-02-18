@@ -52,6 +52,7 @@ public class SplashActivity extends POSActivity {
 			return null;
 		}
 		
+		@Override
 	    protected void onProgressUpdate(String... progress) {
 	    	TextView txt = (TextView) findViewById(R.id.splash_status);
 	        txt.setText(progress[0]);

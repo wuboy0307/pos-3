@@ -21,11 +21,6 @@
         <activity
             android:name="edu.txstate.pos.MainActivity"
             android:label="POS" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name="edu.txstate.pos.SplashActivity"
@@ -35,6 +30,19 @@
             android:name="edu.txstate.pos.ResendActivity"
             android:label="Resend Receipt"
             android:windowSoftInputMode="adjustResize|stateVisible" >
+        </activity>
+        <activity
+            android:name="edu.txstate.pos.HomeActivity"
+            android:label="@string/title_activity_home" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="edu.txstate.pos.FakeloginActivity"
+            android:label="@string/title_activity_fakelogin" >
         </activity>
     </application>
 

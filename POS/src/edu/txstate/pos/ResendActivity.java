@@ -163,7 +163,7 @@ public class ResendActivity extends POSActivity {
 	 * call to resend a customer a receipt.
 	 * 
 	 */
-	public class ResendReceiptTask extends AsyncTask<Void, Void, Boolean> {
+	private class ResendReceiptTask extends AsyncTask<Void, Void, Boolean> {
 		@Override
 		protected Boolean doInBackground(Void... params) {
 

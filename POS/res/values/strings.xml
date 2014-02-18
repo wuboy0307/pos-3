@@ -8,5 +8,7 @@
     <string name="button_login">LOGIN</string>
     <string name="title_activity_admin">Admin</string>
     <string name="title_activity_splash">SplashActivity</string>
+    <string name="title_activity_home">HomeActivity</string>
+    <string name="title_activity_fakelogin">FakeloginActivity</string>
 
 </resources>

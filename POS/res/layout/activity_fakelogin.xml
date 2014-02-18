@@ -1,0 +1,68 @@
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".ResendActivity" >
+    
+    <!-- Progress -->
+
+    <LinearLayout
+        android:id="@+id/flogin_spinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:visibility="gone" >
+
+        <ProgressBar
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp" />
+
+        <TextView
+            android:id="@+id/flogin_spinner_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:fontFamily="sans-serif-light"
+            android:text="Loading"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+    </LinearLayout>
+
+    <!-- Login form -->
+    
+    <LinearLayout 
+        android:id="@+id/flogin_form"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".HomeActivity" >
+    
+        <Button
+            android:id="@+id/flogin_one"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="geoff" />
+    
+        <Button
+            android:id="@+id/flogin_two"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="binh" />
+    
+        <Button
+            android:id="@+id/flogin_three"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="pham" />
+
+        <TextView
+            android:id="@+id/flogin_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:fontFamily="sans-serif-light"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+    </LinearLayout>
+
+</merge>
