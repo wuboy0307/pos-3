@@ -34,23 +34,28 @@ public class HomeActivity extends POSActivity {
 	private Button mCheckoutButton = null;
 	private Button mPriceCheckButton = null;
 	private Button mResendReceiptButton = null;
+	private Button mUserAdminButton = null;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_home);
 		
-		mHomeAsync = new HomeAsync();
-		mHomeAsync.execute(getBaseContext());
-		
 		mHomeView = findViewById(R.id.home_form);
 		mHomeStatusView = findViewById(R.id.home_spinner);
 		
+		if (mHomeAsync == null) {
+			showProgress(true);
+			mHomeAsync = new HomeAsync();
+			mHomeAsync.execute(getBaseContext());
+		}
+	
 		mMessage = (TextView) findViewById(R.id.login_message);
 		mLoginButton = (Button) findViewById(R.id.login_button);
 		mCheckoutButton = (Button) findViewById(R.id.checkout_button);
 		mPriceCheckButton = (Button) findViewById(R.id.pricecheck_button);
 		mResendReceiptButton = (Button) findViewById(R.id.resendrec_button);
+		mUserAdminButton = (Button) findViewById(R.id.admin_button);
 		
 		mLoginButton.setOnClickListener(
 				new View.OnClickListener() {
@@ -61,6 +66,39 @@ public class HomeActivity extends POSActivity {
 					}
 				});
 		
+		mCheckoutButton.setOnClickListener(
+				new View.OnClickListener() {
+					@Override
+					public void onClick(View view) {
+
+					}
+				});
+		
+		mPriceCheckButton.setOnClickListener(
+				new View.OnClickListener() {
+					@Override
+					public void onClick(View view) {
+
+					}
+				});
+		
+		mResendReceiptButton.setOnClickListener(
+				new View.OnClickListener() {
+					@Override
+					public void onClick(View view) {
+						Intent intent = new Intent(getBaseContext(), ResendActivity.class);
+						startActivity(intent);
+					}
+				});
+		
+		mUserAdminButton.setOnClickListener(
+				new View.OnClickListener() {
+					@Override
+					public void onClick(View view) {
+
+					}
+				});
+
 		setButtonsAndText();
 		
 	}
@@ -73,6 +111,11 @@ public class HomeActivity extends POSActivity {
 			mCheckoutButton.setEnabled(true);
 			mPriceCheckButton.setEnabled(true);
 			mResendReceiptButton.setEnabled(true);
+			if (getUser().isAdmin()) {
+				mUserAdminButton.setEnabled(true);
+			} else {
+				mUserAdminButton.setEnabled(false);
+			}
 		} else {
 			mMessage.setText("Please Log in");
 			mLoginButton.setEnabled(true);
@@ -80,6 +123,7 @@ public class HomeActivity extends POSActivity {
 			mCheckoutButton.setEnabled(false);
 			mPriceCheckButton.setEnabled(false);
 			mResendReceiptButton.setEnabled(false);
+			mUserAdminButton.setEnabled(false);
 		}
 	}
 
@@ -140,7 +184,6 @@ public class HomeActivity extends POSActivity {
 
 		@Override
 		protected Integer doInBackground(Context... context) {
-			onProgressUpdate();
 			/*
 			try {
 				// Simulate long network access.
@@ -165,26 +208,27 @@ public class HomeActivity extends POSActivity {
 			} catch (ConnectionError e) {
 				Log.e("HOME_ACTIVITY",e.getMessage());
 			}
-			Log.e("HOME_ACTIVITY","DONE!");
+			Log.e("HOME_ACTIVITY","DO IN BACKGROUD DONE");
 	        return 1;
 		}
 		
 		@Override
 	    protected void onProgressUpdate(String... progress) {
-	    	showProgress(true);
-	    	Log.e("HOME_ACTIVITY","START!");
+	    	Log.d("HOME_ACTIVITY","PROGRESS UPDATE");
 	    }
 
 	    @Override
 		protected void onPostExecute(final Integer sucess) {
 			mHomeAsync = null;
 	    	showProgress(false);
-	    	Log.e("HOME_ACTIVITY","END!");
+	    	Log.d("HOME_ACTIVITY","POST EXECUTE");
 	    }
 	    
 		@Override
 		protected void onCancelled() {
+			mHomeAsync = null;
 			showProgress(false);
+			Log.d("HOME_ACTIVITY","CANCELLED");
 		}
 
 	}

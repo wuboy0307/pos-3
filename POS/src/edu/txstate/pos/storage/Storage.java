@@ -48,6 +48,11 @@ public class Storage {
 		userRemote = new UserRemoteStorage(mDeviceID);
 		itemRemote = new ItemRemoteStorage(mDeviceID);
 	}
+
+	/* ++++++++++++++++++++++++++++++++++++++++++++++++
+	 * USER
+	 * ++++++++++++++++++++++++++++++++++++++++++++++++
+	 */
 	
 	/**
 	 * Used to check a user's login and password.  If the login/password is valid,
@@ -116,12 +121,20 @@ public class Storage {
 		if (!cart.isValid()) throw new InvalidCartException();
 	}
 	
+	/* ++++++++++++++++++++++++++++++++++++++++++++++++
+	 * ITEM
+	 * ++++++++++++++++++++++++++++++++++++++++++++++++
+	 */
 
 	public void syncItems() throws ConnectionError {
 		
 	}
 	
-	public void resendReceipt() throws ConnectionError, NoUserFoundException, InvalidCartException {
+	public Item getItem(String itemID) throws ConnectionError, NoItemFoundException {
+		return itemRemote.getItem(itemID);
+	}
+	
+	public void resendReceipt(String emailAddress) throws ConnectionError, NoUserFoundException, InvalidCartException {
 		
 	}
 	

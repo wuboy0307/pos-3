@@ -44,6 +44,10 @@ my $dao = new ItemDAO();
 my $a = {};
 if ("getAll" eq $action) {
     $a = $dao->getItems();
+} elsif ("get" eq $action) {
+    $a = $dao->get($id);
+} elsif ("add" eq $action) {
+    $a = $dao->add($id);
 } elsif ("reset" eq $action) {
     $a = $dao->reset($deviceID);
 } elsif ("sync" eq $action) {

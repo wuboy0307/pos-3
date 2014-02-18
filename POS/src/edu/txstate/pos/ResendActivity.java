@@ -18,8 +18,7 @@ import edu.txstate.pos.storage.NoUserFoundException;
 import edu.txstate.pos.storage.Storage;
 
 /**
- * Activity which displays a login screen to the user, offering registration as
- * well.
+ * Activity that allows for resending a receipt to a customer.
  */
 public class ResendActivity extends POSActivity {
 
@@ -113,7 +112,7 @@ public class ResendActivity extends POSActivity {
 			mResendStatusMessageView.setText(R.string.progress_text);
 			showProgress(true);
 			mResendTask = new ResendReceiptTask();
-			mResendTask.execute((Void) null);
+			mResendTask.execute(mEmail);
 		}
 	}
 
@@ -163,9 +162,9 @@ public class ResendActivity extends POSActivity {
 	 * call to resend a customer a receipt.
 	 * 
 	 */
-	private class ResendReceiptTask extends AsyncTask<Void, Void, Boolean> {
+	private class ResendReceiptTask extends AsyncTask<String, Void, Boolean> {
 		@Override
-		protected Boolean doInBackground(Void... params) {
+		protected Boolean doInBackground(String... email) {
 
 			try {
 				// Simulate long network access.
@@ -177,7 +176,7 @@ public class ResendActivity extends POSActivity {
 			// Access to POS storage object to do work of resending receipt
 			Storage storage = getStorage();
 			try {
-				storage.resendReceipt();
+				storage.resendReceipt(email[0]);
 			} catch (ConnectionError e) {
 				Log.e("RESEND_ACTIVITY",e.getMessage());
 			} catch (NoUserFoundException e) {

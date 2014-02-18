@@ -65,7 +65,14 @@
 	        android:layout_height="wrap_content"
 	        android:enabled="false"
 	        android:text="Resend Receipt" />
-	
+
+        <Button
+            android:id="@+id/admin_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:enabled="false"
+            android:text="User Admin" />
+	    	
 	    <Button
 	        android:id="@+id/login_button"
 	        android:layout_width="match_parent"

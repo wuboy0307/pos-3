@@ -14,9 +14,13 @@ import edu.txstate.pos.model.Item;
 public class ItemRemoteStorage extends RemoteStorage {
 
 	public static final String ITEM_ACTION_GET_ALL = "getAll";
+	public static final String ITEM_ACTION_GET = "get";
 	public static final String ITEM_ACTION_SYNC = "sync";
 	
 	public static final String DEVICE_ID = "device_id";
+	public static final String ITEM_ID = "item_id";
+	
+	private static int RC_ITEM_NO_ITEM_FOUND = 1;
 	
 	public ItemRemoteStorage(String android) {
 		super(android);
@@ -59,6 +63,28 @@ public class ItemRemoteStorage extends RemoteStorage {
 		return ret;
 	}
 	
+	public Item getItem(String id) throws ConnectionError, NoItemFoundException {
+		Item item = null;
+		Map<String, String> params = new HashMap<String, String>();
+		params.put(ITEM_ID, id);
+		params.put(ACTION, ITEM_ACTION_GET);
+		JSONObject ret = getObject(params);
+		try {
+			if (RC_ITEM_NO_ITEM_FOUND == ret.getInt(RETURN_CODE)) {
+				throw new NoItemFoundException(ret.getString(RETURN_MESSAGE));
+			} else if (RC_SUCCESS == ret.getInt(RETURN_CODE)) {
+				item = new Item(
+								ret.getString("item_id"),
+								ret.getString("description"),
+								(float) ret.getDouble("price"),
+								ret.getInt("user_id")
+						);
+			}
+		} catch (JSONException e) {
+			throw new ConnectionError("JSON parser error: " + e.getMessage());
+		}
+		return item;
+	}
 	
 	public List<Item> getAll() throws ConnectionError {
 		List<Item> ret = new ArrayList<Item>();

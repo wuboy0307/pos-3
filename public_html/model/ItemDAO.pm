@@ -131,3 +131,33 @@ sub getAll() {
     return $ret;
 }
 
+sub get() {
+    my $self = shift;
+    my $id = shift;
+    
+    my $sql = "select * from item where item_id = $id";
+    
+    my $dbh = $self->{'dbh'};
+    my $sth = $dbh->prepare($sql);
+    $sth->execute();
+
+    my ($ret, $rc, $rm, $ref, @a, $count);
+
+    $count = 0;
+    if ($ref = $sth->fetchrow_hashref()) {
+        $ret = $ref;
+        $rm = "Success: $count";
+        $rc = 0;
+    } else {
+        $rm = "No item found";
+        $rc = 1;
+    }
+    $sth->finish();
+    
+    $ret->{'returnMessage'} = $rm;
+    $ret->{'returnCode'} = $rc;
+
+    $dbh->disconnect();
+    
+    return $ret;
+}
