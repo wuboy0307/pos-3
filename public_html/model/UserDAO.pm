@@ -116,7 +116,7 @@ sub updateUser {
     my $dbh = $self->{'dbh'};
     
     my $sql;
-    if (defined($id)) { 
+    if (!defined($id)) { 
         $sql = "select user_id from user where login = '$login'";
         $logger->debug("updateUser based on login $login");
     } else {

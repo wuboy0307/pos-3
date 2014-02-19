@@ -108,7 +108,7 @@ public class UserTest extends AndroidTestCase {
 	}
 	
 	public void setUp() {
-		storage = new UserRemoteStorage();
+		storage = new UserRemoteStorage("XX");
 		
 		User user = new User("geoff","5555");
 		

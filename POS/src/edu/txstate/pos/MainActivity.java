@@ -3,7 +3,9 @@ package edu.txstate.pos;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.Settings.Secure;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import edu.txstate.pos.model.User;
@@ -12,7 +14,7 @@ import edu.txstate.pos.storage.ConnectionError;
 import edu.txstate.pos.storage.NoUserFoundException;
 import edu.txstate.pos.storage.Storage;
 
-public class MainActivity extends Activity {
+public class MainActivity extends POSActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -28,7 +30,8 @@ public class MainActivity extends Activity {
 	}
 	
 	public void login(View view) {
-		Storage storage = new Storage();
+		String androidID = Secure.getString(getBaseContext().getContentResolver(),Secure.ANDROID_ID); 
+		Storage storage = getStorage();
 		
 		//get userID from EditText
 		EditText inputUserID = (EditText) findViewById(R.id.editText1);
@@ -84,10 +87,14 @@ public class MainActivity extends Activity {
 		// do whatever when clear button is hit
 	}
 
+
 	public void openScanActivity(View view) {
 		// Opens the activity_scan Activity to do some scanning stuff
 		Intent intent = new Intent(this, ScanActivity.class);
 		startActivity(intent);
+
+
+
 	}
 	
 }

@@ -14,6 +14,9 @@ insert into user (login,pin,is_admin) values ('geoff','5555','N');
 insert into user (login,pin,is_admin) values ('binh','1234','Y');
 insert into user (login,pin,is_admin) values ('pham','4321','Y');
 
+insert into user (user_id,login,pin,is_admin) values (0, 'admin','1234','Y');
+insert into user (user_id,login,pin,is_admin) values (-1, 'DEVICE','1234','N');
+
 DROP TABLE IF EXISTS item;
 CREATE TABLE item (
     item_id         varchar(64) NOT NULL,

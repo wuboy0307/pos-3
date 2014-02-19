@@ -1,0 +1,12 @@
+<resources>
+
+    <string name="title_activity_resend">Resend Receipt</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="action_resend">Resend</string>
+    <string name="progress_text">Sending&#8230;</string>
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_field_required">This field is required</string>
+
+</resources>
