@@ -1,0 +1,61 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context=".OfflineLogin" >
+
+    <EditText
+        android:id="@+id/editText1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:background="#FFFFFF"
+        android:ems="10"
+        android:hint="@string/admin_user_id"
+        android:inputType="number"
+        android:textColor="#000000" >
+
+        <requestFocus />
+    </EditText>
+
+    <Button
+        android:id="@+id/button_cancel"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/editText2"
+        android:layout_below="@+id/editText2"
+        android:layout_marginTop="34dp"
+        android:background="#B40431"
+        android:textColor="#000000"
+        android:text="@string/button_cancel" />
+
+    <Button
+        android:id="@+id/button_ok"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/button_cancel"
+        android:layout_alignBottom="@+id/button_cancel"
+        android:layout_alignRight="@+id/editText2"
+        android:background="#04B431"
+        android:text="@string/button_ok" />
+
+    <EditText
+        android:id="@+id/editText2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/editText1"
+        android:layout_below="@+id/editText1"
+        android:layout_marginTop="19dp"
+        android:background="#FFFFFF"
+        android:ems="10"
+        android:hint="@string/admin_user_pin"
+        android:inputType="number"
+        android:textColor="#000000" />
+
+</RelativeLayout>
