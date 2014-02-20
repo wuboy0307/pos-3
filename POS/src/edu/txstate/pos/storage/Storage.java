@@ -10,9 +10,7 @@ import edu.txstate.pos.model.User;
 
 /**
  * API for persistent storage for the POS application.  This class abstracts
- * the differences in where data is stored - locally or remotely.  The logic
- * for synchronization between local and remote tables is also encapsulated or
- * called from here.
+ * the differences in where data is stored - locally or remotely. 
  * 
  * Activities should get an instance of this object from the POSActvity using the
  * getStorage() method.  The setting of the context, deviceID, and logged in user

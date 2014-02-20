@@ -29,6 +29,7 @@ my $cgi = new CGI;
 
 my $login = $cgi->param('login');
 my $password = $cgi->param('pin');
+my $deviceID = $cgi->param('device_id');
 
 print "Content-type: application/json\n\n";
 # application/json

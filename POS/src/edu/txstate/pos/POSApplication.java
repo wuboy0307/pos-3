@@ -4,9 +4,11 @@ import java.util.UUID;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.Intent;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 import edu.txstate.pos.model.User;
+import edu.txstate.pos.service.POSSyncService;
 import edu.txstate.pos.storage.Storage;
 
 /**
@@ -31,7 +33,7 @@ public class POSApplication extends Application {
 	/**
 	 * Returns the Storage object.
 	 * 
-	 * @return The Storage object used to access presistent storage.
+	 * @return The Storage object used to access persistent storage.
 	 */
 	public Storage getStorage() {
 		return mStorage;
@@ -116,6 +118,11 @@ public class POSApplication extends Application {
 	    
 	    // Create a Storage object
 	    mStorage = new Storage(getBaseContext(),mDeviceID,mUser);
+	    
+	    // Fire up the background sync service
+	    Intent syncService = new Intent(getBaseContext(),POSSyncService.class);
+	    getBaseContext().startService(syncService);
+	    Log.i("POS_APPLICATION","Started sync");
 	    
 	}
 }

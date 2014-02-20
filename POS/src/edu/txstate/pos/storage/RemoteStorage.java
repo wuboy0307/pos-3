@@ -26,11 +26,16 @@ import android.util.Log;
 public abstract class RemoteStorage {
 	
 	static final String ACTION = "action";
-
+	public static final String DEVICE_ID = "device_id";
+	
 	static final String RETURN_CODE = "returnCode";
 	static final String RETURN_MESSAGE = "returnMessage";
 
 	static final int RC_SUCCESS = 0;
+	static final int RC_NO_ACTION = -99;
+	static final int RC_MISSING_REQUIRED_FIELDS = -98;
+	static final int RC_SIMULATE_DOWN = -97;
+	static final int RC_SIMULATE_BROKEN = -96;
 	
 	String androidID = null;
 	
@@ -55,8 +60,8 @@ public abstract class RemoteStorage {
 	public String call(Map<String, String> params) throws ConnectionError {
 		StringBuilder buffer = new StringBuilder();
         HttpClient client = new DefaultHttpClient();
-        //String url = "http://172.16.89.203/~g_m108/cgi-bin/" + getScriptName() + ".pl";
-        String url = "http://cs.txstate.edu/~g_m108/cgi-bin/" + getScriptName() + ".pl";
+        String url = "http://172.16.89.203/~g_m108/cgi-bin/" + getScriptName() + ".pl";
+        //String url = "http://cs.txstate.edu/~g_m108/cgi-bin/" + getScriptName() + ".pl";
 
         HttpPost httpPost = new HttpPost(url);
         Log.d("HTTP", url);

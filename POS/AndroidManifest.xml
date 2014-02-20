@@ -56,6 +56,11 @@
             android:name="edu.txstate.pos.POSControl"
             android:label="@string/title_activity_poscontrol" >
         </activity>
+        <service
+            android:enabled="true"
+            android:name="edu.txstate.pos.service.POSSyncService">
+        </service>
+ 
     </application>
 
 </manifest>

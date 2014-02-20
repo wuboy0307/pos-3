@@ -17,10 +17,9 @@ public class ItemRemoteStorage extends RemoteStorage {
 	public static final String ITEM_ACTION_GET = "get";
 	public static final String ITEM_ACTION_SYNC = "sync";
 	
-	public static final String DEVICE_ID = "device_id";
 	public static final String ITEM_ID = "item_id";
 	
-	private static int RC_ITEM_NO_ITEM_FOUND = 1;
+	public static final int RC_ITEM_NO_ITEM_FOUND = 1;
 	
 	public ItemRemoteStorage(String android) {
 		super(android);

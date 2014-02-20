@@ -2,12 +2,9 @@
 
 ############################################
 #
-#   Filename:  item.pl
+#   Filename:  heartbeat.pl
 #   Author: Geoff Marinski
 #
-#   Serves the AJAX calls for the login service.
-#
-#   Returns JSON.  So I guess it is AJAJ.
 #
 ############################################
 
@@ -22,36 +19,35 @@ Log::Log4perl::init('../cfg/log4perl.conf');
 my $logger = Log::Log4perl->get_logger('opuma');
 
 use CGI;
-use ItemDAO;
+use DAO;
 use JSON;
 
 my $cgi = new CGI;
 
 my $action = $cgi->param('action');
-my $description = $cgi->param('description');
-my $id = $cgi->param('item_id');
-my $price = $cgi->param('price');
-my $userID = $cgi->param('user_id');
 my $deviceID = $cgi->param('device_id');
 
 print "Content-type: application/json\n\n";
 # application/json
 
 $logger->debug("ITEM.PL: $action");
-$logger->debug("ID: $id / $deviceID");
+$logger->debug("ID: $deviceID");
 
-my $dao = new ItemDAO();
+my $dao = new DAO();
 my $a = {};
-if ("getAll" eq $action) {
-    $a = $dao->getItems();
-} elsif ("get" eq $action) {
-    $a = $dao->get($id);
-} elsif ("add" eq $action) {
-    $a = $dao->add($id);
-} elsif ("reset" eq $action) {
-    $a = $dao->reset($deviceID);
-} elsif ("sync" eq $action) {
-    $a = $dao->sync($deviceID);
+if ("ping" eq $action) {
+    $a = $dao->getSettings();
+    if (defined $a && $a->{'returnCode'} == 0) {
+        if ($a->{'data'}->{'simulate_down_nice'} eq '1') {
+            $a->{'returnMessage'} = "Simulating down.";
+            $a->{'returnCode'} = -97;
+        } elsif ($a->{'data'}->{'simulate_down_broken'} eq '1') {
+            $a = undef;
+        }
+    } else {
+        $a->{'returnMessage'} = "Problem with backend connection.";
+        $a->{'returnCode'} = -96;
+    }
 } else {
     $a->{'returnMessage'} = "No action parameter given.";
     $a->{'returnCode'} = -99;
@@ -60,4 +56,4 @@ if ("getAll" eq $action) {
 my $json = encode_json $a;
 print "$json\n";
 
-$logger->debug("USER RESPONSE: $json");
+$logger->debug("HEARTBEAT RESPONSE: $json");

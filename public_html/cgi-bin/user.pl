@@ -33,6 +33,7 @@ my $pin = $cgi->param('pin');
 my $isAdmin = $cgi->param('is_admin');
 my $isActive = $cgi->param('is_active');
 my $id = $cgi->param('user_id');
+my $deviceID = $cgi->param('device_id');
 
 print "Content-type: application/json\n\n";
 # application/json
@@ -54,27 +55,27 @@ if ("add" eq $action) {
         $a = $dao->deleteUser($login);
     } else {
         $a->{'returnMessage'} = "Login is required.";
-        $a->{'returnCode'} = -1;
+        $a->{'returnCode'} = -98;
     }
 } elsif ("update" eq $action) {
     if (defined($login) && defined($pin) && defined($isAdmin) && defined($isActive)) {
         $a = $dao->updateUser($login,$pin,$isAdmin,$isActive,$id);
     } else {
         $a->{'returnMessage'} = "Login, pin, isActive, and isAdmin are required.";
-        $a->{'returnCode'} = -1;
+        $a->{'returnCode'} = -98;
     }
 } elsif ("login" eq $action) {
     if (defined($login) && defined($pin)) {
         $a = $dao->login($login,$pin);
     } else {
         $a->{'returnMessage'} = "Login and pin are required.";
-        $a->{'returnCode'} = -1;
+        $a->{'returnCode'} = -98;
     }
 } elsif ("getAll" eq $action) {
     $a = $dao->getUsers();
 } else {
     $a->{'returnMessage'} = "No action parameter given.";
-    $a->{'returnCode'} = -1;
+    $a->{'returnCode'} = -99;
 }
 
 my $json = encode_json $a;
