@@ -1,5 +1,7 @@
 package edu.txstate.pos.service;
 
+import edu.txstate.pos.POSApplication;
+import edu.txstate.pos.storage.SyncData;
 import android.app.AlarmManager;
 import android.app.IntentService;
 import android.app.PendingIntent;
@@ -23,14 +25,28 @@ public class POSSyncService extends IntentService {
 	protected void onHandleIntent(Intent intent) {
 		Log.i(LOG_TAG, "Intent: " + intent);
 		
-		// Check to see if networking is alive - no sense going on if not
+		// Check to see if networking is alive
 		ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 		@SuppressWarnings("deprecation")
 		boolean isNetworkAvailable = cm.getBackgroundDataSetting() && cm.getActiveNetworkInfo() != null;
+		
+		// The network is there, so try to ping the web service
+		SyncData sync = null;
+		if (isNetworkAvailable) {
+			sync = new SyncData(((POSApplication) getApplication()).getStorage());
+			isNetworkAvailable = isNetworkAvailable && sync.ping();
+		}
+		
+		// Set the connection status flag so activities can display the warning
+		// icon in the action bar
+		((POSApplication) getApplication()).setConnected(isNetworkAvailable);
+		
+		// No sense in going on if the network or web sercvice isn't working
 		if (!isNetworkAvailable) return;
 		
-		Log.d(LOG_TAG,"Calling sync");
-		
+		// PUSH all : push all data from our local device to the remote DB
+		Log.d(LOG_TAG,"Pushing...");
+		sync.pushItems();
 	}
 	
 	/**

@@ -23,6 +23,8 @@ import edu.txstate.pos.model.User;
  */
 public class Storage {
 
+	private Heartbeat hb = null;
+	
 	private UserRemoteStorage userRemote = null;
 	private ItemRemoteStorage itemRemote = null;
 	
@@ -43,8 +45,18 @@ public class Storage {
 		mDeviceID = deviceID;
 		mLoggedInUser = loggedInUser;
 		
+		hb = new Heartbeat(mDeviceID);
 		userRemote = new UserRemoteStorage(mDeviceID);
 		itemRemote = new ItemRemoteStorage(mDeviceID);
+	}
+	
+	/* ++++++++++++++++++++++++++++++++++++++++++++++++
+	 * HEARTBEAT
+	 * ++++++++++++++++++++++++++++++++++++++++++++++++
+	 */
+	
+	public boolean ping() {
+		return hb.ping();
 	}
 
 	/* ++++++++++++++++++++++++++++++++++++++++++++++++

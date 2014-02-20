@@ -3,6 +3,8 @@ package edu.txstate.pos;
 import edu.txstate.pos.model.User;
 import edu.txstate.pos.service.POSSyncService;
 import edu.txstate.pos.storage.Storage;
+import android.annotation.TargetApi;
+import android.app.ActionBar;
 import android.app.Activity;
 import android.os.Build;
 import android.os.Bundle;
@@ -51,14 +53,29 @@ public class POSActivity extends Activity {
 	 * 
 	 */
 	@Override
+	@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 	public boolean onPrepareOptionsMenu(Menu menu) {
 		super.onPrepareOptionsMenu(menu);
+
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
+			ActionBar actionBar = this.getActionBar();
+			if (((POSApplication) getApplication()).isConnected()) {
+				actionBar.setIcon(R.drawable.ic_pos_app);
+			} else {
+				actionBar.setIcon(R.drawable.ic_action_bad);	
+			}
+		}
 		
+		// If the "all" menu is being used, set the right toggle
+		// If the MenuItem isn't found, then that activity has a custom
+		// menu
 		MenuItem toggleItem = menu.findItem(R.id.menu_action_poll);
-		if (POSSyncService.isServiceAlarmOn(getBaseContext())) {
-			toggleItem.setTitle("Stop Sync");
-		} else {
-			toggleItem.setTitle("Start Sync");
+		if (toggleItem != null) {
+			if (POSSyncService.isServiceAlarmOn(getBaseContext())) {
+				toggleItem.setTitle("Stop Sync");
+			} else {
+				toggleItem.setTitle("Start Sync"); 
+			}
 		}
 		return true; // true or else menu will not be shown
 	}
@@ -85,6 +102,12 @@ public class POSActivity extends Activity {
 					return super.onOptionsItemSelected(item);
 		}
 		return true;
+	}
+	
+	protected void onResume() {
+		super.onResume();
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
+			this.invalidateOptionsMenu();
 	}
 	
 	/**

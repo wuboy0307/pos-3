@@ -29,7 +29,26 @@ public class POSApplication extends Application {
 	private User mUser = null;
 	private Storage mStorage = null;
 	public static final int deviceUserID = -1;
+	public boolean connected = true;
 	
+	/**
+	 * Status of network connectivity
+	 * 
+	 * @return
+	 */
+	public boolean isConnected() {
+		return connected;
+	}
+
+	/**
+	 * Sets the state flag for network connectivity
+	 * 
+	 * @param connected
+	 */
+	public void setConnected(boolean connected) {
+		this.connected = connected;
+	}
+
 	/**
 	 * Returns the Storage object.
 	 * 
