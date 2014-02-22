@@ -13,13 +13,6 @@ import edu.txstate.pos.model.Item;
 
 public class ItemRemoteStorage extends RemoteStorage {
 
-	public static final String ITEM_ACTION_GET_ALL = "getAll";
-	public static final String ITEM_ACTION_GET = "get";
-	public static final String ITEM_ACTION_SYNC = "sync";
-	
-	public static final String ITEM_ID = "item_id";
-	
-	public static final int RC_ITEM_NO_ITEM_FOUND = 1;
 	
 	public ItemRemoteStorage(String android) {
 		super(android);
@@ -34,7 +27,7 @@ public class ItemRemoteStorage extends RemoteStorage {
 		List<Item> ret = new ArrayList<Item>();
 		try {
 			Map<String, String> params = new HashMap<String, String>();
-			params.put(ACTION, ITEM_ACTION_SYNC);
+			params.put(ACTION, ACTION_SYNC);
 			params.put(DEVICE_ID,androidID);
 			JSONObject json = getObject(params);
 			if (RC_SUCCESS == json.getInt(RETURN_CODE)) {
@@ -44,13 +37,13 @@ public class ItemRemoteStorage extends RemoteStorage {
 				for (int i = 0; i < array.length(); i++) {
 					JSONObject rec = array.getJSONObject(i);
 					item = new Item(
-							rec.getString("item_id"),
-							rec.getString("description"),
-							(float) rec.getDouble("price"),
-							rec.getInt("user_id")
+							rec.getString(ITEM_ID),
+							rec.getString(DESCRIPTION),
+							(float) rec.getDouble(PRICE),
+							rec.getInt(UPDATE_USER)
 							);
 					ret.add(item);
-				}
+				} 
 			} else {
 				throw new ConnectionError("Return code: " + json.getInt(RETURN_CODE));
 			}
@@ -66,18 +59,20 @@ public class ItemRemoteStorage extends RemoteStorage {
 		Item item = null;
 		Map<String, String> params = new HashMap<String, String>();
 		params.put(ITEM_ID, id);
-		params.put(ACTION, ITEM_ACTION_GET);
+		params.put(ACTION, ACTION_GET);
 		JSONObject ret = getObject(params);
 		try {
-			if (RC_ITEM_NO_ITEM_FOUND == ret.getInt(RETURN_CODE)) {
+			if (RC_NO_ITEM_FOUND == ret.getInt(RETURN_CODE)) {
 				throw new NoItemFoundException(ret.getString(RETURN_MESSAGE));
 			} else if (RC_SUCCESS == ret.getInt(RETURN_CODE)) {
 				item = new Item(
-								ret.getString("item_id"),
-								ret.getString("description"),
-								(float) ret.getDouble("price"),
-								ret.getInt("user_id")
+								ret.getString(ITEM_ID),
+								ret.getString(DESCRIPTION),
+								(float) ret.getDouble(PRICE),
+								ret.getInt(UPDATE_USER)
 						);
+			} else {
+				throw new ConnectionError("Bad return code for getItems - " + ret.getInt(RETURN_CODE));
 			}
 		} catch (JSONException e) {
 			throw new ConnectionError("JSON parser error: " + e.getMessage());
@@ -89,7 +84,7 @@ public class ItemRemoteStorage extends RemoteStorage {
 		List<Item> ret = new ArrayList<Item>();
 		try {
 			Map<String, String> params = new HashMap<String, String>();
-			params.put(ACTION, ITEM_ACTION_GET_ALL);
+			params.put(ACTION, ACTION_GET_ALL);
 			JSONObject json = getObject(params);
 			if (RC_SUCCESS == json.getInt(RETURN_CODE)) {
 				JSONArray array = json.getJSONArray("data");
@@ -98,10 +93,10 @@ public class ItemRemoteStorage extends RemoteStorage {
 				for (int i = 0; i < array.length(); i++) {
 					JSONObject rec = array.getJSONObject(i);
 					item = new Item(
-							rec.getString("item_id"),
-							rec.getString("description"),
-							(float) rec.getDouble("price"),
-							rec.getInt("user_id")
+							rec.getString(ITEM_ID),
+							rec.getString(DESCRIPTION),
+							(float) rec.getDouble(PRICE),
+							rec.getInt(UPDATE_USER)
 							);
 					ret.add(item);
 				}

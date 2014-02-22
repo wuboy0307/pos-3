@@ -24,15 +24,16 @@ my $logger = Log::Log4perl->get_logger('opuma');
 use CGI;
 use ItemDAO;
 use JSON;
+use Constants;
 
 my $cgi = new CGI;
 
-my $action = $cgi->param('action');
-my $description = $cgi->param('description');
-my $id = $cgi->param('item_id');
-my $price = $cgi->param('price');
-my $userID = $cgi->param('user_id');
-my $deviceID = $cgi->param('device_id');
+my $action = $cgi->param(Constants::FIELD_ACTION);
+my $description = $cgi->param(Constants::FIELD_DESCRIPTION);
+my $id = $cgi->param(Constants::FIELD_ITEM_ID);
+my $price = $cgi->param(Constants::FIELD_PRICE);
+my $userID = $cgi->param(Constants::FIELD_USER_ID);
+my $deviceID = $cgi->param(Constants::FIELD_DEVICE_ID);
 
 print "Content-type: application/json\n\n";
 # application/json
@@ -42,22 +43,22 @@ $logger->debug("ID: $id / $deviceID");
 
 my $dao = new ItemDAO();
 my $a = {};
-if ("getAll" eq $action) {
+if (Constants::ACTION_GET_ALL eq $action) {
     $a = $dao->getItems();
-} elsif ("get" eq $action) {
+} elsif (Constants::ACTION_GET eq $action) {
     $a = $dao->get($id);
-} elsif ("add" eq $action) {
+} elsif (Constants::ACTION_ADD eq $action) {
     $a = $dao->add($id);
-} elsif ("reset" eq $action) {
+} elsif (Constants::ACTION_RESET eq $action) {
     $a = $dao->reset($deviceID);
-} elsif ("sync" eq $action) {
+} elsif (Constants::ACTION_SYNC eq $action) {
     $a = $dao->sync($deviceID);
 } else {
-    $a->{'returnMessage'} = "No action parameter given.";
-    $a->{'returnCode'} = -99;
+    $a->{Constants::RET_RETURN_MESSAGE} = "No action parameter given.";
+    $a->{Constants::RET_RETURN_CODE} = Constants::ERROR_NO_ACTION;
 }
 
 my $json = encode_json $a;
 print "$json\n";
 
-$logger->debug("USER RESPONSE: $json");
+$logger->debug("ITEM RESPONSE: $json");

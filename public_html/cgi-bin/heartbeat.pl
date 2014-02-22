@@ -19,38 +19,39 @@ Log::Log4perl::init('../cfg/log4perl.conf');
 my $logger = Log::Log4perl->get_logger('opuma');
 
 use CGI;
-use DAO;
+use DB;
 use JSON;
+use Constants;
 
 my $cgi = new CGI;
 
-my $action = $cgi->param('action');
-my $deviceID = $cgi->param('device_id');
+my $action = $cgi->param(Constants::FIELD_ACTION);
+my $deviceID = $cgi->param(Constants::FIELD_DEVICE_ID);
 
 print "Content-type: application/json\n\n";
 # application/json
 
-$logger->debug("ITEM.PL: $action");
+$logger->debug("HEARTBEAT.PL: $action");
 $logger->debug("ID: $deviceID");
 
-my $dao = new DAO();
+my $dao = new DB();
 my $a = {};
-if ("ping" eq $action) {
+if (Constants::ACTION_PING eq $action) {
     $a = $dao->getSettings();
-    if (defined $a && $a->{'returnCode'} == 0) {
-        if ($a->{'data'}->{'simulate_down_nice'} eq '1') {
-            $a->{'returnMessage'} = "Simulating down.";
-            $a->{'returnCode'} = -97;
-        } elsif ($a->{'data'}->{'simulate_down_broken'} eq '1') {
+    if (defined $a && $a->{Constants::RET_RETURN_CODE} == 0) {
+        if ($a->{Constants::RET_DATA}->{'simulate_down_nice'} eq '1') {
+            $a->{Constants::RET_RETURN_MESSAGE} = "Simulating down.";
+            $a->{Constants::RET_RETURN_CODE} = Constants::ERROR_SIMULATE_DOWN;
+        } elsif ($a->{Constants::RET_DATA}->{'simulate_down_broken'} eq '1') {
             $a = undef;
         }
     } else {
-        $a->{'returnMessage'} = "Problem with backend connection.";
-        $a->{'returnCode'} = -96;
+        $a->{Constants::RET_RETURN_MESSAGE} = "Problem with backend connection.";
+        $a->{Constants::RET_RETURN_CODE} = Constants::ERROR_SIMULATE_BROKEN;
     }
 } else {
-    $a->{'returnMessage'} = "No action parameter given.";
-    $a->{'returnCode'} = -99;
+    $a->{Constants::RET_RETURN_MESSAGE} = "No action parameter given.";
+    $a->{Constants::RET_RETURN_CODE} = Constants::ERROR_NO_ACTION;
 }
 
 my $json = encode_json $a;

@@ -24,16 +24,17 @@ my $logger = Log::Log4perl->get_logger('opuma');
 use CGI;
 use UserDAO;
 use JSON;
+use Constants;
 
 my $cgi = new CGI;
 
-my $action = $cgi->param('action');
-my $login = $cgi->param('login');
-my $pin = $cgi->param('pin');
-my $isAdmin = $cgi->param('is_admin');
-my $isActive = $cgi->param('is_active');
-my $id = $cgi->param('user_id');
-my $deviceID = $cgi->param('device_id');
+my $action = $cgi->param(Constants::FIELD_ACTION);
+my $login = $cgi->param(Constants::FIELD_LOGIN);
+my $pin = $cgi->param(Constants::FIELD_PIN);
+my $isAdmin = $cgi->param(Constants::FIELD_IS_ADMIN);
+my $isActive = $cgi->param(Constants::FIELD_IS_ACTIVE);
+my $id = $cgi->param(Constants::FIELD_USER_ID);
+my $deviceID = $cgi->param(Constants::FIELD_DEVICE_ID);
 
 print "Content-type: application/json\n\n";
 # application/json
@@ -43,39 +44,39 @@ $logger->debug("ID: $id");
 
 my $dao = new UserDAO();
 my $a = {};
-if ("add" eq $action) {
+if (Constants::ACTION_ADD eq $action) {
     if (defined($login) && defined($pin) && defined($isAdmin)) {
         $a = $dao->addUser($login,$pin,$isAdmin);
     } else {
         $a->{'returnMessage'} = "Login, pin, and isAdmin are required.";
-        $a->{'returnCode'} = -1;
+        $a->{'returnCode'} = Constants::ERROR_MISSING_REQUIRED_FIELDS;
     }
-} elsif ("delete" eq $action) {
+} elsif (Constants::ACTION_DELETE eq $action) {
     if (defined($login)) {
         $a = $dao->deleteUser($login);
     } else {
         $a->{'returnMessage'} = "Login is required.";
-        $a->{'returnCode'} = -98;
+        $a->{'returnCode'} = Constants::ERROR_MISSING_REQUIRED_FIELDS;
     }
-} elsif ("update" eq $action) {
+} elsif (Constants::ACTION_UPDATE eq $action) {
     if (defined($login) && defined($pin) && defined($isAdmin) && defined($isActive)) {
         $a = $dao->updateUser($login,$pin,$isAdmin,$isActive,$id);
     } else {
         $a->{'returnMessage'} = "Login, pin, isActive, and isAdmin are required.";
-        $a->{'returnCode'} = -98;
+        $a->{'returnCode'} = Constants::ERROR_MISSING_REQUIRED_FIELDS;
     }
-} elsif ("login" eq $action) {
+} elsif (Constants::ACTION_LOGIN eq $action) {
     if (defined($login) && defined($pin)) {
         $a = $dao->login($login,$pin);
     } else {
         $a->{'returnMessage'} = "Login and pin are required.";
-        $a->{'returnCode'} = -98;
+        $a->{'returnCode'} = Constants::ERROR_MISSING_REQUIRED_FIELDS;
     }
-} elsif ("getAll" eq $action) {
+} elsif (Constants::ACTION_GET_ALL eq $action) {
     $a = $dao->getUsers();
 } else {
     $a->{'returnMessage'} = "No action parameter given.";
-    $a->{'returnCode'} = -99;
+    $a->{'returnCode'} = Constants::ERROR_NO_ACTION;
 }
 
 my $json = encode_json $a;

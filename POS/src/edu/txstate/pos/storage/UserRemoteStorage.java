@@ -14,24 +14,7 @@ import edu.txstate.pos.model.User;
 
 public class UserRemoteStorage extends RemoteStorage {
 
-	private static final String USER_ACTION_ADD = "add";
-	private static final String USER_ACTION_DELETE = "delete";
-	private static final String USER_ACTION_UPDATE = "update";
-	private static final String USER_ACTION_GET_ALL = "getAll";
-	private static final String USER_ACTION_LOGIN = "login";
-	
-	private static final String LOGIN = "login";
-	private static final String PIN = "pin";
-	private static final String IS_ACTIVE = "is_active";
-	private static final String IS_ADMIN = "is_admin";
-	private static final String USER_ID = "user_id";
 
-	private static int RC_LOGIN_NO_USER_FOUND = 1;
-	private static int RC_LOGIN_BAD_PASSWORD = 2;
-	
-	private static int RC_USER_NO_ACTION = -1;
-	private static int RC_USER_EXISTS = 1;
-	private static int RC_USER_NO_USER_FOUND = 2;
 	
 	public String getScriptName() {
 		return "user";
@@ -45,17 +28,19 @@ public class UserRemoteStorage extends RemoteStorage {
 		Map<String, String> params = new HashMap<String, String>();
 		params.put(LOGIN, user.getLogin());
 		params.put(PIN, user.getPIN());
-		params.put(ACTION, USER_ACTION_LOGIN);
+		params.put(ACTION, ACTION_LOGIN);
 		JSONObject ret = getObject(params);
 		try {
-			if (RC_LOGIN_NO_USER_FOUND == ret.getInt(RETURN_CODE)) {
+			if (RC_NO_USER_FOUND == ret.getInt(RETURN_CODE)) {
 				throw new NoUserFoundException(ret.getString(RETURN_MESSAGE));
-			} else if (RC_LOGIN_BAD_PASSWORD == ret.getInt(RETURN_CODE)) {
+			} else if (RC_BAD_PASSWORD == ret.getInt(RETURN_CODE)) {
 				throw new BadPasswordException(ret.getString(RETURN_MESSAGE));
 			} else if (RC_SUCCESS == ret.getInt(RETURN_CODE)) {
 				user.setActive(ret.getString(IS_ACTIVE));
 				user.setAdmin(ret.getString(IS_ADMIN));
 				user.setId(ret.getInt(USER_ID));
+			} else {
+				throw new ConnectionError("Bad return code for getItems - " + ret.getInt(RETURN_CODE));
 			}
 		} catch (JSONException e) {
 			throw new ConnectionError("JSON parser error: " + e.getMessage());
@@ -68,17 +53,19 @@ public class UserRemoteStorage extends RemoteStorage {
 		params.put(LOGIN, user.getLogin());
 		params.put(PIN, user.getPIN());
 		params.put(IS_ADMIN, user.isAdmin() ? "Y" : "N");
-		params.put(ACTION, USER_ACTION_ADD);
+		params.put(ACTION, ACTION_ADD);
 		params.put(IS_ACTIVE,"Y");
 		JSONObject ret = getObject(params);
 		try {
-			if (RC_USER_NO_ACTION == ret.getInt(RETURN_CODE)) {
+			if (RC_NO_ACTION == ret.getInt(RETURN_CODE)) {
 				throw new ConnectionError(ret.getString(RETURN_MESSAGE));
 			} else if (RC_USER_EXISTS == ret.getInt(RETURN_CODE)) {
 				throw new UserExistsException(ret.getString(RETURN_MESSAGE));
 			} else if (RC_SUCCESS == ret.getInt(RETURN_CODE)) {
 				user.setActive(ret.getString(IS_ACTIVE));
 				user.setId(ret.getInt(USER_ID));
+			} else {
+				throw new ConnectionError("Bad return code for getItems - " + ret.getInt(RETURN_CODE));
 			}
 		} catch (JSONException e) {
 			throw new ConnectionError("JSON parser error: " + e.getMessage());
@@ -89,15 +76,17 @@ public class UserRemoteStorage extends RemoteStorage {
 	public void deleteUser(String login) throws ConnectionError, NoUserFoundException {
 		Map<String, String> params = new HashMap<String, String>();
 		params.put(LOGIN, login);
-		params.put(ACTION, USER_ACTION_DELETE);
+		params.put(ACTION, ACTION_DELETE);
 		JSONObject ret = getObject(params);
 		try {
-			if (RC_USER_NO_ACTION == ret.getInt(RETURN_CODE)) {
+			if (RC_NO_ACTION == ret.getInt(RETURN_CODE)) {
 				throw new ConnectionError(ret.getString(RETURN_MESSAGE));
 			} else if (RC_USER_NO_USER_FOUND == ret.getInt(RETURN_CODE)) {
 				throw new NoUserFoundException(ret.getString(RETURN_MESSAGE));
 			} else if (RC_SUCCESS == ret.getInt(RETURN_CODE)) {
 				Log.d("HTTP", "User deleted: " + login);
+			} else {
+				throw new ConnectionError("Bad return code for getItems - " + ret.getInt(RETURN_CODE));
 			}
 		} catch (JSONException e) {
 			throw new ConnectionError("JSON parser error: " + e.getMessage());
@@ -112,15 +101,17 @@ public class UserRemoteStorage extends RemoteStorage {
 		params.put(IS_ADMIN, user.isAdmin() ? "Y" : "N");
 		String sID = String.valueOf(user.getId());
 		params.put(USER_ID, sID);
-		params.put(ACTION, USER_ACTION_UPDATE);
+		params.put(ACTION, ACTION_UPDATE);
 		JSONObject ret = getObject(params);
 		try {
-			if (RC_USER_NO_ACTION == ret.getInt(RETURN_CODE)) {
+			if (RC_NO_ACTION == ret.getInt(RETURN_CODE)) {
 				throw new ConnectionError(ret.getString(RETURN_MESSAGE));
 			} else if (RC_USER_NO_USER_FOUND == ret.getInt(RETURN_CODE)) {
 				throw new NoUserFoundException(ret.getString(RETURN_MESSAGE));
 			} else if (RC_SUCCESS == ret.getInt(RETURN_CODE)) {
 				Log.d("HTTP", "User updated: " + user.getId());
+			} else {
+				throw new ConnectionError("Bad return code for getItems - " + ret.getInt(RETURN_CODE));
 			}
 		} catch (JSONException e) {
 			throw new ConnectionError("JSON parser error: " + e.getMessage());
@@ -132,7 +123,7 @@ public class UserRemoteStorage extends RemoteStorage {
 		
 		try {
 			Map<String, String> params = new HashMap<String, String>();
-			params.put(ACTION, USER_ACTION_GET_ALL);
+			params.put(ACTION, ACTION_GET_ALL);
 			JSONObject json = getObject(params);
 			if (RC_SUCCESS == json.getInt(RETURN_CODE)) {
 				JSONArray array = json.getJSONArray("data");

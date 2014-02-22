@@ -5,9 +5,6 @@
 #   Filename:  login.pl
 #   Author: Geoff Marinski
 #
-#   Serves the AJAX calls for the login service.
-#
-#   Returns JSON.  So I guess it is AJAJ.
 #
 ############################################
 
@@ -22,14 +19,15 @@ Log::Log4perl::init('../cfg/log4perl.conf');
 my $logger = Log::Log4perl->get_logger('opuma');
 
 use CGI;
-use DAO;
+use UserDAO;
 use JSON;
+use Constants;
 
 my $cgi = new CGI;
 
-my $login = $cgi->param('login');
-my $password = $cgi->param('pin');
-my $deviceID = $cgi->param('device_id');
+my $login = $cgi->param(Constants::FIELD_LOGIN);
+my $password = $cgi->param(Constants::FIELD_PIN);
+my $deviceID = $cgi->param(Constants::FIELD_DEVICE_ID);
 
 print "Content-type: application/json\n\n";
 # application/json

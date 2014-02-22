@@ -15,37 +15,9 @@ use Log::Log4perl;
 use Sys::Hostname;
 use Data::Dumper;
 use String::Util 'trim';
+use Constants;
 
 my $logger = Log::Log4perl->get_logger('opuma');
-
-my $THIS_YEAR = 2013;
-
-
-
-sub stub {
-    my $self = shift;
-    
-    my $dbh = $self->{'dbh'};
-    
-    my $sql = "select * from user where login = ''";
-    
-    my $sth = $dbh->prepare($sql);
-    $sth->execute();
-    
-    my ($ret, $rc, $rm);
-    
-    if (my $ref = $sth->fetchrow_hashref()) {
-    
-    }
-    $sth->finish();
-    
-    $ret->{'returnMessage'} = $rm;
-    $ret->{'returnCode'} = $rc;
-    
-    $dbh->disconnect();
-    
-    return $ret;
-}
 
 sub addUser {
     my $self = shift;
@@ -55,12 +27,18 @@ sub addUser {
     
     my $dbh = $self->{'dbh'};
     
-    my $sql = "select count(*) as count from user where login = '$login'";
-    
-    my $sth = $dbh->prepare($sql);
-    $sth->execute();
+    my $sql = "select count(*) as count from user where login = ?";
     
     my ($ret, $rc, $rm);
+    
+    my $sth = $dbh->prepare($sql);
+    $sth->execute($login);
+    if ($sth->err() > 0) {
+        $ret->{Constants::RET_RETURN_MESSAGE} = "SQL ERROR: $sql /" . $sth->err() . "/" . $sth->errstr();
+        $ret->{Constants::RET_RETURN_CODE} = Constants::ERROR_SQL_ERROR;
+        $logger->error("SQL ERROR: $sql /" . $sth->err() . "/" . $sth->errstr());
+        return $ret;
+    }
     
     my $count;
     if (my $ref = $sth->fetchrow_hashref()) {
@@ -73,15 +51,21 @@ sub addUser {
         $rc = 1;
     } else {
         $sql = "insert into user (login,pin,is_admin) values (?,?,?)";
-        $logger->debug("SQL: $sql / $login / $pin / $isAdmin");
+        
         $sth = $dbh->prepare($sql);
         $sth->execute($login,$pin,$isAdmin);
+        if ($sth->err() > 0) {
+            $ret->{Constants::RET_RETURN_MESSAGE} = "SQL ERROR: $sql /" . $sth->err() . "/" . $sth->errstr();
+            $ret->{Constants::RET_RETURN_CODE} = Constants::ERROR_SQL_ERROR;
+            $logger->error("SQL ERROR: $sql /" . $sth->err() . "/" . $sth->errstr());
+            return $ret;
+        }   
         
-        my $ret->{'user_id'} = $dbh->{'mysql_insertid'};
-        $ret->{'is_active'} = "Y";
-        $ret->{'is_admin'} = $isAdmin;
-        $ret->{'login'} = $login;
-        $ret->{'pin'} = $pin;
+        my $ret->{Constants::FIELD_USER_ID} = $dbh->{'mysql_insertid'};
+        $ret->{Constants::FIELD_IS_ACTIVE} = "Y";
+        $ret->{Constants::FIELD_IS_ADMIN} = $isAdmin;
+        $ret->{Constants::FIELD_LOGIN} = $login;
+        $ret->{Constants::FIELD_PIN} = $pin;
         
         $sth->finish();
         
@@ -89,8 +73,8 @@ sub addUser {
         $rc = 0;
     }
     
-    $ret->{'returnMessage'} = $rm;
-    $ret->{'returnCode'} = $rc;
+    $ret->{Constants::RET_RETURN_MESSAGE} = $rm;
+    $ret->{Constants::RET_RETURN_CODE} = $rc;
     
     $dbh->disconnect();
     
@@ -107,11 +91,13 @@ sub updateUser {
     
     $logger->debug("DAO: $id");
     
+    $id =~ s/'/''/g;
     $login =~ s/'/''/g;
     $pin =~ s/'/''/g;
     $isAdmin =~ s/'/''/g;
     $isActive =~ s/'/''/g;
     
+    my ($ret, $rc, $rm);
     
     my $dbh = $self->{'dbh'};
     
@@ -127,8 +113,12 @@ sub updateUser {
     
     my $sth = $dbh->prepare($sql);
     $sth->execute();
-    
-    my ($ret, $rc, $rm);
+    if ($sth->err() > 0) {
+        $ret->{Constants::RET_RETURN_MESSAGE} = "SQL ERROR: $sql /" . $sth->err() . "/" . $sth->errstr();
+        $ret->{Constants::RET_RETURN_CODE} = Constants::ERROR_SQL_ERROR;
+        $logger->error("SQL ERROR: $sql /" . $sth->err() . "/" . $sth->errstr());
+        return $ret;
+    }
     
     my $count;
     if (my $ref = $sth->fetchrow_hashref()) {
@@ -139,6 +129,13 @@ sub updateUser {
         $logger->debug("SQL: $sql");
         $sth = $dbh->prepare($sql);
         $sth->execute();
+        if ($sth->err() > 0) {
+            $ret->{Constants::RET_RETURN_MESSAGE} = "SQL ERROR: $sql /" . $sth->err() . "/" . $sth->errstr();
+            $ret->{Constants::RET_RETURN_CODE} = Constants::ERROR_SQL_ERROR;
+            $logger->error("SQL ERROR: $sql /" . $sth->err() . "/" . $sth->errstr());
+            return $ret;
+        }
+        
         
         $ret->{'user_id'} = $id;
         $ret->{'is_active'} = $isActive;
@@ -156,8 +153,8 @@ sub updateUser {
         $rm = "No user found for login $login";
     }
     
-    $ret->{'returnMessage'} = $rm;
-    $ret->{'returnCode'} = $rc;
+    $ret->{Constants::RET_RETURN_MESSAGE} = $rm;
+    $ret->{Constants::RET_RETURN_CODE} = $rc;
     
     $dbh->disconnect();
     
@@ -172,10 +169,16 @@ sub deleteUser {
     
     my $sql = "select user_id from user where login = '$login'";
     
+    my ($ret, $rc, $rm);
+    
     my $sth = $dbh->prepare($sql);
     $sth->execute();
-    
-    my ($ret, $rc, $rm);
+    if ($sth->err() > 0) {
+        $ret->{Constants::RET_RETURN_MESSAGE} = "SQL ERROR: $sql /" . $sth->err() . "/" . $sth->errstr();
+        $ret->{Constants::RET_RETURN_CODE} = Constants::ERROR_SQL_ERROR;
+        $logger->error("SQL ERROR: $sql /" . $sth->err() . "/" . $sth->errstr());
+        return $ret;
+    }
     
     if (my $ref = $sth->fetchrow_hashref()) {
         my $id = $ref->{'user_id'};
@@ -184,6 +187,12 @@ sub deleteUser {
         $sql = "delete from user where user_id = $id";
         $sth = $dbh->prepare($sql);
         $sth->execute();
+        if ($sth->err() > 0) {
+            $ret->{Constants::RET_RETURN_MESSAGE} = "SQL ERROR: $sql /" . $sth->err() . "/" . $sth->errstr();
+            $ret->{Constants::RET_RETURN_CODE} = Constants::ERROR_SQL_ERROR;
+            $logger->error("SQL ERROR: $sql /" . $sth->err() . "/" . $sth->errstr());
+            return $ret;
+        }
         
         $sth->finish();
         
@@ -196,8 +205,8 @@ sub deleteUser {
         $rc = 2;
     }
     
-    $ret->{'returnMessage'} = $rm;
-    $ret->{'returnCode'} = $rc;
+    $ret->{Constants::RET_RETURN_MESSAGE} = $rm;
+    $ret->{Constants::RET_RETURN_CODE} = $rc;
     
     $dbh->disconnect();
     
@@ -209,33 +218,39 @@ sub login {
 	my $login = shift;
 	my $password = shift;
 	
+	my ($ret, $rc, $rm);
+	   
 	my $dbh = $self->{'dbh'};
 
-	my $sql = "select * from user where login = '$login'";
-	
-	my $sth = $dbh->prepare($sql);
-	$sth->execute();
+	my $sql = "select * from user where login = ?";
 
-	my ($ret, $rc, $rm);
+	my $sth = $dbh->prepare($sql);
+	$sth->execute($login);
+    if ($sth->err() > 0) {
+        $ret->{Constants::RET_RETURN_MESSAGE} = "SQL ERROR: $sql /" . $sth->err() . "/" . $sth->errstr();
+        $ret->{Constants::RET_RETURN_CODE} = Constants::ERROR_SQL_ERROR;
+        $logger->error("SQL ERROR: $sql /" . $sth->err() . "/" . $sth->errstr());
+        return $ret;
+    }
 
 	if (my $ref = $sth->fetchrow_hashref()) {
 		if ($ref->{'pin'} eq $password) {
-			$rc = 0;
+			$rc = Constants::SUCCESS;
 			$rm = "Success";
 		} else {
-			$rc = 2;
+			$rc = Constants::ERROR_BAD_PASSWORD;
 			$rm = "Password doesn't match";
 		}
 		$ret = $ref;
 		# $ret->{'pin'} = "****";  Do this later??
 	} else {
-		$rc = 1;
+		$rc = Constants::ERROR_NOT_FOUND;
 		$rm = "Login not found: $login"; 
 	}
 	$sth->finish();
 	
-	$ret->{'returnMessage'} = $rm;
-	$ret->{'returnCode'} = $rc;
+	$ret->{Constants::RET_RETURN_MESSAGE} = $rm;
+	$ret->{Constants::RET_RETURN_CODE} = $rc;
 	
 	$dbh->disconnect();
 	
@@ -249,10 +264,16 @@ sub getUsers() {
 
     my $sql = "select * from user order by login";
     
+    my ($ret, $rc, $rm, $ref, @a, $count);
+    
     my $sth = $dbh->prepare($sql);
     $sth->execute();
-
-    my ($ret, $rc, $rm, $ref, @a, $count);
+    if ($sth->err() > 0) {
+        $ret->{Constants::RET_RETURN_MESSAGE} = "SQL ERROR: $sql /" . $sth->err() . "/" . $sth->errstr();
+        $ret->{Constants::RET_RETURN_CODE} = Constants::ERROR_SQL_ERROR;
+        $logger->error("SQL ERROR: $sql /" . $sth->err() . "/" . $sth->errstr());
+        return $ret;
+    }
 
     $count = 0;
     while ($ref = $sth->fetchrow_hashref()) {
@@ -264,12 +285,13 @@ sub getUsers() {
     $rm = "Success: $count";
     $rc = 0;
     
-    $ret->{'returnMessage'} = $rm;
-    $ret->{'returnCode'} = $rc;
-    $ret->{'data'} = \@a;
+    $ret->{Constants::RET_RETURN_MESSAGE} = $rm;
+    $ret->{Constants::RET_RETURN_CODE} = $rc;
+    $ret->{Constants::RET_DATA} = \@a;
     
     $dbh->disconnect();
     
     return $ret;
 }
 
+1;

@@ -13,6 +13,7 @@ use Log::Log4perl;
 use Sys::Hostname;
 use Data::Dumper;
 use String::Util 'trim';
+use Constants;
 
 my $logger = Log::Log4perl->get_logger('opuma');
 
@@ -82,4 +83,40 @@ sub getConnection {
     die "My script is having problems.  Sorry.  Love, Geoff" unless (defined $dbh);
 
     return $dbh;
+}
+
+sub getSettings {
+    my $self = shift;
+
+    my ($ret, $rc, $rm, $ref);
+    
+    my $dbh = $self->{'dbh'};
+
+    my $sql = "select * from system_settings";
+    
+    my $sth = $dbh->prepare($sql);
+    $sth->execute();
+    if ($sth->err() > 0) {
+        $ret->{'returnMessage'} = "SQL ERROR: $sql /" . $sth->err() . "/" . $sth->errstr();
+        $ret->{'returnCode'} = Constants::ERROR_SQL_ERROR;
+        $logger->error("SQL ERROR: $sql /" . $sth->err() . "/" . $sth->errstr());
+        return $ret;
+    }
+
+    my $a = {};
+    while ($ref = $sth->fetchrow_hashref()) {
+        $a->{$ref->{'setting_id'}} = $ref->{'setting_value'};
+    }
+    $sth->finish();
+    
+    $rm = "Success";
+    $rc = 0;
+    
+    $ret->{'returnMessage'} = $rm;
+    $ret->{'returnCode'} = $rc;
+    $ret->{'data'} = $a;
+    
+    $dbh->disconnect();
+    
+    return $ret;
 }

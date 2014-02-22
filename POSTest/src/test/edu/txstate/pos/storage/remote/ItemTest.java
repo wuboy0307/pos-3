@@ -27,12 +27,12 @@ public class ItemTest extends AndroidTestCase {
 					assertEquals("Item 1", item.getDescription());
 					String x = df.format(item.getPrice());
 					assertEquals("9.99", x);
-					assertEquals(1, item.getUserID());
+					assertEquals(-1, item.getUserID());
 				} else if ("002".equals(item.getId())) {
 					found2 = true;
 					assertEquals("Item 2", item.getDescription());
 					assertEquals(5.5, item.getPrice());
-					assertEquals(1, item.getUserID());
+					assertEquals(-1, item.getUserID());
 				}
 			}
 			

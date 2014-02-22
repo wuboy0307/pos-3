@@ -26,16 +26,40 @@ import android.util.Log;
 public abstract class RemoteStorage {
 	
 	static final String ACTION = "action";
-	public static final String DEVICE_ID = "device_id";
 	
+	static final String ACTION_GET_ALL = "getAll";
+	static final String ACTION_GET = "get";
+	static final String ACTION_SYNC = "sync";
+
 	static final String RETURN_CODE = "returnCode";
 	static final String RETURN_MESSAGE = "returnMessage";
 
+	static final int RC_NO_ITEM_FOUND = 1;
 	static final int RC_SUCCESS = 0;
 	static final int RC_NO_ACTION = -99;
 	static final int RC_MISSING_REQUIRED_FIELDS = -98;
 	static final int RC_SIMULATE_DOWN = -97;
 	static final int RC_SIMULATE_BROKEN = -96;
+	static final int RC_NO_USER_FOUND = 1;
+	static final int RC_BAD_PASSWORD = 2;
+	static final int RC_USER_EXISTS = 1;
+	static final int RC_USER_NO_USER_FOUND = 2;
+	
+	static final String ACTION_ADD = "add";
+	static final String ACTION_DELETE = "delete";
+	static final String ACTION_UPDATE = "update";
+	static final String ACTION_LOGIN = "login";
+
+	static final String DEVICE_ID = "device_id";
+	static final String LOGIN = "login";
+	static final String PIN = "pin";
+	static final String IS_ACTIVE = "is_active";
+	static final String IS_ADMIN = "is_admin";
+	static final String USER_ID = "user_id";
+	static final String ITEM_ID = "item_id";
+	static final String DESCRIPTION = "description";
+	static final String UPDATE_USER = "update_user_id";
+	static final String PRICE = "price";
 	
 	String androidID = null;
 	
