@@ -85,7 +85,7 @@ sub update() {
     my $description = shift;
     my $price = shift;
     my $deviceID = shift;
-    my $userID = shift;
+    my $updateUserID = shift;
     
     my $dbh = $self->{'dbh'};
 
@@ -98,7 +98,7 @@ sub update() {
     
     my $sth = $dbh->prepare($sql);
     $sth->execute($itemID,$description,$price,$deviceID,
-                  $userID,$description,$price,$deviceID,$userID);
+                  $updateUserID,$description,$price,$deviceID,$updateUserID);
     if ($sth->err() > 0) {
         $ret->{Constants::RET_RETURN_MESSAGE} = "SQL ERROR: $sql /" . $sth->err() . "/" . $sth->errstr();
         $ret->{Constants::RET_RETURN_CODE} = Constants::ERROR_SQL_ERROR;
@@ -110,7 +110,7 @@ sub update() {
     $sth->finish();
     
     $ret->{Constants::RET_RETURN_MESSAGE} = "Success";
-    $ret->{Constants::RET_RETURN_CODE} = 0;
+    $ret->{Constants::RET_RETURN_CODE} = Constants::SUCCESS;
     
     $dbh->disconnect();
     
@@ -124,7 +124,7 @@ sub add {
     my $description = shift;
     my $price = shift;
     my $deviceID = shift;
-    my $userID = shift;
+    my $updateUserID = shift;
     
     my $dbh = $self->{'dbh'};
     
@@ -151,13 +151,13 @@ sub add {
     
     if ($count > 0) {
         $rm = "Item already exists: $itemID";
-        $rc = 1;
+        $rc = Constants::ERROR_ITEM_EXISTS;
     } else {
-        my $sql = "insert into item (item_id,description,price,device_id,create_user_id) " .
+        my $sql = "insert into item (item_id,description,price,update_device_id,update_user_id) " .
                   "values (?,?,?,?,?)";
         
         $sth = $dbh->prepare($sql);
-        $sth->execute($itemID,$description,$price,$deviceID,$userID);
+        $sth->execute($itemID,$description,$price,$deviceID,$updateUserID);
         if ($sth->err() > 0) {
             $ret->{Constants::RET_RETURN_MESSAGE} = "SQL ERROR: $sql /" . $sth->err() . "/" . $sth->errstr();
             $ret->{Constants::RET_RETURN_CODE} = Constants::ERROR_SQL_ERROR;
@@ -170,7 +170,7 @@ sub add {
         $sth->finish();
         
         $rm = "Success";
-        $rc = 0;
+        $rc = Constants::SUCCESS;
     }
     
     $ret->{Constants::RET_RETURN_MESSAGE} = $rm;
@@ -179,6 +179,32 @@ sub add {
     $dbh->disconnect();
     
     return $ret;
+}
+
+sub delete() {
+    my $self = shift;
+    my $id = shift;
+    
+    my $ret;
+    my $sql = "delete from item where item_id = ?";
+    my $dbh = $self->{'dbh'};
+    my $sth = $dbh->prepare($sql);
+    $sth->execute($id);
+    if ($sth->err() > 0) {
+        $ret->{Constants::RET_RETURN_MESSAGE} = "SQL ERROR: $sql /" . $sth->err() . "/" . $sth->errstr();
+        $ret->{Constants::RET_RETURN_CODE} = Constants::ERROR_SQL_ERROR;
+        $logger->error("SQL ERROR: $sql /" . $sth->err() . "/" . $sth->errstr());
+        return $ret;
+    }
+    
+    $ret->{Constants::RET_RETURN_MESSAGE} = "Success";
+    $ret->{Constants::RET_RETURN_CODE} = Constants::SUCCESS;
+    
+    $sth->finish();
+    $dbh->disconnect();
+    
+    return $ret;
+
 }
 
 sub reset() {
@@ -283,10 +309,10 @@ sub get() {
     if ($ref = $sth->fetchrow_hashref()) {
         $ret = $ref;
         $rm = "Success: $count";
-        $rc = 0;
+        $rc = Constants::SUCCESS;
     } else {
         $rm = "No item found";
-        $rc = 1;
+        $rc = Constants::ERROR_NO_ITEM_FOUND;
     }
     $sth->finish();
     

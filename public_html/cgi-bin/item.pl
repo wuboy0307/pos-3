@@ -29,11 +29,11 @@ use Constants;
 my $cgi = new CGI;
 
 my $action = $cgi->param(Constants::FIELD_ACTION);
-my $description = $cgi->param(Constants::FIELD_DESCRIPTION);
 my $id = $cgi->param(Constants::FIELD_ITEM_ID);
+my $description = $cgi->param(Constants::FIELD_DESCRIPTION);
 my $price = $cgi->param(Constants::FIELD_PRICE);
-my $userID = $cgi->param(Constants::FIELD_USER_ID);
 my $deviceID = $cgi->param(Constants::FIELD_DEVICE_ID);
+my $updateUser = $cgi->param(Constants::FIELD_UPDATE_USER);
 
 print "Content-type: application/json\n\n";
 # application/json
@@ -48,7 +48,11 @@ if (Constants::ACTION_GET_ALL eq $action) {
 } elsif (Constants::ACTION_GET eq $action) {
     $a = $dao->get($id);
 } elsif (Constants::ACTION_ADD eq $action) {
-    $a = $dao->add($id);
+    $a = $dao->add($id,$description,$price,$deviceID,$updateUser);
+} elsif (Constants::ACTION_UPDATE eq $action) {
+    $a = $dao->update($id,$description,$price,$deviceID,$updateUser);
+} elsif (Constants::ACTION_DELETE eq $action) {
+    $a = $dao->delete($id);
 } elsif (Constants::ACTION_RESET eq $action) {
     $a = $dao->reset($deviceID);
 } elsif (Constants::ACTION_SYNC eq $action) {

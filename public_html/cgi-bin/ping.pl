@@ -2,7 +2,7 @@
 
 ############################################
 #
-#   Filename:  heartbeat.pl
+#   Filename:  ping.pl
 #   Author: Geoff Marinski
 #
 #
@@ -31,8 +31,7 @@ my $deviceID = $cgi->param(Constants::FIELD_DEVICE_ID);
 print "Content-type: application/json\n\n";
 # application/json
 
-$logger->debug("HEARTBEAT.PL: $action");
-$logger->debug("ID: $deviceID");
+$logger->debug("PING.PL: $action / $deviceID");
 
 my $dao = new DB();
 my $a = {};
@@ -57,4 +56,4 @@ if (Constants::ACTION_PING eq $action) {
 my $json = encode_json $a;
 print "$json\n";
 
-$logger->debug("HEARTBEAT RESPONSE: $json");
+$logger->debug("PING RESPONSE: $json");

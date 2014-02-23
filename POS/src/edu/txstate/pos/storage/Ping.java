@@ -8,19 +8,19 @@ import org.json.JSONObject;
 
 import android.util.Log;
 
-public class Heartbeat extends RemoteStorage {
+public class Ping extends RemoteStorage {
 
-	public static final String LOG_TAG = "HEARTBEAT";
+	public static final String LOG_TAG = "PING";
 	
 	public static final String ITEM_ACTION_PING = "ping";
 	
-	public Heartbeat(String androidID) {
+	public Ping(String androidID) {
 		super(androidID);
 	}
 	
 	@Override
 	public String getScriptName() {
-		return "heartbeat";
+		return "ping";
 	}
 	
 	public boolean ping() {

@@ -15,6 +15,7 @@ use constant FIELD_DESCRIPTION => 'description';
 use constant FIELD_ITEM_ID => 'item_id';
 use constant FIELD_PRICE => 'price';
 use constant FIELD_USER_ID => 'user_id';
+use constant FIELD_UPDATE_USER => 'update_user_id';
 use constant FIELD_DEVICE_ID => 'device_id';
 use constant FIELD_IS_ADMIN => 'is_admin';
 use constant FIELD_IS_ACTIVE => 'is_active';
@@ -25,12 +26,18 @@ use constant RET_RETURN_MESSAGE => 'returnMessage';
 use constant RET_RETURN_CODE => 'returnCode';
 use constant RET_DATA => 'data';
 
-use constant SUCCESS => 0;
+# Item
+use constant ERROR_ITEM_EXISTS => -1;
+use constant ERROR_NO_ITEM_FOUND => 1;
 
+# User
 use constant ERROR_BAD_PASSWORD => 2;
 use constant ERROR_NOT_FOUND => 1;
-use constant ERROR_NO_ACTION => -99;
+
+# Common Error Codes
+use constant SUCCESS => 0;
 use constant ERROR_MISSING_REQUIRED_FIELDS => -98;
+use constant ERROR_NO_ACTION => -99;
 use constant ERROR_SIMULATE_DOWN => -97;
 use constant ERROR_SIMULATE_BROKEN => -96;
 use constant ERROR_SQL_ERROR => -100;

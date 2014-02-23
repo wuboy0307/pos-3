@@ -28,6 +28,7 @@ public class UserRemoteStorage extends RemoteStorage {
 		Map<String, String> params = new HashMap<String, String>();
 		params.put(LOGIN, user.getLogin());
 		params.put(PIN, user.getPIN());
+		params.put(DEVICE_ID, androidID);
 		params.put(ACTION, ACTION_LOGIN);
 		JSONObject ret = getObject(params);
 		try {
@@ -53,8 +54,9 @@ public class UserRemoteStorage extends RemoteStorage {
 		params.put(LOGIN, user.getLogin());
 		params.put(PIN, user.getPIN());
 		params.put(IS_ADMIN, user.isAdmin() ? "Y" : "N");
-		params.put(ACTION, ACTION_ADD);
 		params.put(IS_ACTIVE,"Y");
+		params.put(DEVICE_ID, androidID);
+		params.put(ACTION, ACTION_ADD);
 		JSONObject ret = getObject(params);
 		try {
 			if (RC_NO_ACTION == ret.getInt(RETURN_CODE)) {
@@ -76,6 +78,7 @@ public class UserRemoteStorage extends RemoteStorage {
 	public void deleteUser(String login) throws ConnectionError, NoUserFoundException {
 		Map<String, String> params = new HashMap<String, String>();
 		params.put(LOGIN, login);
+		params.put(DEVICE_ID, androidID);
 		params.put(ACTION, ACTION_DELETE);
 		JSONObject ret = getObject(params);
 		try {
@@ -99,8 +102,8 @@ public class UserRemoteStorage extends RemoteStorage {
 		params.put(PIN, user.getPIN());
 		params.put(IS_ACTIVE, user.isActive() ? "Y" : "N");
 		params.put(IS_ADMIN, user.isAdmin() ? "Y" : "N");
-		String sID = String.valueOf(user.getId());
-		params.put(USER_ID, sID);
+		params.put(USER_ID, String.valueOf(user.getId()));
+		params.put(DEVICE_ID, androidID);
 		params.put(ACTION, ACTION_UPDATE);
 		JSONObject ret = getObject(params);
 		try {
@@ -123,6 +126,7 @@ public class UserRemoteStorage extends RemoteStorage {
 		
 		try {
 			Map<String, String> params = new HashMap<String, String>();
+			params.put(DEVICE_ID, androidID);
 			params.put(ACTION, ACTION_GET_ALL);
 			JSONObject json = getObject(params);
 			if (RC_SUCCESS == json.getInt(RETURN_CODE)) {

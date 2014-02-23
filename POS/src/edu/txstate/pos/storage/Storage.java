@@ -23,7 +23,7 @@ import edu.txstate.pos.model.User;
  */
 public class Storage {
 
-	private Heartbeat hb = null;
+	private Ping hb = null;
 	
 	private UserRemoteStorage userRemote = null;
 	private ItemRemoteStorage itemRemote = null;
@@ -45,7 +45,7 @@ public class Storage {
 		mDeviceID = deviceID;
 		mLoggedInUser = loggedInUser;
 		
-		hb = new Heartbeat(mDeviceID);
+		hb = new Ping(mDeviceID);
 		userRemote = new UserRemoteStorage(mDeviceID);
 		itemRemote = new ItemRemoteStorage(mDeviceID);
 	}

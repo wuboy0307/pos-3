@@ -2,7 +2,7 @@
 
 ############################################
 #
-#   Filename:  login.pl
+#   Filename:  user.pl
 #   Author: Geoff Marinski
 #
 #   Serves the AJAX calls for the login service.
@@ -35,6 +35,7 @@ my $isAdmin = $cgi->param(Constants::FIELD_IS_ADMIN);
 my $isActive = $cgi->param(Constants::FIELD_IS_ACTIVE);
 my $id = $cgi->param(Constants::FIELD_USER_ID);
 my $deviceID = $cgi->param(Constants::FIELD_DEVICE_ID);
+my $updateUser = $cgi->param(Constants::FIELD_UPDATE_USER);
 
 print "Content-type: application/json\n\n";
 # application/json

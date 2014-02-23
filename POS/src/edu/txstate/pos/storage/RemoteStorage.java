@@ -35,6 +35,7 @@ public abstract class RemoteStorage {
 	static final String RETURN_MESSAGE = "returnMessage";
 
 	static final int RC_NO_ITEM_FOUND = 1;
+	static final int RC_ITEM_EXISTS = -1;
 	static final int RC_SUCCESS = 0;
 	static final int RC_NO_ACTION = -99;
 	static final int RC_MISSING_REQUIRED_FIELDS = -98;

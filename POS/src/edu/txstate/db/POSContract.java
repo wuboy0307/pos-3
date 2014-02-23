@@ -20,9 +20,9 @@ public final class POSContract {
 		
 		public static final String SQL_DELETE = "DROP TABLE IF EXISTS " + TABLE_NAME;
 		public static final String SQL_CREATE = "CREATE TABLE " + TABLE_NAME +
-				" (" + COLUMN_NAME_ITEM_ID + " INTEGER PRIMARY KEY," +
+				" (" + COLUMN_NAME_ITEM_ID + " TEXT PRIMARY KEY," +
 				" " + COLUMN_NAME_DESCRIPTION + " TEXT," +
-				" " + COLUMN_NAME_PRICE + " REAL," +
+				" " + COLUMN_NAME_PRICE + " TEXT," +
 				" " + COLUMN_NAME_USER_ID + " INTEGER," +
 				" " + COLUMN_NAME_SYNC + " INTEGER);";
 	}
