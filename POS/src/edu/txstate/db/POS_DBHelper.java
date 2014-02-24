@@ -27,6 +27,9 @@ public class POS_DBHelper extends SQLiteOpenHelper {
 		Log.v(LOG_TAG, "CREATE TABLE : CART_ITEM");
 		db.execSQL(POSContract.CartItem.SQL_CREATE); 
 		
+		Log.v(LOG_TAG, "CREATE TABLE : POS_SETTINGS");
+		db.execSQL(POSContract.POSSettings.SQL_CREATE); 
+		
 		//Log.v(LOG_TAG,POSContract.Foo.SQL_CREATE);
 		//db.execSQL(POSContract.Foo.SQL_CREATE);
 		
@@ -46,6 +49,9 @@ public class POS_DBHelper extends SQLiteOpenHelper {
 		
 		Log.v(LOG_TAG, "DELETE TABLE : CART_ITEM");
 		db.execSQL(POSContract.CartItem.SQL_DELETE);
+		
+		Log.v(LOG_TAG, "DELETE TABLE : POS_SETTINGS");
+		db.execSQL(POSContract.POSSettings.SQL_DELETE);
 		
 		//Log.v(LOG_TAG, "DELETE TABLE : FOO");
 		//db.execSQL(POSContract.Foo.SQL_DELETE);

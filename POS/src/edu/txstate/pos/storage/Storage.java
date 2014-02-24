@@ -30,6 +30,7 @@ public class Storage {
 	private ItemRemoteStorage itemRemote = null;
 	
 	private ItemLocalStorage itemLocal = null;
+	private SettingsLocalStorage settingLocal = null;
 	
 	private String mDeviceID = null;
 	private User updUser = null;
@@ -53,6 +54,7 @@ public class Storage {
 		
 		// Local storage obejcts
 		itemLocal = new ItemLocalStorage(db);
+		settingLocal = new SettingsLocalStorage(db);
 	}
 	
 	public void setLoggedInUser(User loggedInUser) {
@@ -193,6 +195,38 @@ public class Storage {
 	public void updateItem(Item item) throws StorageException {
 		try {
 			itemLocal.update(item, updUser);
+		} catch (SQLException e) {
+			Log.e(LOG_TAG,e.getMessage());
+			throw new StorageException(e.getMessage());
+		}
+	}
+	
+	/* ++++++++++++++++++++++++++++++++++++++++++++++++
+	 * POS Settings
+	 * ++++++++++++++++++++++++++++++++++++++++++++++++
+	 */
+	
+	public void addSetting(String key, String value) throws StorageException {
+		try {
+			settingLocal.add(key, value);
+		} catch (SQLException e) {
+			Log.e(LOG_TAG,e.getMessage());
+			throw new StorageException(e.getMessage());
+		}
+	}
+	
+	public void updateSetting(String key, String value) throws StorageException {
+		try {
+			settingLocal.update(key, value);
+		} catch (SQLException e) {
+			Log.e(LOG_TAG,e.getMessage());
+			throw new StorageException(e.getMessage());
+		}
+	}
+	
+	public String getSetting(String key) throws SQLException, StorageException, NoItemFoundException {
+		try {
+			return settingLocal.get(key);
 		} catch (SQLException e) {
 			Log.e(LOG_TAG,e.getMessage());
 			throw new StorageException(e.getMessage());

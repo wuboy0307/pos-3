@@ -38,7 +38,7 @@ public class POSApplication extends Application {
 	private boolean connected = true;
 	private SQLiteDatabase mDb = null;
 
-	private boolean killDBEveryTime = false;
+	private boolean killDBEveryTime = true;
 	
 	/**
 	 * Status of network connectivity

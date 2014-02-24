@@ -1,11 +1,8 @@
 package edu.txstate.pos;
 
-import edu.txstate.db.POSContract;
-import edu.txstate.db.POS_DBHelper;
 import edu.txstate.pos.model.Item;
 import edu.txstate.pos.model.User;
 import edu.txstate.pos.storage.ConnectionError;
-import edu.txstate.pos.storage.DBHelper;
 import edu.txstate.pos.storage.Storage;
 import edu.txstate.pos.storage.StorageException;
 import android.animation.Animator;
@@ -13,7 +10,6 @@ import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;

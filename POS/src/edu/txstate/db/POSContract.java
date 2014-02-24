@@ -78,6 +78,18 @@ public final class POSContract {
 				COLUMN_NAME_ITEM_ID + " TEXT NOT NULL, " + 
 				COLUMN_NAME_QUANTITY + " INTEGER, " + 
 				"PRIMARY KEY(" + COLUMN_NAME_CART_ID + "," + COLUMN_NAME_ITEM_ID + "))";		
-		}
+	}
+	
+	public static abstract class POSSettings implements BaseColumns {
+		public static final String TABLE_NAME = "pos_settings";
+		
+		public static final String COLUMN_NAME_KEY = "key";
+		public static final String COLUMN_NAME_VALUE = "value";
+		public static final String SQL_DELETE = "DROP TABLE IF EXISTS " + TABLE_NAME;
+		public static final String SQL_CREATE = "CREATE TABLE " + TABLE_NAME +
+				" (" + COLUMN_NAME_KEY + " TEXT PRIMARY KEY, " + 
+				COLUMN_NAME_VALUE + " TEXT NOT NULL)";
+		
+	}
 	
 }
