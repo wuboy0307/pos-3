@@ -5,10 +5,12 @@ import java.util.UUID;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 import edu.txstate.pos.model.User;
 import edu.txstate.pos.service.POSSyncService;
+import edu.txstate.pos.storage.DBHelper;
 import edu.txstate.pos.storage.Storage;
 
 /**
@@ -25,11 +27,14 @@ import edu.txstate.pos.storage.Storage;
  */
 public class POSApplication extends Application {
 
+	private static final String LOG_TAG = "POS_APPLICATION";
+	
 	private String mDeviceID = null;
 	private User mUser = null;
 	private Storage mStorage = null;
-	public static final int deviceUserID = -1;
-	public boolean connected = true;
+	private static final int deviceUserID = -1;
+	private boolean connected = true;
+	private SQLiteDatabase mDb = null;
 	
 	/**
 	 * Status of network connectivity
@@ -78,9 +83,9 @@ public class POSApplication extends Application {
 	public void setUser(User user) {
 		mUser = user;
 		if (user != null) {
-			Log.i("POS_APPLICATION", "User logged in: " + mUser.getLogin());
+			Log.i(LOG_TAG, "User logged in: " + mUser.getLogin());
 			// New user means we need to reset the Storage object with that user
-			mStorage = new Storage(getBaseContext(),mDeviceID,mUser);
+			mStorage.setLoggedInUser(mUser);
 		}
 	}
 
@@ -93,6 +98,13 @@ public class POSApplication extends Application {
 		return mDeviceID;
 	}
 	
+	/**
+	 * @return the db
+	 */
+	public SQLiteDatabase getDb() {
+		return mDb;
+	}
+
 	/**
 	 * Returns true if a user is logged in.  This will return
 	 * false if the the default "DEVICE" user is set.
@@ -127,21 +139,25 @@ public class POSApplication extends Application {
 
 	    UUID deviceUuid = new UUID(androidId.hashCode(), ((long)tmDevice.hashCode() << 32) | tmSerial.hashCode());
 	    mDeviceID = deviceUuid.toString();
-	    Log.i("POS_APPLICATION", "Device ID: " + mDeviceID);
+	    Log.i(LOG_TAG, "Device ID: " + mDeviceID);
 	    
 	    // Set the DEVICE_USER for DB updates and logging
 	    mUser = new User();
-	    mUser.setId(-1);
+	    mUser.setId(deviceUserID);
 	    mUser.setLogin("DEVICE");
-	    Log.i("POS_APPLICATION","Set user to DEVICE");
+	    Log.i(LOG_TAG,"Set user to DEVICE");
 	    
+	    DBHelper dbHelper = new DBHelper(getApplicationContext());
+	    mDb = dbHelper.getWritableDatabase();
+	    
+	    Log.i(LOG_TAG, "DB set? " + (mDb != null));
 	    // Create a Storage object
-	    mStorage = new Storage(getBaseContext(),mDeviceID,mUser);
+	    mStorage = new Storage(mDb,mDeviceID,mUser);
 	    
 	    // Fire up the background sync service
 	    Intent syncService = new Intent(getBaseContext(),POSSyncService.class);
 	    getBaseContext().startService(syncService);
-	    Log.i("POS_APPLICATION","Started sync");
+	    Log.i(LOG_TAG,"Started sync");
 	    
 	}
 }

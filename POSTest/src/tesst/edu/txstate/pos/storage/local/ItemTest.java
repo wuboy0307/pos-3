@@ -3,20 +3,29 @@ package tesst.edu.txstate.pos.storage.local;
 import java.util.List;
 
 import android.database.SQLException;
+import android.database.sqlite.SQLiteDatabase;
+import android.test.ActivityInstrumentationTestCase2;
 import android.test.AndroidTestCase;
 import android.util.Log;
+import edu.txstate.pos.HomeActivity;
+import edu.txstate.pos.POSApplication;
 import edu.txstate.pos.model.Item;
 import edu.txstate.pos.model.User;
+import edu.txstate.pos.storage.DBHelper;
 import edu.txstate.pos.storage.ItemLocalStorage;
 import edu.txstate.pos.storage.NoItemFoundException;
 import edu.txstate.pos.storage.SyncStatus;
 
-public class ItemTest extends AndroidTestCase {
+public class ItemTest extends ActivityInstrumentationTestCase2 {
 	
 	private static final String LOG_TAG = "JUNIT_TEST_ITEM";
-	
+
 	private ItemLocalStorage local = null;
 	private User updUser = null;
+	
+	public ItemTest() {
+		super("edu.txstate.pos",HomeActivity.class);
+	}
 	
 	public void test_A_addItem() {
 		try {
@@ -37,7 +46,7 @@ public class ItemTest extends AndroidTestCase {
 		}
 	
 	}
-	
+/*	
 	public void test_B_getItem() {
 		try {
 			Item item = local.getItem("001AA");
@@ -97,8 +106,15 @@ public class ItemTest extends AndroidTestCase {
 			assertTrue(true);
 		}
 	}
-	
+
 	public void test_E_getAll() {
+		try {
+			local.delete("X001AA");
+			local.delete("X002AA");
+			local.delete("X003AA");
+		} catch (SQLException e) {
+			// Don't care
+		}
 		try {
 			Item i1 = new Item("X001AA","Item 1","9");
 			Item i2 = new Item("X002AA","Item 2","10");
@@ -124,9 +140,9 @@ public class ItemTest extends AndroidTestCase {
 					assertEquals("10", item.getPrice());
 					assertEquals(SyncStatus.PUSH,item.getSyncStatus());
 				} else if ("X003AA".equals(item.getId())) {
-					found2 = true;
-					assertEquals("Item 2", item.getDescription());
-					assertEquals("11", item.getPrice());
+					found3 = true;
+					assertEquals("Item 3", item.getDescription());
+					assertEquals("12", item.getPrice());
 					assertEquals(SyncStatus.PUSH,item.getSyncStatus());
 				}
 			}
@@ -140,13 +156,28 @@ public class ItemTest extends AndroidTestCase {
 			local.delete("X003AA");
 			
 		} catch (SQLException e) {
+			e.printStackTrace();
 			Log.d(LOG_TAG,e.getMessage());
 			assertTrue(false);
 		}
 	}
-	
+*/	
 	public void setUp() {
-		local = new ItemLocalStorage(getContext());
+
+		Log.d(LOG_TAG, "Setting up DB object");
+		//POSApplication pos = (POSApplication) this.getInstrumentation().getContext().getApplicationContext();
+		//SQLiteDatabase db = pos.getDb();
+		
+		DBHelper dbHelper = new DBHelper(this.getInstrumentation().getContext());
+	    SQLiteDatabase db = dbHelper.getWritableDatabase();
+	    
+	    //db.
+	    
+		Log.d(LOG_TAG, "NULL? " + (db == null));
+
+		Log.d(LOG_TAG,"Creating local storage object");
+		local = new ItemLocalStorage(db);
+		Log.d(LOG_TAG, "NULL? " + (local == null));
 		updUser = new User("JUNIT","JUNIT");
 		updUser.setId(-1);		
 	}

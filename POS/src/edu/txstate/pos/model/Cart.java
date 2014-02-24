@@ -5,6 +5,8 @@ import java.util.List;
 
 public class Cart {
 	
+	// -1 means this is an invalid cart
+	private long id = -1;
 	private User user;
 	private List<Payment> payments;
 	private List<Item> items;
@@ -12,7 +14,7 @@ public class Cart {
 	private Signature signature;
 	private long tax;
 
-	public Cart(User user) {
+	public Cart(User user, long id) {
 		this.user = user;
 		payments = new ArrayList<Payment>();
 		items = new ArrayList<Item>();
@@ -68,5 +70,13 @@ public class Cart {
 		// item and the payments add up to the total for the items.
 		return true;
 	}
+
+	/**
+	 * @return the id
+	 */
+	public long getId() {
+		return id;
+	}
+
 
 }

@@ -42,12 +42,6 @@ public class SplashActivity extends POSActivity {
 	        db.execSQL(POSContract.Item.SQL_CREATE);
 	        //onProgressUpdate("CREATE");
 	        
-	        Storage storage = getStorage();
-	        try {
-				storage.syncItems();
-			} catch (ConnectionError e) {
-				Log.e("SPLASH_ACTIVITY",e.getMessage());
-			}
 
 			return null;
 		}

@@ -4,17 +4,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.content.ContentValues;
-import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
+import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 import edu.txstate.db.POSContract;
 import edu.txstate.pos.model.Item;
 import edu.txstate.pos.model.User;
 
 public class ItemLocalStorage extends LocalStorage {
 
-	public ItemLocalStorage(Context context) {
-		super(context);
+	private static final String LOG_TAG = "LOCAL_STORAGE_ITEM";
+	
+	public ItemLocalStorage(SQLiteDatabase db) {
+		super(db);
+		Log.d(LOG_TAG, ("Local null: " + (db == null)));
+		Log.d(LOG_TAG, ("parent null: " + (super.db == null)));
 	}
 
 	public void addItem(Item item, User updUser) throws SQLException {
@@ -55,7 +60,8 @@ public class ItemLocalStorage extends LocalStorage {
                 POSContract.Item.COLUMN_NAME_ITEM_ID,
                 POSContract.Item.COLUMN_NAME_DESCRIPTION,
                 POSContract.Item.COLUMN_NAME_PRICE,
-                POSContract.Item.COLUMN_NAME_SYNC
+                POSContract.Item.COLUMN_NAME_SYNC,
+                POSContract.Item.COLUMN_NAME_USER_ID
         };
         String sortOrder = POSContract.Item.COLUMN_NAME_ITEM_ID;
         String selection = POSContract.Item.COLUMN_NAME_ITEM_ID + " = ?";
@@ -64,7 +70,8 @@ public class ItemLocalStorage extends LocalStorage {
         if (c.moveToFirst()) {
 	        	Item item = new Item(c.getString(0),
 	        						 c.getString(1),
-	        						 c.getString(2));
+	        						 c.getString(2),
+	        						 c.getInt(4));
 	        	item.setSyncStatus(c.getInt(3));
 	        	ret = item;
         } else {
@@ -81,7 +88,8 @@ public class ItemLocalStorage extends LocalStorage {
                 POSContract.Item.COLUMN_NAME_ITEM_ID,
                 POSContract.Item.COLUMN_NAME_DESCRIPTION,
                 POSContract.Item.COLUMN_NAME_PRICE,
-                POSContract.Item.COLUMN_NAME_SYNC
+                POSContract.Item.COLUMN_NAME_SYNC,
+                POSContract.Item.COLUMN_NAME_USER_ID
         };
         String sortOrder = POSContract.Item.COLUMN_NAME_ITEM_ID;
         String selection = null;
@@ -91,7 +99,8 @@ public class ItemLocalStorage extends LocalStorage {
 	        do {
 	        	Item item = new Item(c.getString(0),
 	        						 c.getString(1),
-	        						 c.getString(2));
+	        						 c.getString(2),
+	        						 c.getInt(4));
 	        	item.setSyncStatus(c.getInt(3));
 	        	ret.add(item);
 	        } while (c.moveToNext());

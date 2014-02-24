@@ -1,8 +1,8 @@
 package edu.txstate.pos.storage;
 
 import java.util.List;
-
-import android.content.Context;
+import android.database.SQLException;
+import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 import edu.txstate.pos.model.Cart;
 import edu.txstate.pos.model.Item;
@@ -18,19 +18,21 @@ import edu.txstate.pos.model.User;
  * 
  * @see edu.txstate.pos.POSActivity
  * 
- * @author Geoff Marinski
  *
  */
 public class Storage {
+	
+	private static final String LOG_TAG = "STORAGE";
 
 	private Ping hb = null;
 	
 	private UserRemoteStorage userRemote = null;
 	private ItemRemoteStorage itemRemote = null;
 	
+	private ItemLocalStorage itemLocal = null;
+	
 	private String mDeviceID = null;
-	private User mLoggedInUser = null;
-	private Context mContext = null;
+	private User updUser = null;
 	
 	
 	/**
@@ -40,18 +42,25 @@ public class Storage {
 	 * @param deviceID		Unique device ID used for synchronization
 	 * @param loggedInUser	The currently logged in user (for logging)
 	 */
-	public Storage(Context context, String deviceID, User loggedInUser) {
-		mContext = context;
+	public Storage(SQLiteDatabase db, String deviceID, User loggedInUser) {
 		mDeviceID = deviceID;
-		mLoggedInUser = loggedInUser;
+		updUser = loggedInUser;
 		
+		// Remote storage objects
 		hb = new Ping(mDeviceID);
 		userRemote = new UserRemoteStorage(mDeviceID);
 		itemRemote = new ItemRemoteStorage(mDeviceID);
+		
+		// Local storage obejcts
+		itemLocal = new ItemLocalStorage(db);
+	}
+	
+	public void setLoggedInUser(User loggedInUser) {
+		updUser = loggedInUser;
 	}
 	
 	/* ++++++++++++++++++++++++++++++++++++++++++++++++
-	 * HEARTBEAT
+	 * PING
 	 * ++++++++++++++++++++++++++++++++++++++++++++++++
 	 */
 	
@@ -67,7 +76,7 @@ public class Storage {
 	/**
 	 * Used to check a user's login and password.  If the login/password is valid,
 	 * then a User object is returned with all of the fields populated.  Any data
-	 * passed into the User object is overwritted based on what comes back from the
+	 * passed into the User object is overwritten based on what comes back from the
 	 * remote storage.
 	 * 
 	 * @param user	User object with login and password populated.
@@ -126,6 +135,11 @@ public class Storage {
 	public List<User> getUsers() throws ConnectionError {
 		return userRemote.getUsers();
 	}
+
+	/* ++++++++++++++++++++++++++++++++++++++++++++++++
+	 * CART
+	 * ++++++++++++++++++++++++++++++++++++++++++++++++
+	 */
 	
 	public void sellCart(Cart cart) throws InvalidCartException {
 		if (!cart.isValid()) throw new InvalidCartException();
@@ -136,14 +150,59 @@ public class Storage {
 	 * ++++++++++++++++++++++++++++++++++++++++++++++++
 	 */
 
-	public void syncItems() throws ConnectionError {
-		
+	public void addItem(Item item) throws StorageException {
+		try {
+			itemLocal.addItem(item, updUser);
+		} catch (SQLException e) {
+			Log.e(LOG_TAG,e.getMessage());
+			throw new StorageException(e.getMessage());
+		}
+	}
+
+	public void deleteItem(String itemID) throws StorageException {
+		try {
+			itemLocal.delete(itemID);
+		} catch (SQLException e) {
+			Log.e(LOG_TAG,e.getMessage());
+			throw new StorageException(e.getMessage());
+		}
 	}
 	
-	public Item getItem(String itemID) throws ConnectionError, NoItemFoundException {
-		return itemRemote.getItem(itemID);
+	public List<Item> getAllItems() throws StorageException {
+		List<Item> ret = null;
+		try {
+			ret = itemLocal.getItems();
+		} catch (SQLException e) {
+			Log.e(LOG_TAG,e.getMessage());
+			throw new StorageException(e.getMessage());
+		}
+		return ret;
 	}
 	
+	public Item getItem(String itemID) throws StorageException, NoItemFoundException {
+		Item ret = null;
+		try {
+			ret = itemLocal.getItem(itemID);
+		} catch (SQLException e) {
+			Log.e(LOG_TAG,e.getMessage());
+			throw new StorageException(e.getMessage());
+		}
+		return ret;
+	}
+	
+	public void updateItem(Item item) throws StorageException {
+		try {
+			itemLocal.update(item, updUser);
+		} catch (SQLException e) {
+			Log.e(LOG_TAG,e.getMessage());
+			throw new StorageException(e.getMessage());
+		}
+	}
+	
+	/* ++++++++++++++++++++++++++++++++++++++++++++++++
+	 * Resend Receipt
+	 * ++++++++++++++++++++++++++++++++++++++++++++++++
+	 */
 	public void resendReceipt(String emailAddress) throws ConnectionError, NoUserFoundException, InvalidCartException {
 		
 	}
