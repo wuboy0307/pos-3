@@ -1,11 +1,13 @@
 package tesst.edu.txstate.pos.storage.local;
 
+import edu.txstate.db.POS_DBHelper;
 import edu.txstate.pos.POSApplication;
 import edu.txstate.pos.model.Cart;
 import edu.txstate.pos.model.User;
 import edu.txstate.pos.storage.CartLocalStorage;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.test.AndroidTestCase;
 import android.util.Log;
 
@@ -17,7 +19,7 @@ public class CartTest extends AndroidTestCase {
 	
 	private CartLocalStorage local = null;
 	private User updUser = null;
-	/*
+	
 	public void testCreate() {
 		try {
 			Cart cart = local.createCart(updUser);
@@ -28,12 +30,10 @@ public class CartTest extends AndroidTestCase {
 			assertTrue(false);
 		}
 	}
-*/
+
 	public void setUp() {
-		if (CartTest.db == null) {
-			POSApplication pos = (POSApplication) getContext().getApplicationContext();
-			db = pos.getDb();
-		}
+	    SQLiteOpenHelper dbHelper = new POS_DBHelper(getContext());
+	    SQLiteDatabase db = dbHelper.getWritableDatabase();
 		local = new CartLocalStorage(db);
 		updUser = new User("JUNIT","JUNIT");
 		updUser.setId(-1);	

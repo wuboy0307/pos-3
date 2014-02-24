@@ -12,7 +12,7 @@ public class CartLocalStorage extends LocalStorage {
 	public CartLocalStorage(SQLiteDatabase db) {
 		super(db);
 	}
-	/*
+	
 	public Cart createCart(User updUser) throws SQLException {
 		ContentValues values = new ContentValues();
 		values.put(POSContract.Cart.COLUMN_NAME_USER_ID, updUser.getId());
@@ -22,5 +22,5 @@ public class CartLocalStorage extends LocalStorage {
 		
 		Cart cart = new Cart(updUser,id);
 		return cart;
-	}*/
+	}
 }

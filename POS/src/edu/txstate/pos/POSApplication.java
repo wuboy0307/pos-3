@@ -1,13 +1,16 @@
 package edu.txstate.pos;
 
+import java.io.File;
 import java.util.UUID;
 
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.telephony.TelephonyManager;
 import android.util.Log;
+import edu.txstate.db.POS_DBHelper;
 import edu.txstate.pos.model.User;
 import edu.txstate.pos.service.POSSyncService;
 import edu.txstate.pos.storage.DBHelper;
@@ -35,6 +38,8 @@ public class POSApplication extends Application {
 	private static final int deviceUserID = -1;
 	private boolean connected = true;
 	private SQLiteDatabase mDb = null;
+
+	private boolean killDBEveryTime = false;
 	
 	/**
 	 * Status of network connectivity
@@ -146,8 +151,16 @@ public class POSApplication extends Application {
 	    mUser.setId(deviceUserID);
 	    mUser.setLogin("DEVICE");
 	    Log.i(LOG_TAG,"Set user to DEVICE");
+
+	    File dbFile = new File("/data/data/edu.txstate.pos/databases/POSDB");
+	    if (dbFile.exists() && killDBEveryTime) {
+	    	boolean deleted = SQLiteDatabase.deleteDatabase(dbFile);
+	    	Log.i(LOG_TAG, "Deleted POSDB: " + deleted);
+	    } else {
+	    	Log.i(LOG_TAG, "POSDB not found");
+	    }
 	    
-	    DBHelper dbHelper = new DBHelper(getApplicationContext());
+	    SQLiteOpenHelper dbHelper = new POS_DBHelper(getApplicationContext());
 	    mDb = dbHelper.getWritableDatabase();
 	    
 	    Log.i(LOG_TAG, "DB set? " + (mDb != null));
@@ -155,9 +168,9 @@ public class POSApplication extends Application {
 	    mStorage = new Storage(mDb,mDeviceID,mUser);
 	    
 	    // Fire up the background sync service
-	    Intent syncService = new Intent(getBaseContext(),POSSyncService.class);
-	    getBaseContext().startService(syncService);
-	    Log.i(LOG_TAG,"Started sync");
+	    //Intent syncService = new Intent(getBaseContext(),POSSyncService.class);
+	    //getBaseContext().startService(syncService);
+	    //Log.i(LOG_TAG,"Started sync");
 	    
 	}
 }

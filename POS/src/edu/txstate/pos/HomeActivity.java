@@ -2,9 +2,12 @@ package edu.txstate.pos;
 
 import edu.txstate.db.POSContract;
 import edu.txstate.db.POS_DBHelper;
+import edu.txstate.pos.model.Item;
 import edu.txstate.pos.model.User;
 import edu.txstate.pos.storage.ConnectionError;
+import edu.txstate.pos.storage.DBHelper;
 import edu.txstate.pos.storage.Storage;
+import edu.txstate.pos.storage.StorageException;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
@@ -187,20 +190,18 @@ public class HomeActivity extends POSActivity {
 				return 0;
 			}*/
 			
-			
-			POS_DBHelper dbHelper = new POS_DBHelper(context[0]);
-	        SQLiteDatabase db = dbHelper.getWritableDatabase();
-	        //onProgressUpdate("GET DATABASE");
-	        db.execSQL(POSContract.Item.SQL_DELETE);
-	        //onProgressUpdate("DELETE");
-	        db.execSQL(POSContract.Item.SQL_CREATE);
-	        //onProgressUpdate("CREATE");
-	        
-	        Storage storage = getStorage();
+		    Storage storage = getStorage();
+
 	        try {
-	        	throw new ConnectionError("FAKE");
+	        	Item item = new Item("001AA",
+	    				"Junit Test Item 001AAA",
+	    				"11.99");
+	        	storage.addItem(item);
+	        	Log.e("HOME_ACTIVITY", "ADDED ITEM");
 				//storage.syncItems();
 			} catch (ConnectionError e) {
+				Log.e("HOME_ACTIVITY",e.getMessage());
+			} catch (StorageException e) {
 				Log.e("HOME_ACTIVITY",e.getMessage());
 			}
 			Log.e("HOME_ACTIVITY","DO IN BACKGROUD DONE");

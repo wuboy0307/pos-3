@@ -17,12 +17,16 @@ public class POS_DBHelper extends SQLiteOpenHelper {
 	public void onCreate(SQLiteDatabase db) {
 		Log.v(LOG_TAG, "CREATING DATABASE!!!");
 		Log.v(LOG_TAG, "CREATE TABLE : ITEM");
+		Log.d(LOG_TAG, POSContract.Item.SQL_CREATE);
 		db.execSQL(POSContract.Item.SQL_CREATE);
-		/*
 		Log.v(LOG_TAG, "CREATE TABLE : CART");
 		db.execSQL(POSContract.Cart.SQL_CREATE);
 		Log.v(LOG_TAG, "CREATE TABLE : CART_ITEM");
-		db.execSQL(POSContract.CartItem.SQL_CREATE); */
+		db.execSQL(POSContract.CartItem.SQL_CREATE); 
+		
+		//Log.v(LOG_TAG,POSContract.Foo.SQL_CREATE);
+		//db.execSQL(POSContract.Foo.SQL_CREATE);
+		
 	}
 
 	@Override
@@ -32,12 +36,15 @@ public class POS_DBHelper extends SQLiteOpenHelper {
 		Log.v(LOG_TAG, "UPGRADING DATABASE!!!");
 		Log.v(LOG_TAG, "DELETE TABLE : ITEM");
 		db.execSQL(POSContract.Item.SQL_DELETE);
-		/*
+		
 		Log.v(LOG_TAG, "DELETE TABLE : CART");
 		db.execSQL(POSContract.Cart.SQL_DELETE);
 		Log.v(LOG_TAG, "DELETE TABLE : CART_ITEM");
 		db.execSQL(POSContract.CartItem.SQL_DELETE);
-		*/
+		
+		//Log.v(LOG_TAG, "DELETE TABLE : FOO");
+		//db.execSQL(POSContract.Foo.SQL_DELETE);
+		
         onCreate(db);
 	}
 

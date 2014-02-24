@@ -4,9 +4,11 @@ import java.util.List;
 
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.AndroidTestCase;
 import android.util.Log;
+import edu.txstate.db.POS_DBHelper;
 import edu.txstate.pos.HomeActivity;
 import edu.txstate.pos.POSApplication;
 import edu.txstate.pos.model.Item;
@@ -16,16 +18,13 @@ import edu.txstate.pos.storage.ItemLocalStorage;
 import edu.txstate.pos.storage.NoItemFoundException;
 import edu.txstate.pos.storage.SyncStatus;
 
-public class ItemTest extends ActivityInstrumentationTestCase2 {
+public class ItemTest extends AndroidTestCase {
 	
 	private static final String LOG_TAG = "JUNIT_TEST_ITEM";
 
 	private ItemLocalStorage local = null;
 	private User updUser = null;
-	
-	public ItemTest() {
-		super("edu.txstate.pos",HomeActivity.class);
-	}
+
 	
 	public void test_A_addItem() {
 		try {
@@ -46,7 +45,7 @@ public class ItemTest extends ActivityInstrumentationTestCase2 {
 		}
 	
 	}
-/*	
+
 	public void test_B_getItem() {
 		try {
 			Item item = local.getItem("001AA");
@@ -161,17 +160,13 @@ public class ItemTest extends ActivityInstrumentationTestCase2 {
 			assertTrue(false);
 		}
 	}
-*/	
+
 	public void setUp() {
 
 		Log.d(LOG_TAG, "Setting up DB object");
-		//POSApplication pos = (POSApplication) this.getInstrumentation().getContext().getApplicationContext();
-		//SQLiteDatabase db = pos.getDb();
-		
-		DBHelper dbHelper = new DBHelper(this.getInstrumentation().getContext());
-	    SQLiteDatabase db = dbHelper.getWritableDatabase();
 	    
-	    //db.
+	    SQLiteOpenHelper dbHelper = new POS_DBHelper(getContext());
+	    SQLiteDatabase db = dbHelper.getWritableDatabase();
 	    
 		Log.d(LOG_TAG, "NULL? " + (db == null));
 

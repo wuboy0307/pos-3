@@ -31,6 +31,9 @@ public class ItemLocalStorage extends LocalStorage {
 		values.put(POSContract.Item.COLUMN_NAME_SYNC, SyncStatus.PUSH);
 		
 		db.insertOrThrow(POSContract.Item.TABLE_NAME, null, values);
+		
+		//values.put(POSContract.Foo.COLUMN_NAME_CODE, "code1");
+		//db.insertOrThrow(POSContract.Foo.TABLE_NAME, null, values);
 	}
 	
 	public void delete(String itemID) throws SQLException {

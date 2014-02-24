@@ -10,26 +10,32 @@ public final class POSContract {
     
 	public POSContract() {}
 	
+	public static abstract class Foo implements BaseColumns {
+		public static final String TABLE_NAME = "foo";
+		public static final String COLUMN_NAME_CODE = "code";
+		public static final String SQL_CREATE = "create table foo(code text)";
+		public static final String SQL_DELETE = "drop table if exists foo";
+	}
+	
 	public static abstract class Item implements BaseColumns {
 		public static final String TABLE_NAME = "item";
 		public static final String COLUMN_NAME_ITEM_ID = "item_id";
 		public static final String COLUMN_NAME_DESCRIPTION = "description";
 		public static final String COLUMN_NAME_PRICE = "price";
-		public static final String COLUMN_NAME_USER_ID = "user_id";
+		public static final String COLUMN_NAME_USER_ID = "create_user_id";
 		public static final String COLUMN_NAME_SYNC = "sync";
 		
 		public static final String SQL_DELETE = "DROP TABLE IF EXISTS " + TABLE_NAME;
-		public static final String SQL_CREATE = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME +
+		public static final String SQL_CREATE = "CREATE TABLE " + TABLE_NAME +
 				" (" + COLUMN_NAME_ITEM_ID + " TEXT PRIMARY KEY," +
 				" " + COLUMN_NAME_DESCRIPTION + " TEXT," +
 				" " + COLUMN_NAME_PRICE + " TEXT," +
 				" " + COLUMN_NAME_USER_ID + " INTEGER," +
-				" " + COLUMN_NAME_SYNC + " INTEGER);";
+				" " + COLUMN_NAME_SYNC + " INTEGER)";
 	}
-	/*
+
 	public static abstract class Cart implements BaseColumns {
 		public static final String TABLE_NAME = "cart";
-		public static final String _ID = "cart_id";
 		public static final String COLUMN_NAME_USER_ID = "user_id";
 		public static final String COLUMN_NAME_CUSTOMER_ID = "customer_id";
 		public static final String COLUMN_NAME_CUSTOMER_NAME = "customer_name";
@@ -43,7 +49,7 @@ public final class POSContract {
 		public static final String COLUMN_NAME_SYNC = "sync";
 		
 		public static final String SQL_DELETE = "DROP TABLE IF EXISTS " + TABLE_NAME;
-		public static final String SQL_CREATE = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME +
+		public static final String SQL_CREATE = "CREATE TABLE " + TABLE_NAME +
 				" (" + _ID + " INTEGER NOT NULL, " + 
 				COLUMN_NAME_USER_ID + " INTEGER NOT NULL UNIQUE, " +
 				COLUMN_NAME_CUSTOMER_ID + " TEXT, " + 
@@ -67,11 +73,11 @@ public final class POSContract {
 		public static final String COLUMN_NAME_QUANTITY = "quantity";
 			
 		public static final String SQL_DELETE = "DROP TABLE IF EXISTS " + TABLE_NAME;
-		public static final String SQL_CREATE = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME +
+		public static final String SQL_CREATE = "CREATE TABLE " + TABLE_NAME +
 				" (" + COLUMN_NAME_CART_ID + " INTEGER NOT NULL, " + 
 				COLUMN_NAME_ITEM_ID + " TEXT NOT NULL, " + 
 				COLUMN_NAME_QUANTITY + " INTEGER, " + 
 				"PRIMARY KEY(" + COLUMN_NAME_CART_ID + "," + COLUMN_NAME_ITEM_ID + "))";		
-		}*/
+		}
 	
 }
