@@ -13,7 +13,6 @@ import android.util.Log;
 import edu.txstate.db.POS_DBHelper;
 import edu.txstate.pos.model.User;
 import edu.txstate.pos.service.POSSyncService;
-import edu.txstate.pos.storage.DBHelper;
 import edu.txstate.pos.storage.Storage;
 
 /**

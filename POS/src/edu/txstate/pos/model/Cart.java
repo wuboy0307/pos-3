@@ -18,6 +18,7 @@ public class Cart {
 		this.user = user;
 		payments = new ArrayList<Payment>();
 		items = new ArrayList<Item>();
+		this.id = id;
 	}
 	
 	public long getTax() {

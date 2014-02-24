@@ -23,4 +23,10 @@ public class CartLocalStorage extends LocalStorage {
 		Cart cart = new Cart(updUser,id);
 		return cart;
 	}
+	
+	public void deleteCart(User updUser) throws SQLException {
+		String selection = POSContract.Cart.COLUMN_NAME_USER_ID + " = ?";
+		String[] selectionArgs = { String.valueOf(updUser.getId()) };
+		db.delete(POSContract.Cart.TABLE_NAME, selection, selectionArgs);
+	}
 }

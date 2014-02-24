@@ -50,7 +50,7 @@ public final class POSContract {
 		
 		public static final String SQL_DELETE = "DROP TABLE IF EXISTS " + TABLE_NAME;
 		public static final String SQL_CREATE = "CREATE TABLE " + TABLE_NAME +
-				" (" + _ID + " INTEGER NOT NULL, " + 
+				" (" + _ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + 
 				COLUMN_NAME_USER_ID + " INTEGER NOT NULL UNIQUE, " +
 				COLUMN_NAME_CUSTOMER_ID + " TEXT, " + 
 				COLUMN_NAME_CUSTOMER_NAME + " TEXT, " + 
@@ -61,8 +61,8 @@ public final class POSContract {
 				COLUMN_NAME_PAYMENT_CARD + " TEXT, " +
 				COLUMN_NAME_PAYMENT_PIN + " TEXT, " +
 				COLUMN_NAME_SIGNATURE_FILE + " TEXT, " + 
-				COLUMN_NAME_SYNC + " INTEGER, " + 
-				"PRIMARY KEY(" + _ID + "))";
+				COLUMN_NAME_SYNC + " INTEGER " + 
+				")";
 				
 	}
 
