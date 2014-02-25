@@ -53,11 +53,14 @@ public class UserTest extends AndroidTestCase {
 		user.setAdmin(true);
 		
 		try {
-			storage.add(user);
+			user = storage.add(user);
+			assert((user.getId() > 0));
 		} catch (ConnectionError e) {
-			e.printStackTrace();
+			Log.e(LOG_TAG,e.getMessage());
+			assertTrue(false);
 		} catch (UserExistsException e) {
-			e.printStackTrace();
+			Log.e(LOG_TAG,e.getMessage());
+			assertTrue(false);
 		}		
 	}
 	
@@ -116,6 +119,7 @@ public class UserTest extends AndroidTestCase {
 			assertEquals(true,foundDeleteMe);
 			assertEquals(true,foundGeoff);
 		} catch (ConnectionError e) {
+			Log.e(LOG_TAG,e.getMessage());
 			assertTrue(false);
 		}
 
