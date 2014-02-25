@@ -10,6 +10,10 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.test.AndroidTestCase;
 import android.util.Log;
 
+/**
+ * Tests the local Cart storage.
+ *
+ */
 public class CartTest extends AndroidTestCase {
 	
 	public static final String LOG_TAG = "JUNIT_TEST_CART";

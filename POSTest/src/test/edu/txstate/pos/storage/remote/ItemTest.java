@@ -11,6 +11,15 @@ import edu.txstate.pos.storage.NoItemFoundException;
 import android.test.AndroidTestCase;
 import android.util.Log;
 
+/**
+ *	Tests remote management of Item data.  Uses the 
+ *  ItemRemoteStorage object directly.
+ *  
+ *  TEST DATA ASSUMED: Three test items are a part of the 
+ *  DDL for the remote database setup and are assumed in
+ *  testing getAll().
+ *
+ */
 public class ItemTest extends AndroidTestCase {
 
 	private static final String LOG_TAG = "JUNIT_TEST_ITEM";
@@ -20,6 +29,9 @@ public class ItemTest extends AndroidTestCase {
 	private ItemRemoteStorage remote = null;
 	private User updUser = null;
 
+	/**
+	 * Add an item
+	 */
 	public void test_A_addItem() {
 		// Delete the item if it exists
 		try {
@@ -43,6 +55,9 @@ public class ItemTest extends AndroidTestCase {
 		}
 	}
 	
+	/**
+	 * Add an existing item
+	 */
 	public void test_B_addItemAgain() {
 		Item item = new Item("001AA",
 							"Junit Test Item 001AAA",
@@ -59,6 +74,9 @@ public class ItemTest extends AndroidTestCase {
 		}
 	}
 
+	/**
+	 * Retrieve the item
+	 */
 	public void test_C_GetItem() {
 		try {
 			Item item = remote.getItem("001AA");
@@ -75,6 +93,9 @@ public class ItemTest extends AndroidTestCase {
 		}
 	}
 	
+	/**
+	 * Update an existing item.
+	 */
 	public void test_D_UpdateItem() {
 		Item item = new Item("001AA",
 						"Updated Description for JUNIT",
@@ -104,6 +125,9 @@ public class ItemTest extends AndroidTestCase {
 		}
 	}
 	
+	/**
+	 * Delete an item
+	 */
 	public void test_E_DeleteItem() {
 		try {
 			remote.deleteItem("001AA", updUser);
@@ -125,6 +149,10 @@ public class ItemTest extends AndroidTestCase {
 		}
 	}
 	
+	/**
+	 * Get all of the items and see if the items known to be
+	 * in the test data are in the list.
+	 */
 	public void test_X_All() {
 		try {
 			List<Item> items = remote.getAll();
@@ -150,38 +178,10 @@ public class ItemTest extends AndroidTestCase {
 			assertTrue(false);
 		}
 	}
-/*	
-	public void testSync() {
-		try {
-			
-			remote.sync();
-			
-			List<Item> items = remote.getAll();
-			boolean found1 = false;
-			boolean found2 = false;
-			boolean found3 = false;
-			
-			for (Item item : items) {
-				if ("001".equals(item.getId())) {
-					found1 = true;
-				} else if ("002".equals(item.getId())) {
-					found2 = true;
-				} else if ("003".equals(item.getId())) {
-					found3 = true;
-				}
-			}
-			
-			assertEquals(found1,true);
-			assertEquals(found2,true);
-			assertEquals(found3,true);
-		} catch (ConnectionError e) {
-			Log.d(LOG_TAG,e.getMessage());
-			assertTrue(false);
-		}
-	}
-	*/
-
 	
+	/**
+	 * Junit set...run before every test.
+	 */
 	public void setUp() {
 		remote = new ItemRemoteStorage(DEVICE_ID);
 		updUser = new User("JUNIT","JUNIT");

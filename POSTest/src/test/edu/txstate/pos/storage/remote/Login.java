@@ -8,12 +8,25 @@ import edu.txstate.pos.storage.ConnectionError;
 import edu.txstate.pos.storage.NoUserFoundException;
 import edu.txstate.pos.storage.UserRemoteStorage;
 
+/**
+ * Tests the login function
+ * 
+ * TEST DATA ASSUMED:  User geoff/5555 is in the 
+ * database.  This data is a part of the DDL for
+ * the remote database so should always be there.
+ *
+ */
 public class Login extends AndroidTestCase {
+	
+	private static String LOG_TAG = "JUNIT_REMOTE_LOGIN";
 	
 	private UserRemoteStorage remote = null;
 	
+	/**
+	 * User with a good login and password.
+	 */
 	public void testValid() {
-		Log.d("JUNIT_TEST", "testValid");
+		Log.d(LOG_TAG, "testValid");
 		User user = new User("geoff","5555");
 		
 		try {
@@ -22,7 +35,7 @@ public class Login extends AndroidTestCase {
 			assertEquals(true, user.isActive());
 			assertEquals(1, user.getId());
 		} catch (ConnectionError e) {
-			Log.e("JUNIT_TEST", e.getMessage());
+			Log.e(LOG_TAG, e.getMessage());
 			assertTrue(false);
 		} catch (NoUserFoundException e) {
 			assertTrue(false);
@@ -31,8 +44,11 @@ public class Login extends AndroidTestCase {
 		}
 	}
 	
+	/**
+	 * User with a good login and bad password
+	 */
 	public void testBadPassword() {
-		Log.d("JUNIT_TEST", "testBadPassword");
+		Log.d(LOG_TAG, "testBadPassword");
 		User user = new User("geoff","WRONG");
 		
 		try {
@@ -47,8 +63,11 @@ public class Login extends AndroidTestCase {
 		}
 	}
 
+	/**
+	 * User that doesn't exist
+	 */
 	public void testNoUser() {
-		Log.d("JUNIT_TEST", "testNoUser");
+		Log.d(LOG_TAG, "testNoUser");
 		User user = new User("WRONGUSER","5555");
 		
 		try {
@@ -63,6 +82,9 @@ public class Login extends AndroidTestCase {
 		}
 	}
 	
+	/**
+	 * Junit setup...run before each test.
+	 */
 	public void setUp() {
 		remote = new UserRemoteStorage("XX");
 	}

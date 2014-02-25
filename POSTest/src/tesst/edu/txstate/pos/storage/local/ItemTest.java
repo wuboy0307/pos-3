@@ -14,6 +14,10 @@ import edu.txstate.pos.storage.ItemLocalStorage;
 import edu.txstate.pos.storage.NoItemFoundException;
 import edu.txstate.pos.storage.SyncStatus;
 
+/**
+ * Tests the local Item storage.
+ *
+ */
 public class ItemTest extends AndroidTestCase {
 	
 	private static final String LOG_TAG = "JUNIT_TEST_ITEM";

@@ -11,10 +11,26 @@ import edu.txstate.pos.storage.NoUserFoundException;
 import edu.txstate.pos.storage.UserExistsException;
 import edu.txstate.pos.storage.UserRemoteStorage;
 
+/**
+ * Tests remote user management functions.  This instantiates
+ * the UserRemoteStorage object directly.
+ * 
+ * Tests are named test_X_blah where X is a letter that
+ * is used to run the tests in order.
+ * 
+ * @see setUp()
+ * 
+ *
+ */
 public class UserTest extends AndroidTestCase {
 
+	private static final String LOG_TAG = "JUNIT_REMOTE_USER";
+	
 	private UserRemoteStorage storage = null;
 	
+	/**
+	 * Attempt to create a user that already exists.
+	 */
 	public void test_A_Existing() {
 		User user = new User("geoff","5555");
 		
@@ -22,13 +38,16 @@ public class UserTest extends AndroidTestCase {
 			storage.addUser(user);
 			assertTrue(false);
 		} catch (ConnectionError e) {
-			Log.e("JUNIT_TEST",e.getMessage());
+			Log.e(LOG_TAG,e.getMessage());
 			assertTrue(false);
 		} catch (UserExistsException e) {
 			assertTrue(true);
 		}
 	}
 	
+	/**
+	 * Add a new user.
+	 */
 	public void test_B_addUser() {
 		User user = new User("deleteme","XXXX");
 		user.setAdmin(true);
@@ -42,6 +61,9 @@ public class UserTest extends AndroidTestCase {
 		}		
 	}
 	
+	/**
+	 * Update the user that was just added
+	 */
 	public void test_C_updateUser() {
 		User user = new User("deleteme","XXXX");
 		try {
@@ -64,19 +86,23 @@ public class UserTest extends AndroidTestCase {
 			assertEquals(false,user.isActive());
 			
 		} catch (ConnectionError e) {
-			Log.e("JUNIT_TEST",e.getMessage());
+			Log.e(LOG_TAG,e.getMessage());
 			assertTrue(false);
 		} catch (NoUserFoundException e) {
-			Log.e("JUNIT_TEST",e.getMessage());
+			Log.e(LOG_TAG,e.getMessage());
 			assertTrue(false);
 		} catch (BadPasswordException e) {
 			e.printStackTrace();
-			Log.e("JUNIT_TEST",e.getMessage());
+			Log.e(LOG_TAG,e.getMessage());
 			assertTrue(false);
 		}
 		
 	}
 	
+	/**
+	 * Get all the users and see if the two known to be there
+	 * are in the list.
+	 */
 	public void test_D_All() {
 		List<User> users;
 		try {
@@ -95,28 +121,37 @@ public class UserTest extends AndroidTestCase {
 
 	}
 	
+	/**
+	 * Delete a user
+	 */
 	public void test_E_Delete() {
 		try {
 			storage.deleteUser("deleteme");
 		} catch (ConnectionError e) {
-			Log.e("JUNIT_TEST",e.getMessage());
+			Log.e(LOG_TAG,e.getMessage());
 			assertTrue(false);
 		} catch (NoUserFoundException e) {
-			Log.e("JUNIT_TEST",e.getMessage());
+			Log.e(LOG_TAG,e.getMessage());
 			assertTrue(false);
 		}
 	}
 	
+	/**
+	 * Junit setup...run before each test
+	 */
 	public void setUp() {
+		// Remote storage objects just need a device ID
+		// for the constructor.  Just use a fake one.
 		storage = new UserRemoteStorage("XX");
 		
+		// Existing user
 		User user = new User("geoff","5555");
 		
 		try {
 			storage.addUser(user);
-
+			
 		} catch (ConnectionError e) {
-			Log.e("JUNIT_TEST",e.getMessage());
+			Log.e(LOG_TAG,e.getMessage());
 		} catch (UserExistsException e) {
 			// This is OK, just making sure the user
 			// is there
