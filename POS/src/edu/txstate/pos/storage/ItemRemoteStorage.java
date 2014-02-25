@@ -12,18 +12,38 @@ import org.json.JSONObject;
 import edu.txstate.pos.model.Item;
 import edu.txstate.pos.model.User;
 
+/**
+ * Remote storage management of Item
+ * 
+ * See item.pl for server side.
+ * 
+ */
 public class ItemRemoteStorage extends RemoteStorage {
 
-	
+	/**
+	 * Constructor.
+	 * 
+	 * @param android The device ID
+	 */
 	public ItemRemoteStorage(String android) {
 		super(android);
 	}
 	
+	/**
+	 * Use item.pl POS service
+	 */
 	@Override
 	public String getScriptName() {
 		return "item";
 	}
 
+	/**
+	 * Returns the list of Items that are new since the last time it was
+	 * asked for.
+	 * 
+	 * @return
+	 * @throws ConnectionError
+	 */
 	public List<Item> sync() throws ConnectionError {
 		List<Item> ret = new ArrayList<Item>();
 		try {
@@ -54,7 +74,15 @@ public class ItemRemoteStorage extends RemoteStorage {
 		return ret;
 	}
 	
-	public Item getItem(String id) throws ConnectionError, NoItemFoundException {
+	/**
+	 * Get the Item for the given ID
+	 * 
+	 * @param id	Item ID
+	 * @return	The Item
+	 * @throws ConnectionError
+	 * @throws NoItemFoundException
+	 */
+	public Item get(String id) throws ConnectionError, NoItemFoundException {
 		Item item = null;
 		Map<String, String> params = new HashMap<String, String>();
 		params.put(ITEM_ID, id);
@@ -78,7 +106,15 @@ public class ItemRemoteStorage extends RemoteStorage {
 		return item;
 	}
 	
-	public void addItem(Item item, User updUser) throws ConnectionError, ItemExistsException {
+	/**
+	 * Add an Item.
+	 * 
+	 * @param item	The Item to add
+	 * @param updUser	The user making this addition
+	 * @throws ConnectionError
+	 * @throws ItemExistsException
+	 */
+	public void add(Item item, User updUser) throws ConnectionError, ItemExistsException {
 		Map<String, String> params = new HashMap<String, String>();
 		params.put(ITEM_ID, item.getId());
 		params.put(DESCRIPTION, item.getDescription());
@@ -100,7 +136,16 @@ public class ItemRemoteStorage extends RemoteStorage {
 		}
 	}
 	
-	public void updateItem(Item item, User updUser) throws ConnectionError, ItemExistsException {
+	/**
+	 * Update the Item.  Uses the Item ID to identify the Item to update.  If the
+	 * Item doesn't exist, it is inserted.
+	 * 
+	 * @param item	The Item to update
+	 * @param updUser	The user making this update
+	 * @throws ConnectionError
+	 * @throws ItemExistsException This is actually not thrown w/ the current implementation
+	 */
+	public void update(Item item, User updUser) throws ConnectionError, ItemExistsException {
 		Map<String, String> params = new HashMap<String, String>();
 		params.put(ITEM_ID, item.getId());
 		params.put(DESCRIPTION, item.getDescription());
@@ -120,7 +165,14 @@ public class ItemRemoteStorage extends RemoteStorage {
 		}
 	}
 	
-	public void deleteItem(String itemID, User updUser) throws ConnectionError {
+	/**
+	 * Delete an Item for the given ID.
+	 * 
+	 * @param itemID	The item ID to delete
+	 * @param updUser	The user making this update
+	 * @throws ConnectionError
+	 */
+	public void delete(String itemID, User updUser) throws ConnectionError {
 		Map<String, String> params = new HashMap<String, String>();
 		params.put(ITEM_ID, itemID);
 		params.put(UPDATE_USER, String.valueOf(updUser.getId()));
@@ -137,6 +189,12 @@ public class ItemRemoteStorage extends RemoteStorage {
 		}
 	}
 	
+	/**
+	 * Get all of the Item objects
+	 * 
+	 * @return A List of all of the items.
+	 * @throws ConnectionError
+	 */
 	public List<Item> getAll() throws ConnectionError {
 		List<Item> ret = new ArrayList<Item>();
 		try {

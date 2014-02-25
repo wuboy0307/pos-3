@@ -35,7 +35,7 @@ public class UserTest extends AndroidTestCase {
 		User user = new User("geoff","5555");
 		
 		try {			
-			storage.addUser(user);
+			storage.add(user);
 			assertTrue(false);
 		} catch (ConnectionError e) {
 			Log.e(LOG_TAG,e.getMessage());
@@ -53,7 +53,7 @@ public class UserTest extends AndroidTestCase {
 		user.setAdmin(true);
 		
 		try {
-			storage.addUser(user);
+			storage.add(user);
 		} catch (ConnectionError e) {
 			e.printStackTrace();
 		} catch (UserExistsException e) {
@@ -77,7 +77,7 @@ public class UserTest extends AndroidTestCase {
 			user.setAdmin(false);
 			//user.setLogin("deleteme");
 			user.setPIN("YYYY");
-			storage.updateUser(user);
+			storage.update(user);
 			
 			user = storage.login(user);
 			assertEquals(false,user.isAdmin());
@@ -106,7 +106,7 @@ public class UserTest extends AndroidTestCase {
 	public void test_D_All() {
 		List<User> users;
 		try {
-			users = storage.getUsers();
+			users = storage.getAll();
 			boolean foundDeleteMe = false;
 			boolean foundGeoff = false;
 			for (User user : users) {
@@ -126,7 +126,7 @@ public class UserTest extends AndroidTestCase {
 	 */
 	public void test_E_Delete() {
 		try {
-			storage.deleteUser("deleteme");
+			storage.delete("deleteme");
 		} catch (ConnectionError e) {
 			Log.e(LOG_TAG,e.getMessage());
 			assertTrue(false);
@@ -148,7 +148,7 @@ public class UserTest extends AndroidTestCase {
 		User user = new User("geoff","5555");
 		
 		try {
-			storage.addUser(user);
+			storage.add(user);
 			
 		} catch (ConnectionError e) {
 			Log.e(LOG_TAG,e.getMessage());

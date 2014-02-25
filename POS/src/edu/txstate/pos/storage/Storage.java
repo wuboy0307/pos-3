@@ -24,15 +24,18 @@ public class Storage {
 	
 	private static final String LOG_TAG = "STORAGE";
 
+	// Remote storage
 	private Ping hb = null;
-	
 	private UserRemoteStorage userRemote = null;
-	private ItemRemoteStorage itemRemote = null;
+	//private ItemRemoteStorage itemRemote = null;
 	
+	// Local storage
 	private ItemLocalStorage itemLocal = null;
 	private SettingsLocalStorage settingLocal = null;
 	
+	// Device ID of this device
 	private String mDeviceID = null;
+	// Logged in user
 	private User updUser = null;
 	
 	
@@ -50,13 +53,18 @@ public class Storage {
 		// Remote storage objects
 		hb = new Ping(mDeviceID);
 		userRemote = new UserRemoteStorage(mDeviceID);
-		itemRemote = new ItemRemoteStorage(mDeviceID);
+		//itemRemote = new ItemRemoteStorage(mDeviceID);
 		
 		// Local storage obejcts
 		itemLocal = new ItemLocalStorage(db);
 		settingLocal = new SettingsLocalStorage(db);
 	}
 	
+	/**
+	 * Used when the logged in user changes.
+	 * 
+	 * @param loggedInUser
+	 */
 	public void setLoggedInUser(User loggedInUser) {
 		updUser = loggedInUser;
 	}
@@ -66,6 +74,11 @@ public class Storage {
 	 * ++++++++++++++++++++++++++++++++++++++++++++++++
 	 */
 	
+	/**
+	 * Simple ping of the POS server.
+	 * 
+	 * @return True if the POS services are available.
+	 */
 	public boolean ping() {
 		return hb.ping();
 	}
@@ -92,24 +105,26 @@ public class Storage {
 	}
 	
 	/**
+	 * Adds a User to the system if the login doesn't already exist.
 	 * 
-	 * @param user
-	 * @return
+	 * @param user The User to add
+	 * @return The same User object with the User ID populated
 	 * @throws ConnectionError		A network, protocol, server side, or API error
 	 * @throws UserExistsException
 	 */
 	public User addUser(User user) throws ConnectionError, UserExistsException {
-		return userRemote.addUser(user);
+		return userRemote.add(user);
 	}
 	
 	/**
+	 * Deletes the user associated with the given login.
 	 * 
-	 * @param login
+	 * @param login The login to delete.
 	 * @throws ConnectionError		A network, protocol, server side or API error
 	 * @throws NoUserFoundException
 	 */
 	public void deleteUser(String login) throws ConnectionError, NoUserFoundException {
-		userRemote.deleteUser(login);
+		userRemote.delete(login);
 	}
 	
 	/**
@@ -125,7 +140,7 @@ public class Storage {
 	 * @throws NoUserFoundException The user record wasn't found.
 	 */
 	public void updateUser(User user) throws ConnectionError, NoUserFoundException {
-		userRemote.updateUser(user);
+		userRemote.update(user);
 	}
 	
 	/**
@@ -135,7 +150,7 @@ public class Storage {
 	 * @throws ConnectionError		A network, protocol, or API error
 	 */
 	public List<User> getUsers() throws ConnectionError {
-		return userRemote.getUsers();
+		return userRemote.getAll();
 	}
 
 	/* ++++++++++++++++++++++++++++++++++++++++++++++++
@@ -151,7 +166,13 @@ public class Storage {
 	 * ITEM
 	 * ++++++++++++++++++++++++++++++++++++++++++++++++
 	 */
-
+	
+	/**
+	 * Adds an Item to the inventory. 
+	 * 
+	 * @param item  Item to add
+	 * @throws StorageException
+	 */
 	public void addItem(Item item) throws StorageException {
 		try {
 			itemLocal.addItem(item, updUser);
@@ -161,6 +182,13 @@ public class Storage {
 		}
 	}
 
+	/**
+	 * Delete the Item from the inventory for the given
+	 * item ID.
+	 * 
+	 * @param itemID  The item ID to delete
+	 * @throws StorageException
+	 */
 	public void deleteItem(String itemID) throws StorageException {
 		try {
 			itemLocal.delete(itemID);
@@ -170,6 +198,12 @@ public class Storage {
 		}
 	}
 	
+	/**
+	 * Get all of the items in the inventory.
+	 * 
+	 * @return
+	 * @throws StorageException
+	 */
 	public List<Item> getAllItems() throws StorageException {
 		List<Item> ret = null;
 		try {
@@ -181,6 +215,14 @@ public class Storage {
 		return ret;
 	}
 	
+	/**
+	 * Get a specific item in the inventory by item ID
+	 * 
+	 * @param itemID  Item ID to get
+	 * @return
+	 * @throws StorageException
+	 * @throws NoItemFoundException
+	 */
 	public Item getItem(String itemID) throws StorageException, NoItemFoundException {
 		Item ret = null;
 		try {
@@ -192,6 +234,13 @@ public class Storage {
 		return ret;
 	}
 	
+	/**
+	 * Update item in the inventory.  Updates using the 
+	 * Item ID.
+	 * 
+	 * @param item
+	 * @throws StorageException
+	 */
 	public void updateItem(Item item) throws StorageException {
 		try {
 			itemLocal.update(item, updUser);
@@ -206,6 +255,14 @@ public class Storage {
 	 * ++++++++++++++++++++++++++++++++++++++++++++++++
 	 */
 	
+	/**
+	 * Add the value for the given key to the local
+	 * settings.
+	 * 
+	 * @param key
+	 * @param value
+	 * @throws StorageException
+	 */
 	public void addSetting(String key, String value) throws StorageException {
 		try {
 			settingLocal.add(key, value);
@@ -215,6 +272,13 @@ public class Storage {
 		}
 	}
 	
+	/**
+	 * Update the local setting value for the given key.
+	 * 
+	 * @param key	Key to update
+	 * @param value
+	 * @throws StorageException
+	 */
 	public void updateSetting(String key, String value) throws StorageException {
 		try {
 			settingLocal.update(key, value);
@@ -224,6 +288,15 @@ public class Storage {
 		}
 	}
 	
+	/**
+	 * Get local setting for the given key.
+	 * 
+	 * @param key The key of the setting
+	 * @return
+	 * @throws SQLException
+	 * @throws StorageException
+	 * @throws NoItemFoundException
+	 */
 	public String getSetting(String key) throws SQLException, StorageException, NoItemFoundException {
 		try {
 			return settingLocal.get(key);
@@ -236,6 +309,15 @@ public class Storage {
 	/* ++++++++++++++++++++++++++++++++++++++++++++++++
 	 * Resend Receipt
 	 * ++++++++++++++++++++++++++++++++++++++++++++++++
+	 */
+	
+	/**
+	 * Resends the receipt of the last cart for this customer.
+	 * 
+	 * @param emailAddress  The email address of the customer.
+	 * @throws ConnectionError
+	 * @throws NoUserFoundException
+	 * @throws InvalidCartException
 	 */
 	public void resendReceipt(String emailAddress) throws ConnectionError, NoUserFoundException, InvalidCartException {
 		

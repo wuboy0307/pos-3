@@ -12,16 +12,32 @@ import edu.txstate.db.POSContract;
 import edu.txstate.pos.model.Item;
 import edu.txstate.pos.model.User;
 
+/**
+ * Management of local Item objects.
+ * 
+ */
 public class ItemLocalStorage extends LocalStorage {
 
 	private static final String LOG_TAG = "LOCAL_STORAGE_ITEM";
 	
+	/**
+	 * Constructor.
+	 * 
+	 * @param db
+	 */
 	public ItemLocalStorage(SQLiteDatabase db) {
 		super(db);
 		Log.d(LOG_TAG, ("Local null: " + (db == null)));
 		Log.d(LOG_TAG, ("parent null: " + (super.db == null)));
 	}
-
+	
+	/**
+	 * Add an Item to the inventory.  Sets the sync flag to push.
+	 * 
+	 * @param item
+	 * @param updUser
+	 * @throws SQLException
+	 */
 	public void addItem(Item item, User updUser) throws SQLException {
 		ContentValues values = new ContentValues();
 		values.put(POSContract.Item.COLUMN_NAME_ITEM_ID, item.getId());
@@ -36,12 +52,26 @@ public class ItemLocalStorage extends LocalStorage {
 		//db.insertOrThrow(POSContract.Foo.TABLE_NAME, null, values);
 	}
 	
+	/**
+	 * Delete the item from the local inventory.
+	 * 
+	 * @param itemID  The item to delete.
+	 * @throws SQLException
+	 */
 	public void delete(String itemID) throws SQLException {
 		String selection = POSContract.Item.COLUMN_NAME_ITEM_ID + " = ?";
 		String[] selectionArgs = { String.valueOf(itemID) };
 		db.delete(POSContract.Item.TABLE_NAME, selection, selectionArgs);
 	}
 	
+	/**
+	 * Update the item in the local inventory.  Uses the Item ID
+	 * to update the data.
+	 * 
+	 * @param item    The item to update
+	 * @param updUser The user making the update.
+	 * @throws SQLException
+	 */
 	public void update(Item item, User updUser) throws SQLException {
 		ContentValues values = new ContentValues();
 		values.put(POSContract.Item.COLUMN_NAME_ITEM_ID, item.getId());
@@ -56,6 +86,14 @@ public class ItemLocalStorage extends LocalStorage {
 		db.update(POSContract.Item.TABLE_NAME, values, selection, selectionArgs);
 	}
 	
+	/**
+	 * Get an Item in the local inventory by item ID.
+	 * 
+	 * @param itemID  ID of item to get
+	 * @return
+	 * @throws SQLException
+	 * @throws NoItemFoundException
+	 */
 	public Item getItem(String itemID) throws SQLException, NoItemFoundException {
 		Item ret = null;
 		
@@ -84,6 +122,12 @@ public class ItemLocalStorage extends LocalStorage {
 		return ret;
 	}
 	
+	/**
+	 * Get all of the items in the local inventory.
+	 * 
+	 * @return
+	 * @throws SQLException
+	 */
 	public List<Item> getItems() throws SQLException {
         List<Item> ret = new ArrayList<Item>();
         

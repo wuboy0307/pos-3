@@ -2,6 +2,10 @@ package edu.txstate.db;
 
 import android.provider.BaseColumns;
 
+/**
+ * POS database schema
+ * 
+ */
 public final class POSContract {
     
 	// If you change the database schema, you must increment the database version.
@@ -17,6 +21,9 @@ public final class POSContract {
 		public static final String SQL_DELETE = "drop table if exists foo";
 	}
 	
+	/**
+	 * Item table
+	 */
 	public static abstract class Item implements BaseColumns {
 		public static final String TABLE_NAME = "item";
 		public static final String COLUMN_NAME_ITEM_ID = "item_id";
@@ -34,6 +41,10 @@ public final class POSContract {
 				" " + COLUMN_NAME_SYNC + " INTEGER)";
 	}
 
+	/**
+	 * Cart table
+	 * 
+	 */
 	public static abstract class Cart implements BaseColumns {
 		public static final String TABLE_NAME = "cart";
 		public static final String COLUMN_NAME_USER_ID = "user_id";
@@ -66,6 +77,10 @@ public final class POSContract {
 				
 	}
 
+	/**
+	 * Cart-Item table.  Maps items to the Cart.
+	 * 
+	 */
 	public static abstract class CartItem implements BaseColumns {
 		public static final String TABLE_NAME = "cart_item";
 		public static final String COLUMN_NAME_CART_ID = "cart_id";
@@ -80,6 +95,10 @@ public final class POSContract {
 				"PRIMARY KEY(" + COLUMN_NAME_CART_ID + "," + COLUMN_NAME_ITEM_ID + "))";		
 	}
 	
+	/**
+	 * POSSettings table.  Local settings for the POS app.
+	 * 
+	 */
 	public static abstract class POSSettings implements BaseColumns {
 		public static final String TABLE_NAME = "pos_settings";
 		

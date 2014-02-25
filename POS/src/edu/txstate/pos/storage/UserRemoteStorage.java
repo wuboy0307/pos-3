@@ -12,18 +12,41 @@ import org.json.JSONObject;
 import android.util.Log;
 import edu.txstate.pos.model.User;
 
+/**
+ * Management of remote User objects.  Includes login.
+ * 
+ * See user.pl for server side.
+ * 
+ */
 public class UserRemoteStorage extends RemoteStorage {
 
+	/**
+	 * Constructor.
+	 * 
+	 * @param androidID The device ID
+	 */
+	public UserRemoteStorage(String androidID) {
+		super(androidID);
+	}
 
-	
+	/**
+	 * Use the user.pl service
+	 */
 	public String getScriptName() {
 		return "user";
 	}
 	
-	public UserRemoteStorage(String androidID) {
-		super(androidID);
-	}
-	
+	/**
+	 * Uses the login and password in the given User object and attempts to login.  If the login
+	 * is successful, then the User object is returned populated with the current user's settings.
+	 * Otherwise, an exception is thrown.
+	 * 
+	 * @param user
+	 * @return A populated User object
+	 * @throws ConnectionError
+	 * @throws NoUserFoundException
+	 * @throws BadPasswordException
+	 */
 	public User login(User user) throws ConnectionError, NoUserFoundException, BadPasswordException {
 		Map<String, String> params = new HashMap<String, String>();
 		params.put(LOGIN, user.getLogin());
@@ -49,7 +72,15 @@ public class UserRemoteStorage extends RemoteStorage {
 		return user;
 	}
 	
-	public User addUser(User user) throws ConnectionError, UserExistsException {
+	/**
+	 * Adds a User to the system if the login doesn't already exist.
+	 * 
+	 * @param user The User to add
+	 * @return The same User object with the User ID populated
+	 * @throws ConnectionError
+	 * @throws UserExistsException
+	 */
+	public User add(User user) throws ConnectionError, UserExistsException {
 		Map<String, String> params = new HashMap<String, String>();
 		params.put(LOGIN, user.getLogin());
 		params.put(PIN, user.getPIN());
@@ -75,7 +106,14 @@ public class UserRemoteStorage extends RemoteStorage {
 		return user;
 	}
 	
-	public void deleteUser(String login) throws ConnectionError, NoUserFoundException {
+	/**
+	 * Deletes the user associated with the given login.
+	 * 
+	 * @param login The login to delete.
+	 * @throws ConnectionError
+	 * @throws NoUserFoundException
+	 */
+	public void delete(String login) throws ConnectionError, NoUserFoundException {
 		Map<String, String> params = new HashMap<String, String>();
 		params.put(LOGIN, login);
 		params.put(DEVICE_ID, androidID);
@@ -96,7 +134,15 @@ public class UserRemoteStorage extends RemoteStorage {
 		}
 	}
 	
-	public void updateUser(User user) throws ConnectionError, NoUserFoundException {
+	/**
+	 * Update the given User.  The ID of the User is used to find the user to
+	 * update, if it exists.  The the ID isn't given, then the login is used.
+	 * 
+	 * @param user The User to update.
+	 * @throws ConnectionError
+	 * @throws NoUserFoundException
+	 */
+	public void update(User user) throws ConnectionError, NoUserFoundException {
 		Map<String, String> params = new HashMap<String, String>();
 		params.put(LOGIN, user.getLogin());
 		params.put(PIN, user.getPIN());
@@ -121,7 +167,13 @@ public class UserRemoteStorage extends RemoteStorage {
 		}
 	}
 	
-	public List<User> getUsers() throws ConnectionError {
+	/**
+	 * Gets all of the users - active or inactive.
+	 * 
+	 * @return A List of all the users.
+	 * @throws ConnectionError
+	 */
+	public List<User> getAll() throws ConnectionError {
 		List<User> ret = new ArrayList<User>();
 		
 		try {

@@ -1,5 +1,9 @@
 package edu.txstate.pos.storage;
 
+/**
+ * Item already exists.
+ * 
+ */
 public class ItemExistsException extends StorageException {
 
 	public ItemExistsException() {

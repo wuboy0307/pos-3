@@ -8,24 +8,39 @@ import org.json.JSONObject;
 
 import android.util.Log;
 
+/**
+ * Pings the remote POS server for basic function.
+ * 
+ */
 public class Ping extends RemoteStorage {
 
 	public static final String LOG_TAG = "PING";
-	
-	public static final String ITEM_ACTION_PING = "ping";
-	
+
+	/**
+	 * Constructor.
+	 * 
+	 * @param androidID The device ID
+	 */
 	public Ping(String androidID) {
 		super(androidID);
 	}
 	
+	/**
+	 * Uses to ping.pl
+	 */
 	@Override
 	public String getScriptName() {
 		return "ping";
 	}
 	
+	/**
+	 * Pings the POS server.
+	 * 
+	 * @return True if the POS server is working
+	 */
 	public boolean ping() {
 		Map<String, String> params = new HashMap<String, String>();
-		params.put(ACTION, ITEM_ACTION_PING);
+		params.put(ACTION, ACTION_PING);
 		params.put(DEVICE_ID,androidID);
 		boolean ret = false;
 		try {

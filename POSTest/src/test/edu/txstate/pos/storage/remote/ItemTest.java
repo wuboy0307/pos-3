@@ -35,7 +35,7 @@ public class ItemTest extends AndroidTestCase {
 	public void test_A_addItem() {
 		// Delete the item if it exists
 		try {
-			remote.deleteItem("001AA", updUser);
+			remote.delete("001AA", updUser);
 			Log.d(LOG_TAG,"Deleted test item");
 		} catch (ConnectionError e) {
 			// Don't care
@@ -45,7 +45,7 @@ public class ItemTest extends AndroidTestCase {
 							"Junit Test Item 001AAA",
 							"11.99");
 		try {
-			remote.addItem(item, updUser);
+			remote.add(item, updUser);
 		} catch (ConnectionError e) {
 			Log.d(LOG_TAG,e.getMessage());
 			assertTrue(false);
@@ -63,7 +63,7 @@ public class ItemTest extends AndroidTestCase {
 							"Junit Test Item 001AAA",
 							"11.99");
 		try {
-			remote.addItem(item, updUser);
+			remote.add(item, updUser);
 			Log.d(LOG_TAG,"FAIL: Item added again w/o exception");
 			assertTrue(false);
 		} catch (ConnectionError e) {
@@ -79,7 +79,7 @@ public class ItemTest extends AndroidTestCase {
 	 */
 	public void test_C_GetItem() {
 		try {
-			Item item = remote.getItem("001AA");
+			Item item = remote.get("001AA");
 			assertNotNull(item);
 			assertEquals("001AA",item.getId());
 			assertEquals("Junit Test Item 001AAA",item.getDescription());
@@ -101,7 +101,7 @@ public class ItemTest extends AndroidTestCase {
 						"Updated Description for JUNIT",
 						"100.01");
 		try {
-			remote.updateItem(item, updUser);
+			remote.update(item, updUser);
 		} catch (ConnectionError e) {
 			Log.d(LOG_TAG,e.getMessage());
 			assertTrue(false);
@@ -111,7 +111,7 @@ public class ItemTest extends AndroidTestCase {
 		}
 		
 		try {
-			item = remote.getItem("001AA");
+			item = remote.get("001AA");
 			assertNotNull(item);
 			assertEquals("001AA",item.getId());
 			assertEquals("Updated Description for JUNIT",item.getDescription());
@@ -130,14 +130,14 @@ public class ItemTest extends AndroidTestCase {
 	 */
 	public void test_E_DeleteItem() {
 		try {
-			remote.deleteItem("001AA", updUser);
+			remote.delete("001AA", updUser);
 		} catch (ConnectionError e) {
 			Log.d(LOG_TAG,e.getMessage());
 			assertTrue(false);
 		}
 		
 		try {
-			remote.getItem("001AA");
+			remote.get("001AA");
 			Log.d(LOG_TAG,"FAIL: Item found after delete");
 			assertTrue(false);
 		} catch (ConnectionError e) {
