@@ -68,7 +68,12 @@ my $a = {};
 if (Constants::ACTION_GET_ALL eq $action) {
     $a = $dao->getItems();
 } elsif (Constants::ACTION_GET eq $action) {
-    $a = $dao->get($id);
+    if (defined($id)) {
+        $a = $dao->get($id);
+    } else {
+        $a->{'returnMessage'} = "Login is required.";
+        $a->{'returnCode'} = Constants::ERROR_MISSING_REQUIRED_FIELDS;
+    }
 } elsif (Constants::ACTION_ADD eq $action) {
     $a = $dao->add($id,$description,$price,$deviceID,$updateUser);
 } elsif (Constants::ACTION_UPDATE eq $action) {
