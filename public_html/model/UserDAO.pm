@@ -61,7 +61,7 @@ sub addUser {
             return $ret;
         }   
         
-        my $ret->{Constants::FIELD_USER_ID} = $dbh->{'mysql_insertid'};
+        $ret->{Constants::FIELD_USER_ID} = $dbh->{'mysql_insertid'};
         $ret->{Constants::FIELD_IS_ACTIVE} = "Y";
         $ret->{Constants::FIELD_IS_ADMIN} = $isAdmin;
         $ret->{Constants::FIELD_LOGIN} = $login;
