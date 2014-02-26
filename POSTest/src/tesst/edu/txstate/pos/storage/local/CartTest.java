@@ -20,6 +20,7 @@ public class CartTest extends AndroidTestCase {
 		
 	private CartLocalStorage local = null;
 	private User updUser = null;
+	private static SQLiteDatabase db = null;
 	
 	public void testCreate() {
 		try {
@@ -28,19 +29,21 @@ public class CartTest extends AndroidTestCase {
 			// Don't care - need clean slate
 		}
 		
-		try {
-			Cart cart = local.createCart(updUser);
-			Log.d(LOG_TAG, "CART ID: " + cart.getId());
-			assertTrue(cart.getId() > -1);
-		} catch (SQLException e) {
-			Log.d(LOG_TAG,e.getMessage());
-			assertTrue(false);
-		}
+		Cart cart = new Cart(CartTest.db,"1.05",updUser);
+		assertTrue(cart.getId() > 0);
+		Log.d(LOG_TAG,"Created cart " + cart.getId());
+		
+		Cart cart2 = new Cart(CartTest.db,"1.05",updUser);
+		assertEquals(cart.getId(),cart2.getId());
+		Log.d(LOG_TAG,"Found cart " + cart2.getId());
+		
 	}
 
 	public void setUp() {
 	    SQLiteOpenHelper dbHelper = new POS_DBHelper(getContext());
-	    SQLiteDatabase db = dbHelper.getWritableDatabase();
+	    if (CartTest.db == null) {
+	    	CartTest.db = dbHelper.getWritableDatabase();
+	    }
 		local = new CartLocalStorage(db);
 		updUser = new User("JUNIT","JUNIT");
 		updUser.setId(-1);	

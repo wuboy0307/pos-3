@@ -12,7 +12,9 @@ import edu.txstate.db.POSContract;
  */
 public class SettingsLocalStorage extends LocalStorage {
 
-	public static final String LOG_TAG = "SETTINGS_LOCAL";
+	private static final String LOG_TAG = "SETTINGS_LOCAL";
+	
+	public static final String TAX_RATE = "taxRate";
 	
 	/**
 	 * Constructor.

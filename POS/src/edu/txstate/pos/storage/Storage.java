@@ -4,7 +4,6 @@ import java.util.List;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
-import edu.txstate.pos.model.Cart;
 import edu.txstate.pos.model.Item;
 import edu.txstate.pos.model.User;
 
@@ -151,15 +150,6 @@ public class Storage {
 	 */
 	public List<User> getUsers() throws ConnectionError {
 		return userRemote.getAll();
-	}
-
-	/* ++++++++++++++++++++++++++++++++++++++++++++++++
-	 * CART
-	 * ++++++++++++++++++++++++++++++++++++++++++++++++
-	 */
-	
-	public void sellCart(Cart cart) throws InvalidCartException {
-		if (!cart.isValid()) throw new InvalidCartException();
 	}
 	
 	/* ++++++++++++++++++++++++++++++++++++++++++++++++
