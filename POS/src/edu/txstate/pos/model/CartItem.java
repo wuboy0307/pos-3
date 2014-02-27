@@ -29,4 +29,10 @@ public class CartItem {
 	public Item getItem() {
 		return item;
 	}
+	
+	public boolean equals(Item item) {
+		if (this.item.getId() == null || item == null) return false;
+		if (this.item.getId().equals(item.getId())) return true;
+		else return false;
+	}
 }

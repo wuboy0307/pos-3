@@ -131,4 +131,11 @@ public class Item {
 	public void setSyncStatus(int syncStatus) {
 		this.syncStatus = syncStatus;
 	}
+	
+	@Override
+	public boolean equals(Object item) {
+		if (item instanceof Item) {
+			return (item != null && ((Item) item).getId().equals(id));
+		} else return false;
+	}
 }

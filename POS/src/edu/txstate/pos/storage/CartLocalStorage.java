@@ -1,6 +1,8 @@
 package edu.txstate.pos.storage;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import android.content.ContentValues;
@@ -8,6 +10,8 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import edu.txstate.db.POSContract;
+import edu.txstate.pos.model.CartItem;
+import edu.txstate.pos.model.Item;
 import edu.txstate.pos.model.User;
 
 public class CartLocalStorage extends LocalStorage {
@@ -30,9 +34,14 @@ public class CartLocalStorage extends LocalStorage {
 	}
 	
 	public void deleteCart(User updUser) throws SQLException {
+		// TODO: need cart so we can delete cart_items (cascade??)
+		
 		String selection = POSContract.Cart.COLUMN_NAME_USER_ID + " = ?";
 		String[] selectionArgs = { String.valueOf(updUser.getId()) };
 		db.delete(POSContract.Cart.TABLE_NAME, selection, selectionArgs);
+		//selection = POSContract.CartItem.COLUMN_NAME_CART_ID + " = ?";
+		//selectionArgs = { String.valueOf(updUser.getId()) };
+		//db.delete(POSContract.CartItem.TABLE_NAME, selection, selectionArgs);
 	}
 	
 	public Map<String,String> getCart(User updUser) throws SQLException, NoCartFoundException {
@@ -61,6 +70,57 @@ public class CartLocalStorage extends LocalStorage {
 			}
 		} else {
 			throw new NoCartFoundException("No cart found for user: " + updUser.getId());
+		}
+		return ret;
+	}
+	
+	public void updateCart(long cartID, ContentValues cart) throws SQLException {
+		String selection = POSContract.Cart._ID + " = ?";
+		String[] selectionArgs = { String.valueOf(cartID) };
+		
+		db.update(POSContract.Cart.TABLE_NAME, cart, selection, selectionArgs);
+	}
+	
+	public void addItem(long cartID, String itemID, int quantity) throws SQLException {
+		ContentValues values = new ContentValues();
+		values.put(POSContract.CartItem.COLUMN_NAME_CART_ID, cartID);
+		values.put(POSContract.CartItem.COLUMN_NAME_ITEM_ID, itemID);
+		values.put(POSContract.CartItem.COLUMN_NAME_QUANTITY, quantity);
+		
+		db.insertOrThrow(POSContract.CartItem.TABLE_NAME, null, values);
+	}
+	
+	public void updateItem(long cartID, String itemID, int quantity) throws SQLException {
+		ContentValues values = new ContentValues();
+		//values.put(POSContract.CartItem.COLUMN_NAME_CART_ID, cartID);
+		//values.put(POSContract.CartItem.COLUMN_NAME_ITEM_ID, itemID);
+		values.put(POSContract.CartItem.COLUMN_NAME_QUANTITY, quantity);
+		
+		String selection = POSContract.CartItem.COLUMN_NAME_CART_ID + " = ? and " + POSContract.CartItem.COLUMN_NAME_ITEM_ID + " = ?";
+		String[] selectionArgs = { String.valueOf(cartID), String.valueOf(itemID) };
+		
+		db.update(POSContract.CartItem.TABLE_NAME, values, selection, selectionArgs);
+	}
+	
+	public void deleteItem(long cartID, String itemID) throws SQLException {
+		String selection = POSContract.CartItem.COLUMN_NAME_CART_ID + " = ? AND " + POSContract.CartItem.COLUMN_NAME_ITEM_ID + " = ?";
+		String[] selectionArgs = { String.valueOf(cartID), String.valueOf(itemID) };
+		db.delete(POSContract.CartItem.TABLE_NAME, selection, selectionArgs);
+	}
+	
+	public List<CartItem> getItems(long cartID) throws SQLException {
+		List<CartItem> ret = new ArrayList<CartItem>();
+		String sql = "select i.*, c.quantity from cart_item c, item i where c.item_id = i.item_id and c.cart_id = ?";
+		String[] selectionArgs = { String.valueOf(cartID) };
+		Cursor c = db.rawQuery(sql, selectionArgs);
+		CartItem ci = null;
+		if (c.moveToFirst()) {
+			ci = new CartItem(new Item(c.getString(0),c.getString(1),c.getString(2)),c.getInt(5));
+			ret.add(ci);
+			while (c.moveToNext()) {
+				ci = new CartItem(new Item(c.getString(0),c.getString(1),c.getString(2)),c.getInt(5));
+				ret.add(ci);
+			}
 		}
 		return ret;
 	}
