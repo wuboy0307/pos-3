@@ -38,8 +38,8 @@ public class CartTest extends AndroidTestCase {
 	 */
 	public void test_A_Create() {
 		try {
-			local.deleteCart(updUser, SyncStatus.DRAFT);
-			local.deleteCart(user2, SyncStatus.DRAFT);
+			local.deleteCurrentCart(updUser);
+			local.deleteCurrentCart(user2);
 		} catch (SQLException e) {
 			// Don't care - need clean slate
 		}
@@ -57,7 +57,7 @@ public class CartTest extends AndroidTestCase {
 			assertTrue(cart3.getId() > cart2.getId());
 			Log.d(LOG_TAG,"User 2 cart: " + cart3.getId());
 			
-			local.deleteCart(user2, SyncStatus.DRAFT);
+			local.deleteCurrentCart(user2);
 		} catch (StorageException e) {
 			Log.e(LOG_TAG, e.getMessage());
 		}

@@ -5,6 +5,8 @@ import java.math.BigDecimal;
 /**
  * Item is something to be purchased.
  * 
+ * Note the equals method is overridden.
+ * 
  */
 public class Item {
 	private String id;
@@ -132,6 +134,10 @@ public class Item {
 		this.syncStatus = syncStatus;
 	}
 	
+	/**
+	 * The equals method uses the item ID to 
+	 * determine quality.
+	 */
 	@Override
 	public boolean equals(Object item) {
 		if (item instanceof Item) {

@@ -14,14 +14,34 @@ import edu.txstate.pos.model.CartItem;
 import edu.txstate.pos.model.Item;
 import edu.txstate.pos.model.User;
 
+/**
+ * Manages the Cart table.  This does not use the Cart
+ * object because the Cart object calls this object and that
+ * would be a circular compilation problem.
+ *
+ */
 public class CartLocalStorage extends LocalStorage {
 	
-	private static final String LOG_TAG = "LOCAL_STORAGE_CART";
+	//private static final String LOG_TAG = "LOCAL_STORAGE_CART";
 	
+	/**
+	 * Constructor.
+	 * 
+	 * @param db
+	 */
 	public CartLocalStorage(SQLiteDatabase db) {
 		super(db);
 	}
 	
+	/**
+	 * Creates a cart and returns the cart ID.  If there is already a Cart open
+	 * in 'draft' status, that ID is returned.
+	 * 
+	 * @param updUser the user managing the cart
+	 * @param taxRate the current tax rate
+	 * @return the cart ID for the user, new or existing for that user
+	 * @throws SQLException
+	 */
 	public long createCart(User updUser, String taxRate) throws SQLException {
 		ContentValues values = new ContentValues();
 		values.put(POSContract.Cart.COLUMN_NAME_USER_ID, updUser.getId());
@@ -33,12 +53,27 @@ public class CartLocalStorage extends LocalStorage {
 		return id;
 	}
 	
-	public void deleteCart(User updUser, int syncStatus) throws SQLException {
+	/**
+	 * Deletes the current draft cart for the user.
+	 * 
+	 * @param updUser	The cart of the user
+	 * @param syncStatus
+	 * @throws SQLException
+	 */
+	public void deleteCurrentCart(User updUser) throws SQLException {
 		String selection = POSContract.Cart.COLUMN_NAME_USER_ID + " = ? AND " + POSContract.Cart.COLUMN_NAME_SYNC + " = ?";
-		String[] selectionArgs = { String.valueOf(updUser.getId()), String.valueOf(syncStatus) };
+		String[] selectionArgs = { String.valueOf(updUser.getId()), String.valueOf(SyncStatus.DRAFT) };
 		db.delete(POSContract.Cart.TABLE_NAME, selection, selectionArgs);
 	}
 	
+	/**
+	 * Gets the current draft cart for the user.
+	 * 
+	 * @param updUser
+	 * @return
+	 * @throws SQLException
+	 * @throws NoCartFoundException
+	 */
 	public Map<String,String> getCart(User updUser) throws SQLException, NoCartFoundException {
 		Map<String,String> ret = new HashMap<String,String>();
 		
@@ -68,6 +103,13 @@ public class CartLocalStorage extends LocalStorage {
 		return ret;
 	}
 	
+	/**
+	 * Update the cart with the given ContentValues.
+	 * 
+	 * @param cartID 
+	 * @param cart the ContentValues
+	 * @throws SQLException
+	 */
 	public void updateCart(long cartID, ContentValues cart) throws SQLException {
 		String selection = POSContract.Cart._ID + " = ?";
 		String[] selectionArgs = { String.valueOf(cartID) };
@@ -75,6 +117,14 @@ public class CartLocalStorage extends LocalStorage {
 		db.update(POSContract.Cart.TABLE_NAME, cart, selection, selectionArgs);
 	}
 	
+	/**
+	 * Add an item to the cart.
+	 * 
+	 * @param cartID the cart ID
+	 * @param itemID the Item to add
+	 * @param quantity the number of that item
+	 * @throws SQLException
+	 */
 	public void addItem(long cartID, String itemID, int quantity) throws SQLException {
 		ContentValues values = new ContentValues();
 		values.put(POSContract.CartItem.COLUMN_NAME_CART_ID, cartID);
@@ -84,6 +134,14 @@ public class CartLocalStorage extends LocalStorage {
 		db.insertOrThrow(POSContract.CartItem.TABLE_NAME, null, values);
 	}
 	
+	/**
+	 * Update an item count on the cart.
+	 * 
+	 * @param cartID the cart ID
+	 * @param itemID the Item to update
+	 * @param quantity the new quantity
+	 * @throws SQLException
+	 */
 	public void updateItem(long cartID, String itemID, int quantity) throws SQLException {
 		ContentValues values = new ContentValues();
 		//values.put(POSContract.CartItem.COLUMN_NAME_CART_ID, cartID);
@@ -96,12 +154,26 @@ public class CartLocalStorage extends LocalStorage {
 		db.update(POSContract.CartItem.TABLE_NAME, values, selection, selectionArgs);
 	}
 	
+	/**
+	 * Delete an item on the cart
+	 * 
+	 * @param cartID the cart ID
+	 * @param itemID the Item to remove
+	 * @throws SQLException
+	 */
 	public void deleteItem(long cartID, String itemID) throws SQLException {
 		String selection = POSContract.CartItem.COLUMN_NAME_CART_ID + " = ? AND " + POSContract.CartItem.COLUMN_NAME_ITEM_ID + " = ?";
 		String[] selectionArgs = { String.valueOf(cartID), String.valueOf(itemID) };
 		db.delete(POSContract.CartItem.TABLE_NAME, selection, selectionArgs);
 	}
 	
+	/**
+	 * Get all of the items on the cart.
+	 * 
+	 * @param cartID the cart ID
+	 * @return the list of items on the cart
+	 * @throws SQLException
+	 */
 	public List<CartItem> getItems(long cartID) throws SQLException {
 		List<CartItem> ret = new ArrayList<CartItem>();
 		String sql = "select i.*, c.quantity from cart_item c, item i where c.item_id = i.item_id and c.cart_id = ?";
