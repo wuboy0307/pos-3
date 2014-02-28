@@ -49,7 +49,6 @@ public final class POSContract {
 		public static final String TABLE_NAME = "cart";
 		public static final String COLUMN_NAME_USER_ID = "user_id";
 		public static final String COLUMN_NAME_CUSTOMER_ID = "customer_id";
-		public static final String COLUMN_NAME_CUSTOMER_NAME = "customer_name";
 		public static final String COLUMN_NAME_SUBTOTAL = "subtotal";
 		public static final String COLUMN_NAME_TAX_RATE = "tax_rate";
 		public static final String COLUMN_NAME_TAX_AMOUNT = "tax_amount";
@@ -88,8 +87,8 @@ public final class POSContract {
 			
 		public static final String SQL_DELETE = "DROP TABLE IF EXISTS " + TABLE_NAME;
 		public static final String SQL_CREATE = "CREATE TABLE " + TABLE_NAME +
-				" (" + COLUMN_NAME_CART_ID + " INTEGER NOT NULL, " + 
-				COLUMN_NAME_ITEM_ID + " TEXT NOT NULL, " + 
+				" (" + COLUMN_NAME_CART_ID + " INTEGER NOT NULL REFERENCES cart ON DELETE CASCADE, " + 
+				COLUMN_NAME_ITEM_ID + " TEXT NOT NULL REFERENCES item, " + 
 				COLUMN_NAME_QUANTITY + " INTEGER, " + 
 				"PRIMARY KEY(" + COLUMN_NAME_CART_ID + "," + COLUMN_NAME_ITEM_ID + "))";		
 	}

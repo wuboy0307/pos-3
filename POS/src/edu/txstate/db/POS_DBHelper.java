@@ -24,6 +24,17 @@ public class POS_DBHelper extends SQLiteOpenHelper {
 	public POS_DBHelper(Context context) {
 		super(context, POSContract.DATABASE_NAME, null, POSContract.DATABASE_VERSION);
 	}
+
+	/**
+	 * onOpen
+	 */
+	public void onOpen(SQLiteDatabase db) {
+	    super.onOpen(db);
+	    if (!db.isReadOnly()) {
+	        // Enable foreign key constraints
+	        db.execSQL("PRAGMA foreign_keys=ON;");
+	    }
+	}
 	
 	/**
 	 * Create the database

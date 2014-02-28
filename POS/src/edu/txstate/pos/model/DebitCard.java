@@ -1,15 +1,24 @@
 package edu.txstate.pos.model;
 
+/**
+ * Debit card payment method.
+ * 
+ *
+ */
 public class DebitCard extends Payment {
 	
+	// pin for this credit card
 	private String pin = null;
 	
-	public DebitCard(String cardNumber) {
-		super(cardNumber);
-	}
-	
+	/**
+	 * Constructor.
+	 * 
+	 * @param cardNumber
+	 * @param pin
+	 */
 	public DebitCard(String cardNumber, String pin) {
 		super(cardNumber);
+		this.pin = pin;
 	}
 
 	/**

@@ -33,15 +33,10 @@ public class CartLocalStorage extends LocalStorage {
 		return id;
 	}
 	
-	public void deleteCart(User updUser) throws SQLException {
-		// TODO: need cart so we can delete cart_items (cascade??)
-		
-		String selection = POSContract.Cart.COLUMN_NAME_USER_ID + " = ?";
-		String[] selectionArgs = { String.valueOf(updUser.getId()) };
+	public void deleteCart(User updUser, int syncStatus) throws SQLException {
+		String selection = POSContract.Cart.COLUMN_NAME_USER_ID + " = ? AND " + POSContract.Cart.COLUMN_NAME_SYNC + " = ?";
+		String[] selectionArgs = { String.valueOf(updUser.getId()), String.valueOf(syncStatus) };
 		db.delete(POSContract.Cart.TABLE_NAME, selection, selectionArgs);
-		//selection = POSContract.CartItem.COLUMN_NAME_CART_ID + " = ?";
-		//selectionArgs = { String.valueOf(updUser.getId()) };
-		//db.delete(POSContract.CartItem.TABLE_NAME, selection, selectionArgs);
 	}
 	
 	public Map<String,String> getCart(User updUser) throws SQLException, NoCartFoundException {
@@ -51,7 +46,6 @@ public class CartLocalStorage extends LocalStorage {
 				POSContract.Cart._ID,
 				POSContract.Cart.COLUMN_NAME_USER_ID,
 				POSContract.Cart.COLUMN_NAME_CUSTOMER_ID,
-				POSContract.Cart.COLUMN_NAME_CUSTOMER_NAME,
 				POSContract.Cart.COLUMN_NAME_SUBTOTAL,
 				POSContract.Cart.COLUMN_NAME_TAX_RATE,
 				POSContract.Cart.COLUMN_NAME_TAX_AMOUNT,
@@ -61,8 +55,8 @@ public class CartLocalStorage extends LocalStorage {
 				POSContract.Cart.COLUMN_NAME_SIGNATURE_FILE,
 				POSContract.Cart.COLUMN_NAME_SYNC
 		};
-		String selection = POSContract.Cart.COLUMN_NAME_USER_ID + " = ?";
-		String[] selectionArgs = { String.valueOf(updUser.getId()) };
+		String selection = POSContract.Cart.COLUMN_NAME_USER_ID + " = ? AND " + POSContract.Cart.COLUMN_NAME_SYNC + " = ?";
+		String[] selectionArgs = { String.valueOf(updUser.getId()), String.valueOf(SyncStatus.DRAFT) };
 		Cursor c = db.query(POSContract.Cart.TABLE_NAME, projection, selection, selectionArgs, null, null, null);
 		if (c.moveToFirst()) {
 			for (int i = 0; i < projection.length; i++) {

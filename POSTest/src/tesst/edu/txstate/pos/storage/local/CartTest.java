@@ -2,11 +2,13 @@ package tesst.edu.txstate.pos.storage.local;
 
 import edu.txstate.db.POS_DBHelper;
 import edu.txstate.pos.model.Cart;
+import edu.txstate.pos.model.DebitCard;
 import edu.txstate.pos.model.Item;
 import edu.txstate.pos.model.User;
 import edu.txstate.pos.storage.CartLocalStorage;
 import edu.txstate.pos.storage.ItemLocalStorage;
 import edu.txstate.pos.storage.StorageException;
+import edu.txstate.pos.storage.SyncStatus;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -30,10 +32,14 @@ public class CartTest extends AndroidTestCase {
 	
 	private static Cart cart = null;
 	
+	/**
+	 * Create a cart.  A cart created again for the same
+	 * user will return the same cart.
+	 */
 	public void test_A_Create() {
 		try {
-			local.deleteCart(updUser);
-			local.deleteCart(user2);
+			local.deleteCart(updUser, SyncStatus.DRAFT);
+			local.deleteCart(user2, SyncStatus.DRAFT);
 		} catch (SQLException e) {
 			// Don't care - need clean slate
 		}
@@ -51,12 +57,15 @@ public class CartTest extends AndroidTestCase {
 			assertTrue(cart3.getId() > cart2.getId());
 			Log.d(LOG_TAG,"User 2 cart: " + cart3.getId());
 			
-			local.deleteCart(user2);
+			local.deleteCart(user2, SyncStatus.DRAFT);
 		} catch (StorageException e) {
 			Log.e(LOG_TAG, e.getMessage());
 		}
 	}
 	
+	/**
+	 * Add items to the cart and check the subtotal.
+	 */
 	public void test_B_addItems() {
 		Item item = null, item2 = null;
 		item = new Item("C001","Item 1","9.99");
@@ -79,22 +88,98 @@ public class CartTest extends AndroidTestCase {
 			cart.addItem(item2, 1);
 			assertEquals("21.98",cart.getSubTotal());
 			
-			// Add same item again - qty update
+			// Add same item again - quantity updates
 			cart.addItem(item, 1);
-			// TODO - how to check this one
+
+			assertEquals(2,cart.getItemQuatity(item));
+			assertEquals("31.97",cart.getSubTotal());
+
 		} catch (StorageException e) {
-			e.printStackTrace();
+			Log.e(LOG_TAG, e.getMessage());
 		}
 	}
 	
-	public void Atest_X_delete() {
+	/**
+	 * Update the quantity of an item
+	 */
+	public void test_C_updateQuantity() {
+		Item item2 = null;
+		item2 = new Item("C002","Item 2","11.99");
+		
 		try {
-			local.deleteCart(updUser);
-		} catch (SQLException e) {
-			// Don't care
+			cart.updateQuantity(item2, 5);
+			assertEquals(5,cart.getItemQuatity(item2));
+			assertEquals("79.93",cart.getSubTotal());
+		} catch (StorageException e) {
+			Log.e(LOG_TAG, e.getMessage());
 		}
 	}
-
+	
+	/**
+	 * Delete an item by setting the quantity to 0.
+	 */
+	public void test_D_deleteItem() {
+		Item item2 = null;
+		item2 = new Item("C002","Item 2","11.99");
+		
+		try {
+			cart.updateQuantity(item2, 0);
+			assertEquals(0,cart.getItemQuatity(item2));
+			assertEquals("19.98",cart.getSubTotal());
+		} catch (StorageException e) {
+			Log.e(LOG_TAG, e.getMessage());
+		}
+	}
+	
+	/**
+	 * Update the tax rate and check the tax amount
+	 * calculation.
+	 */
+	public void test_E_updateTax() {
+		try {
+			cart.setTax(".01");
+			assertEquals("0.20",cart.getTaxAmount());
+			assertEquals("20.18",cart.getTotal());
+		} catch (StorageException e) {
+			Log.e(LOG_TAG, e.getMessage());
+		}
+	}
+	
+	/**
+	 * Set the customer.
+	 */
+	public void test_F_updateCustomer() {
+		try {
+			cart.setCustomer("geoffm@txstate.edu");
+			assertEquals("geoffm@txstate.edu",cart.getCustomer());
+		} catch (StorageException e) {
+			Log.e(LOG_TAG, e.getMessage());
+		}
+	}
+	
+	/**
+	 * Set the payment
+	 */
+	public void test_G_addPayment() {
+		DebitCard payment = new DebitCard("1234","XXXX");
+		try {
+			cart.addPayment(payment);
+		} catch (StorageException e) {
+			Log.e(LOG_TAG, e.getMessage());
+		}
+	}
+	
+	/**
+	 * Now that everything is populated on the cart,
+	 * it should be valid.
+	 */
+	public void test_H_valid() {
+		assertTrue(cart.isValid());
+	}
+	
+	/**
+	 * Junit setUp...runs before every test.
+	 */
 	public void setUp() {
 	    SQLiteOpenHelper dbHelper = new POS_DBHelper(getContext());
 	    if (CartTest.db == null) {

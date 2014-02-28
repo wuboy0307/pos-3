@@ -1,6 +1,8 @@
 package edu.txstate.pos.model;
 
 import java.math.BigDecimal;
+import java.math.MathContext;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -14,10 +16,38 @@ import edu.txstate.db.POSContract;
 import edu.txstate.pos.storage.CartLocalStorage;
 import edu.txstate.pos.storage.NoCartFoundException;
 import edu.txstate.pos.storage.StorageException;
+import edu.txstate.pos.storage.SyncStatus;
 
+/**
+ * Cart is more than just a simple wrapper for the cart information.  It
+ * makes the calls to the CartLocalStorage object so that every time a value
+ * is set on the object, it is saved into the database.  The amounts are also
+ * updated any time the items and tax rates are changed.
+ * 
+ * The amounts kept in the cart are:
+ * sub total: the total of all the items
+ * tax amount:  the sub total times the tax rate
+ * total:  the sub total plus tax amount
+ * 
+ * When a Cart is created, it is in 'draft' mode.  
+ * 
+ * A Cart is associated to a User.  For any User, there can be only one Cart in
+ * 'draft' mode.
+ * 
+ * When the cart contains items, the customer email, the user, and a payment, then
+ * the cart is considered valid and you can sell() the cart.  That will take the 
+ * 'draft' status off the cart and put it into 'push' so that the background thread
+ * can sync the data to the server.  Since the cart is no longer in draft, the user
+ * can create another one.
+ * 
+ * To remove an item, use the updateQuantity() method and set the quantity to 0.
+ *
+ */
 public class Cart {
 	
 	public static final String LOG_TAG = "CART";
+	
+	public static MathContext mathContext = new MathContext(2,RoundingMode.UP);
 	
 	// -1 means this is an invalid cart
 	private long id = -1;
@@ -34,10 +64,11 @@ public class Cart {
 	private CartLocalStorage storage = null;
 	
 	/**
+	 * Constructor.
 	 * 
-	 * @param db
-	 * @param taxRate
-	 * @param user
+	 * @param db local database
+	 * @param taxRate the current tax rate
+	 * @param user user creating the cart
 	 * @throws StorageException
 	 */
 	public Cart(SQLiteDatabase db, String taxRate, User user) throws StorageException {
@@ -72,11 +103,15 @@ public class Cart {
 		
 		this.taxRate = taxRate;
 		
+		
+		
 	}
 	
 	/**
+	 * Utility method to get the ContentValues with the tax rate and amounts.  Anything
+	 * changed beyond this can be added before sending to the update() method.
 	 * 
-	 * @return
+	 * @return the ContentValues
 	 */
 	private ContentValues getValues() {
 		ContentValues values = new ContentValues();
@@ -88,6 +123,7 @@ public class Cart {
 	}
 	
 	/**
+	 * Updates the cart in the database with the given ContentValues.
 	 * 
 	 * @param values
 	 * @throws StorageException
@@ -100,28 +136,44 @@ public class Cart {
 		}
 	}
 	
+	/**
+	 * Updates the amounts.
+	 * 
+	 * @throws StorageException
+	 */
 	private void calculate() throws StorageException {
-		// TODO
-		BigDecimal dTaxRate = new BigDecimal(taxRate);
-		
 		// Calculate the subtotal by the prices of the items
 		BigDecimal dSubTotal = new BigDecimal("0");
 		for (CartItem ci : items) {
-			Log.d(LOG_TAG, "Item Price: " + ci.getItem().getPrice());
+			Log.d(LOG_TAG, "Item Price: " + ci.getItem().getPrice() + " x " + ci.getQuantity());
 			BigDecimal dItem = new BigDecimal(ci.getItem().getPrice());
-			dItem.multiply(new BigDecimal(ci.getQuantity()));
-			Log.d(LOG_TAG, "dItem Price: " + dItem);
+			dItem = dItem.multiply(new BigDecimal(ci.getQuantity()));
 			dSubTotal = dSubTotal.add(dItem);
 		}
 		subTotal = dSubTotal.toString();
 		Log.d(LOG_TAG, "Subtotal: " + subTotal);
 		
+		// Calculate the tax amount
+		BigDecimal dTaxRate = new BigDecimal(taxRate);
+		BigDecimal dTaxAmount = dTaxRate.multiply(dSubTotal);
+		dTaxAmount = dTaxAmount.round(mathContext);
+		taxAmount = dTaxAmount.toString();
+		Log.d(LOG_TAG,"Tax amount: " + taxAmount);
+				
+		BigDecimal dTotal = new BigDecimal(subTotal);
+		dTotal = dTotal.add(dTaxAmount);
+		
+		total = dTotal.toString();
+		Log.d(LOG_TAG, "Total: " + total);
+		
 		update(getValues());
 	}
 
 	/**
+	 * Finds the CartItem in the items list that matches the given
+	 * item.
 	 * 
-	 * @param item
+	 * @param item the item being looked for
 	 * @return
 	 * @throws StorageException
 	 */
@@ -136,6 +188,7 @@ public class Cart {
 	}
 
 	/**
+	 * Sets the tax rate
 	 * 
 	 * @param taxRate
 	 * @throws StorageException
@@ -146,8 +199,9 @@ public class Cart {
 	}
 
 	/**
+	 * Add the payment for the cart
 	 * 
-	 * @param payment
+	 * @param payment the payment card
 	 * @throws StorageException
 	 */
 	public void addPayment(Payment payment) throws StorageException {
@@ -156,13 +210,17 @@ public class Cart {
 		if (payment instanceof DebitCard) {
 			values.put(POSContract.Cart.COLUMN_NAME_PAYMENT_PIN, ((DebitCard) payment).getPin());
 		}
+		for (String s : values.keySet()) {
+			Log.d(LOG_TAG, s + ": " + values.get(s));
+		}
 		update(values);
 	}
 		
 	/**
+	 * Add an item to the cart
 	 * 
-	 * @param item
-	 * @param quantity
+	 * @param item	item to add
+	 * @param quantity quantity of that item
 	 * @throws StorageException
 	 */
 	public void addItem(Item item, int quantity) throws StorageException {
@@ -187,9 +245,11 @@ public class Cart {
 	}
 	
 	/**
+	 * Updates the item quantity on the cart.  Set the quantity to 
+	 * zero to remove the item from the cart.
 	 * 
-	 * @param item
-	 * @param quantity
+	 * @param item  Item to update
+	 * @param quantity quantity to set to
 	 * @throws StorageException
 	 */
 	public void updateQuantity(Item item, int quantity) throws StorageException {
@@ -197,7 +257,7 @@ public class Cart {
 		if (quantity <= 0) {
 			if (ci != null) {
 				storage.deleteItem(id, item.getId());
-				items.remove(item);
+				items.remove(ci);
 			} else {
 				// do nothing
 			}
@@ -215,6 +275,7 @@ public class Cart {
 	}
 	
 	/**
+	 * Sets the email address of the customer making the purchase.
 	 * 
 	 * @param customerEmail
 	 * @throws StorageException
@@ -231,22 +292,58 @@ public class Cart {
 		this.signature = signature;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public boolean isValid() {
-		// TODO:  This is where you'd check to see if all the values
-		// were given (customer, signature, tax), there is at least one
-		// item and the payments add up to the total for the items.
-		return true;
+		if (customerEmail != null 
+				&& items.size() > 0
+				&& user != null
+				&& id > -1) {
+			return true;
+		}
+		return false;
 	}
 
+	/**
+	 * When the cart is complete, sell() it.  The payment will
+	 * be processed.
+	 * 
+	 * @return true if all the fields are filled in, and the payment is valid
+	 * @throws StorageException
+	 */
 	public boolean sell() throws StorageException {
 		if (!isValid()) return false;
-		calculate();
+		//calculate();
+		ContentValues values = getValues();
+		values.put(POSContract.Cart.COLUMN_NAME_SYNC,SyncStatus.DONE);
+		update(values);
 		return true;
 	}
 	
 	// *********************************
 	//	Getters
 	// *********************************
+	
+	/**
+	 * Gets the quantity for a specific item.  This is needed
+	 * for the Junit tests.
+	 * 
+	 * @param item  The item to look for.
+	 * @return
+	 * @throws StorageException 
+	 */
+	public int getItemQuatity(Item item) throws StorageException {
+		CartItem ci = findItem(item);
+		if (ci == null) return 0;
+		else return ci.getQuantity();
+	}
+	
+	/**
+	 * 
+	 * @return the tax rate
+	 */
 	public String getTaxRate() {
 		return taxRate;
 	}
@@ -279,22 +376,42 @@ public class Cart {
 		return id;
 	}
 
+	/**
+	 * 
+	 * @return the User
+	 */
 	public User getUser() {
 		return user;
 	}
 
+	/**
+	 * 
+	 * @return the payment
+	 */
 	public Payment getPayments() {
 		return payment;
 	}
 
+	/**
+	 * 
+	 * @return the items in the cart
+	 */
 	public List<CartItem> getItems() {
 		return items;
 	}
 
+	/**
+	 * 
+	 * @return the customer email
+	 */
 	public String getCustomer() {
 		return customerEmail;
 	}
 
+	/**
+	 * 
+	 * @return the signature object
+	 */
 	public Signature getSignature() {
 		return signature;
 	}

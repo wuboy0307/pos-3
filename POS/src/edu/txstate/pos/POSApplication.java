@@ -38,6 +38,7 @@ public class POSApplication extends Application {
 	private boolean connected = true;
 	private SQLiteDatabase mDb = null;
 
+	// This setting will delete the database when the application starts
 	private boolean killDBEveryTime = false;
 	
 	/**
