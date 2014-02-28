@@ -5,6 +5,8 @@ import edu.txstate.pos.model.Cart;
 import edu.txstate.pos.model.DebitCard;
 import edu.txstate.pos.model.Item;
 import edu.txstate.pos.model.User;
+import edu.txstate.pos.service.JunitSyncStub;
+import edu.txstate.pos.service.SyncService;
 import edu.txstate.pos.storage.CartLocalStorage;
 import edu.txstate.pos.storage.ItemLocalStorage;
 import edu.txstate.pos.storage.StorageException;
@@ -31,6 +33,7 @@ public class CartTest extends AndroidTestCase {
 	private ItemLocalStorage itemLocal = null;
 	
 	private static Cart cart = null;
+	private static SyncService syncService = new JunitSyncStub();
 	
 	/**
 	 * Create a cart.  A cart created again for the same
@@ -45,21 +48,22 @@ public class CartTest extends AndroidTestCase {
 		}
 		
 		try {
-			cart = new Cart(CartTest.db,".01",updUser);
+			cart = new Cart(CartTest.db,".01",updUser,syncService);
 			assertTrue(cart.getId() > 0);
 			Log.d(LOG_TAG,"Created cart " + cart.getId());
 			
-			Cart cart2 = new Cart(CartTest.db,".01",updUser);
+			Cart cart2 = new Cart(CartTest.db,".01",updUser,syncService);
 			assertEquals(cart.getId(),cart2.getId());
 			Log.d(LOG_TAG,"Found cart " + cart2.getId());
 			
-			Cart cart3 = new Cart(CartTest.db,".01",user2);
+			Cart cart3 = new Cart(CartTest.db,".01",user2,syncService);
 			assertTrue(cart3.getId() > cart2.getId());
 			Log.d(LOG_TAG,"User 2 cart: " + cart3.getId());
 			
 			local.deleteCurrentCart(user2);
 		} catch (StorageException e) {
 			Log.e(LOG_TAG, e.getMessage());
+			assertTrue(false);
 		}
 	}
 	
@@ -96,6 +100,7 @@ public class CartTest extends AndroidTestCase {
 
 		} catch (StorageException e) {
 			Log.e(LOG_TAG, e.getMessage());
+			assertTrue(false);
 		}
 	}
 	
@@ -112,6 +117,7 @@ public class CartTest extends AndroidTestCase {
 			assertEquals("79.93",cart.getSubTotal());
 		} catch (StorageException e) {
 			Log.e(LOG_TAG, e.getMessage());
+			assertTrue(false);
 		}
 	}
 	
@@ -128,6 +134,7 @@ public class CartTest extends AndroidTestCase {
 			assertEquals("19.98",cart.getSubTotal());
 		} catch (StorageException e) {
 			Log.e(LOG_TAG, e.getMessage());
+			assertTrue(false);
 		}
 	}
 	
@@ -142,6 +149,7 @@ public class CartTest extends AndroidTestCase {
 			assertEquals("20.18",cart.getTotal());
 		} catch (StorageException e) {
 			Log.e(LOG_TAG, e.getMessage());
+			assertTrue(false);
 		}
 	}
 	
@@ -154,6 +162,7 @@ public class CartTest extends AndroidTestCase {
 			assertEquals("geoffm@txstate.edu",cart.getCustomer());
 		} catch (StorageException e) {
 			Log.e(LOG_TAG, e.getMessage());
+			assertTrue(false);
 		}
 	}
 	
@@ -166,6 +175,7 @@ public class CartTest extends AndroidTestCase {
 			cart.addPayment(payment);
 		} catch (StorageException e) {
 			Log.e(LOG_TAG, e.getMessage());
+			assertTrue(false);
 		}
 	}
 	
@@ -175,6 +185,15 @@ public class CartTest extends AndroidTestCase {
 	 */
 	public void test_H_valid() {
 		assertTrue(cart.isValid());
+	}
+	
+	public void test_I_sell() {
+		try {
+			assertTrue(cart.sell());
+		} catch (StorageException e) {
+			Log.e(LOG_TAG, e.getMessage());
+			assertTrue(false);
+		}
 	}
 	
 	/**
@@ -192,5 +211,6 @@ public class CartTest extends AndroidTestCase {
 		user2.setId(-2);
 		
 		itemLocal = new ItemLocalStorage(db);
+		
 	}
 }

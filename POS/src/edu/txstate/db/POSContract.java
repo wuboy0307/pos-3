@@ -61,7 +61,7 @@ public final class POSContract {
 		public static final String SQL_DELETE = "DROP TABLE IF EXISTS " + TABLE_NAME;
 		public static final String SQL_CREATE = "CREATE TABLE " + TABLE_NAME +
 				" (" + _ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + 
-				COLUMN_NAME_USER_ID + " INTEGER NOT NULL UNIQUE, " +
+				COLUMN_NAME_USER_ID + " INTEGER NOT NULL, " +
 				COLUMN_NAME_CUSTOMER_ID + " TEXT, " +   
 				COLUMN_NAME_TAX_RATE + " TEXT DEFAULT '0', " + 
 				COLUMN_NAME_TAX_AMOUNT + " TEXT DEFAULT '0', " +

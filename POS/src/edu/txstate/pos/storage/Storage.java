@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 import edu.txstate.pos.model.Item;
 import edu.txstate.pos.model.User;
+import edu.txstate.pos.service.SyncService;
 
 /**
  * API for persistent storage for the POS application.  This class abstracts
@@ -37,6 +38,9 @@ public class Storage {
 	// Logged in user
 	private User updUser = null;
 	
+	// Sync Service
+	private SyncService syncService = null;
+	
 	
 	/**
 	 * Constructor.
@@ -45,9 +49,10 @@ public class Storage {
 	 * @param deviceID		Unique device ID used for synchronization
 	 * @param loggedInUser	The currently logged in user (for logging)
 	 */
-	public Storage(SQLiteDatabase db, String deviceID, User loggedInUser) {
+	public Storage(SQLiteDatabase db, String deviceID, User loggedInUser, SyncService syncService) {
 		mDeviceID = deviceID;
 		updUser = loggedInUser;
+		this.syncService = syncService;
 		
 		// Remote storage objects
 		hb = new Ping(mDeviceID);

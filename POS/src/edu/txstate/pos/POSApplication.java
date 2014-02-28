@@ -11,9 +11,12 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 import edu.txstate.db.POS_DBHelper;
+import edu.txstate.pos.model.Cart;
 import edu.txstate.pos.model.User;
 import edu.txstate.pos.service.POSSyncService;
+import edu.txstate.pos.service.SyncService;
 import edu.txstate.pos.storage.Storage;
+import edu.txstate.pos.storage.StorageException;
 
 /**
  * Custom Application class for the POS application.  Used to keep some persistent
@@ -27,19 +30,20 @@ import edu.txstate.pos.storage.Storage;
  * @author Geoff Marinski
  *
  */
-public class POSApplication extends Application {
+public class POSApplication extends Application implements SyncService {
 
 	private static final String LOG_TAG = "POS_APPLICATION";
 	
 	private String mDeviceID = null;
 	private User mUser = null;
 	private Storage mStorage = null;
+	private Cart mCart = null;
 	private static final int deviceUserID = -1;
 	private boolean connected = true;
 	private SQLiteDatabase mDb = null;
 
 	// This setting will delete the database when the application starts
-	private boolean killDBEveryTime = false;
+	private boolean killDBEveryTime = true;
 	
 	/**
 	 * Status of network connectivity
@@ -66,6 +70,23 @@ public class POSApplication extends Application {
 	 */
 	public Storage getStorage() {
 		return mStorage;
+	}
+	
+	/**
+	 * Returns the Cart object.
+	 * 
+	 * @return The Cart for the logged in user.
+	 */
+	public Cart getCart() throws StorageException {
+		if (isLoggedIn()) {
+			mCart = new Cart(mDb,getCurrentTaxRate(),mUser,this);
+		}
+		return mCart;
+	}
+	
+	// TODO: Get this from the settings
+	public String getCurrentTaxRate() {
+		return "0.1";
 	}
 
 	/**
@@ -165,12 +186,18 @@ public class POSApplication extends Application {
 	    
 	    Log.i(LOG_TAG, "DB set? " + (mDb != null));
 	    // Create a Storage object
-	    mStorage = new Storage(mDb,mDeviceID,mUser);
+	    mStorage = new Storage(mDb,mDeviceID,mUser,this);
 	    
 	    // Fire up the background sync service
 	    //Intent syncService = new Intent(getBaseContext(),POSSyncService.class);
 	    //getBaseContext().startService(syncService);
 	    //Log.i(LOG_TAG,"Started sync");
 	    
+	}
+	
+	public void startSync() {
+		Intent syncService = new Intent(getBaseContext(),POSSyncService.class);
+	    getBaseContext().startService(syncService);
+	    Log.i(LOG_TAG,"Started sync");
 	}
 }

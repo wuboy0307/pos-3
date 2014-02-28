@@ -46,7 +46,10 @@ public class POSSyncService extends IntentService {
 		
 		// PUSH all : push all data from our local device to the remote DB
 		Log.d(LOG_TAG,"Pushing...");
-		sync.pushItems();
+		//sync.pushItems();
+		
+		// If everything works, then shut myself off
+		stopSelf();
 	}
 	
 	/**

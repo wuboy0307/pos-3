@@ -1,8 +1,10 @@
 package edu.txstate.pos;
 
+import edu.txstate.pos.model.Cart;
 import edu.txstate.pos.model.User;
 import edu.txstate.pos.service.POSSyncService;
 import edu.txstate.pos.storage.Storage;
+import edu.txstate.pos.storage.StorageException;
 import android.annotation.TargetApi;
 import android.app.ActionBar;
 import android.app.Activity;
@@ -135,6 +137,16 @@ public class POSActivity extends Activity {
 	 */
 	protected Storage getStorage() {
 		return ((POSApplication) getApplication()).getStorage();
+	}
+	
+	/**
+	 * Return the current cart.
+	 * 
+	 * @return
+	 * @throws StorageException
+	 */
+	protected Cart getCart() throws StorageException {
+		return ((POSApplication) getApplication()).getCart();
 	}
 	
 }
