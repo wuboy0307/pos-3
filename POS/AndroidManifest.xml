@@ -61,7 +61,16 @@
             android:enabled="true"
             android:name="edu.txstate.pos.service.POSSyncService">
         </service>
- 
+        <service
+            android:enabled="true"
+            android:name="edu.txstate.pos.remote.POSRemote">
+            <intent-filter>
+                <action
+                    android:name="edu.txstate.pos.remote.POSRemote.SERVICE" />
+                <action
+                    android:name="edu.txstate.pos.remote.IRemoteInterface" />
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>
