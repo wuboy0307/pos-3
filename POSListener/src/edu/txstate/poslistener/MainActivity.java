@@ -4,7 +4,9 @@ import android.os.Build;
 import android.os.Bundle;
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -17,10 +19,18 @@ public class MainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		Log.d(LOG_TAG, "start");
-		Intent pollService = new Intent(getBaseContext(),PollService.class);
-		getBaseContext().startService(pollService);
+		Log.d(LOG_TAG, "Remote client");
+		Intent service = new Intent("edu.txstate.pos.remote.POSRemote.SERVICE");
+        startService(service);
+        
+		Log.d(LOG_TAG, "start poll service");
+		//Intent pollService = new Intent(getBaseContext(),PollService.class);
+		//getBaseContext().startService(pollService);
 		Log.d(LOG_TAG, "after start");
+		
+		Log.d(LOG_TAG, "Bind service");
+		//bindService(new Intent("edu.txstate.pos.remote.POSRemote.SERVICE"), (ServiceConnection) pollService, Context.BIND_AUTO_CREATE);
+        
 	}
 
 	@Override

@@ -1,31 +1,41 @@
 package edu.txstate.poslistener;
 
+import edu.txstate.pos.remote.RemoteItem;
+import edu.txstate.pos.remote.iRemoteInterface;
+
 import android.app.AlarmManager;
 import android.app.IntentService;
 import android.app.PendingIntent;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.ServiceConnection;
-import android.os.IBinder;
 import android.os.RemoteException;
 import android.util.Log;
 
-public class PollService extends IntentService implements ServiceConnection {
+public class PollService extends IntentService {
 
 	private static final String LOG_TAG = "PollService";
 	private static int interval = 10000;
-	
-	private iRemoteInterface mRemoteInterface = null;
-	
+
 	public PollService() {
 		super("PollService");
+	}
+	
+	@Override
+	public void onCreate() {
+		super.onCreate();
+		Log.d(LOG_TAG, "CREATE!!!");
+		//Intent service = new Intent(this, this.getClass());
+		//startService(service);
+		//bindService(new Intent("edu.txstate.pos.remote.POSRemote.SERVICE"), this, Context.BIND_AUTO_CREATE);
 	}
 	
 	@Override
 	protected void onHandleIntent(Intent intent) {
 		Log.i(LOG_TAG, "POLL!!!!");
 
+		POSListenerApplication pos = (POSListenerApplication) getApplicationContext();
+		iRemoteInterface mRemoteInterface = pos.getRemoteInterface();
+		
 		if (mRemoteInterface != null) {
 			Log.i(LOG_TAG, "Interface connected");
 			RemoteItem i = new RemoteItem();
@@ -41,9 +51,6 @@ public class PollService extends IntentService implements ServiceConnection {
 			}
 		} else {
 			Log.i(LOG_TAG, "Disconnected");
-			//Intent service = new Intent("edu.txstate.pos.remote.POSRemote.SERVICE");
-	        //startService(service);
-	        bindService(new Intent("edu.txstate.pos.remote.POSRemote.SERVICE"), this, Context.BIND_AUTO_CREATE);
 		}
 		//stopSelf();
 	}
@@ -106,20 +113,6 @@ public class PollService extends IntentService implements ServiceConnection {
 		PendingIntent pi = PendingIntent.getService(context, 0, i, PendingIntent.FLAG_NO_CREATE);
 		Log.d(LOG_TAG,"isServiceAlarmOn? " + (pi != null));
 		return pi != null;
-	}
-
-	@Override
-	public void onServiceConnected(ComponentName name, IBinder service) {
-		// TODO Auto-generated method stub
-		Log.i(LOG_TAG, "On Service Connected");
-		mRemoteInterface = iRemoteInterface.Stub.asInterface(service);
-	}
-
-	@Override
-	public void onServiceDisconnected(ComponentName name) {
-		// TODO Auto-generated method stub
-		Log.i(LOG_TAG, "On Service Disconnected");
-		mRemoteInterface = null;
 	}
 
 }

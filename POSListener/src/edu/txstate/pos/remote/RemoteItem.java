@@ -1,4 +1,4 @@
-package edu.txstate.poslistener;
+package edu.txstate.pos.remote;
 
 import android.os.Parcel;
 import android.os.Parcelable;
