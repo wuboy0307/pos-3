@@ -30,14 +30,14 @@ public class POSRemote extends Service {
 	public IBinder onBind(Intent arg0) {
 		// Looks like you can have more than one
 		// bound interface -- intent as that info - pg 25
-		return mRemoteInterfaceBinder;
+		return mNewItemInterfaceBinder;
 	}
 	
 	// The remote interface
-	private final iRemoteInterface.Stub mRemoteInterfaceBinder =
+	private final iRemoteInterface.Stub mNewItemInterfaceBinder =
 			new iRemoteInterface.Stub() {
 				public void newItem(RemoteItem i) {
-					Log.i(LOG_TAG,"item received");
+					Log.i(LOG_TAG,"item received: " + i.getItem().getId());
 				}
 			};
 

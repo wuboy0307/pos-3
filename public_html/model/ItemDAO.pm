@@ -61,7 +61,10 @@ sub sync() {
     
     my $ret = $self->getAll($sql);
     
-    $sql = "update watermark set lastTimestamp = timestamp('$now') where device_id = '$deviceID'";
+    $sql = "insert into watermark (device_id,lastTimestamp) values ('$deviceID', timestamp('$now')) " .
+           "on duplicate key update lastTimestamp = timestamp('$now')";
+    $logger->debug("SQL: $sql");
+    #$sql = "update watermark set lastTimestamp = timestamp('$now') where device_id = '$deviceID'";
     my $dbh = $self->{'dbh'};
     my $sth = $dbh->prepare($sql);
     $sth->execute();

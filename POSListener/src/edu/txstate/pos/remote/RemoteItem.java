@@ -53,6 +53,34 @@ public class RemoteItem implements Parcelable {
 	}
 
 	/**
+	 * @return the id
+	 */
+	public String getId() {
+		return id;
+	}
+
+	/**
+	 * @return the description
+	 */
+	public String getDescription() {
+		return description;
+	}
+
+	/**
+	 * @return the price
+	 */
+	public String getPrice() {
+		return price;
+	}
+
+	/**
+	 * @return the deviceID
+	 */
+	public String getDeviceID() {
+		return deviceID;
+	}
+
+	/**
 	 * @param deviceID the deviceID to set
 	 */
 	public void setDeviceID(String deviceID) {
@@ -70,7 +98,7 @@ public class RemoteItem implements Parcelable {
 		parcel.writeString(id);
 		parcel.writeString(description);
 		parcel.writeString(price);
-
+		parcel.writeString(deviceID);
 	}
 	
 	public void readFromParcel(Parcel src) {

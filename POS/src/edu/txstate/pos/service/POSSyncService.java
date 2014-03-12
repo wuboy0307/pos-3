@@ -17,10 +17,16 @@ public class POSSyncService extends IntentService {
 	// TODO: Make this a configurable interval
 	private static int interval = 1000 * 30;  // 30 seconds
 	
+	/**
+	 * Constructor.
+	 */
 	public POSSyncService() {
 		super("POSSyncService");
 	}
 	
+	/**
+	 * 
+	 */
 	@Override
 	protected void onHandleIntent(Intent intent) {
 		Log.i(LOG_TAG, "Intent: " + intent);

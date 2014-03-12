@@ -81,9 +81,19 @@ if (Constants::ACTION_GET_ALL eq $action) {
 } elsif (Constants::ACTION_DELETE eq $action) {
     $a = $dao->delete($id);
 } elsif (Constants::ACTION_RESET eq $action) {
-    $a = $dao->reset($deviceID);
+    if (defined($deviceID)) {
+        $a = $dao->reset($deviceID);
+    } else {
+        $a->{'returnMessage'} = "device_id is required.";
+        $a->{'returnCode'} = Constants::ERROR_MISSING_REQUIRED_FIELDS;
+    }
 } elsif (Constants::ACTION_SYNC eq $action) {
-    $a = $dao->sync($deviceID);
+    if (defined($deviceID)) {
+        $a = $dao->sync($deviceID);
+    } else {
+        $a->{'returnMessage'} = "device_id is required.";
+        $a->{'returnCode'} = Constants::ERROR_MISSING_REQUIRED_FIELDS;
+    }
 } else {
     $a->{Constants::RET_RETURN_MESSAGE} = "No action parameter given.";
     $a->{Constants::RET_RETURN_CODE} = Constants::ERROR_NO_ACTION;

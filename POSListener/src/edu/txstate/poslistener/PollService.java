@@ -1,5 +1,7 @@
 package edu.txstate.poslistener;
 
+import java.util.List;
+
 import edu.txstate.pos.remote.RemoteItem;
 import edu.txstate.pos.remote.iRemoteInterface;
 
@@ -38,17 +40,27 @@ public class PollService extends IntentService {
 		
 		if (mRemoteInterface != null) {
 			Log.i(LOG_TAG, "Interface connected");
-			RemoteItem i = new RemoteItem();
-			i.setId("ID1");
-			i.setDeviceID("deviceFoo");
-			i.setPrice("10.99");
-			i.setDescription("Remote Item 1");
+			
+			String id = ((POSListenerApplication) getApplicationContext()).getDeviceID();
+			
+			// Get the items to sync
+			SyncItems sync = new SyncItems(id);
 			try {
-				mRemoteInterface.newItem(i);
+				List<RemoteItem> items = sync.sync();
+				
+				for (RemoteItem i : items) {
+					Log.i(LOG_TAG, "Items: " + i.getId());
+					mRemoteInterface.newItem(i);
+				}
+				
+			} catch (ConnectionError e) {
+				Log.e(LOG_TAG, e.getMessage());
+				e.printStackTrace();
 			} catch (RemoteException e) {
 				Log.e(LOG_TAG, e.getMessage());
 				e.printStackTrace();
 			}
+		
 		} else {
 			Log.i(LOG_TAG, "Disconnected");
 		}
