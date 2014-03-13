@@ -19,5 +19,19 @@
   <li><a href="/~g_m108/cgi-bin/item.pl?action=reset&device_id=00000000-4609-c2db-ffff-ffff99d603a9">/~g_m108/cgi-bin/item.pl?action=reset&device_id=00000000-4609-c2db-ffff-ffff99d603a9</a></li>
 </ul>
 
+<p>
+Add Item
+</p>
+<p>
+<form action="/~g_m108/cgi-bin/item.pl" method="POST">
+    <label for="item_id">Item ID</label><input type="text" name="item_id" /><br/>
+    <label for="">Description</label><input type="text" name="description" /><br/>
+    <label for="price">Price</label><input type="text" name="price" /><br/>
+    <label for="device_id">Device</label><input type="text" name="device_id" value="XX" /><br/>
+    <input type="submit" />
+</form>
+</p>
+
+
 </body>
 </html>

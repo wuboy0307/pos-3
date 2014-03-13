@@ -4,6 +4,7 @@ import java.util.List;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
+import edu.txstate.pos.callback.ServiceCallback;
 import edu.txstate.pos.model.Item;
 import edu.txstate.pos.model.User;
 import edu.txstate.pos.service.SyncService;
@@ -39,7 +40,7 @@ public class Storage {
 	private User updUser = null;
 	
 	// Sync Service
-	private SyncService syncService = null;
+	private ServiceCallback syncService = null;
 	
 	
 	/**
@@ -49,7 +50,7 @@ public class Storage {
 	 * @param deviceID		Unique device ID used for synchronization
 	 * @param loggedInUser	The currently logged in user (for logging)
 	 */
-	public Storage(SQLiteDatabase db, String deviceID, User loggedInUser, SyncService syncService) {
+	public Storage(SQLiteDatabase db, String deviceID, User loggedInUser, ServiceCallback syncService) {
 		mDeviceID = deviceID;
 		updUser = loggedInUser;
 		this.syncService = syncService;
@@ -171,6 +172,7 @@ public class Storage {
 	public void addItem(Item item) throws StorageException {
 		try {
 			itemLocal.addItem(item, updUser);
+			syncService.push();
 		} catch (SQLException e) {
 			Log.e(LOG_TAG,e.getMessage());
 			throw new StorageException(e.getMessage());
@@ -238,7 +240,24 @@ public class Storage {
 	 */
 	public void updateItem(Item item) throws StorageException {
 		try {
-			itemLocal.update(item, updUser);
+			itemLocal.update(item, SyncStatus.PUSH, updUser);
+			syncService.push();
+		} catch (SQLException e) {
+			Log.e(LOG_TAG,e.getMessage());
+			throw new StorageException(e.getMessage());
+		}
+	}
+
+	/**
+	 * Update item in the inventory and set the sync status
+	 * 
+	 * 
+	 * @param item
+	 * @throws StorageException
+	 */
+	public void setItemSyncd(Item item) throws StorageException {
+		try {
+			itemLocal.update(item, SyncStatus.DONE, updUser);
 		} catch (SQLException e) {
 			Log.e(LOG_TAG,e.getMessage());
 			throw new StorageException(e.getMessage());

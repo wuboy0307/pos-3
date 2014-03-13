@@ -1,10 +1,11 @@
 package edu.txstate.pos;
 
-import edu.txstate.pos.model.User;
+import edu.txstate.pos.model.Item;
 import edu.txstate.pos.storage.BadPasswordException;
 import edu.txstate.pos.storage.ConnectionError;
 import edu.txstate.pos.storage.NoUserFoundException;
 import edu.txstate.pos.storage.Storage;
+import edu.txstate.pos.storage.StorageException;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -18,11 +19,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-public class FakeloginActivity extends POSActivity {
+public class FakeAddItem extends POSActivity {
 
-	private static final String LOG_TAG = "FakeLogin";
+	private static final String LOG_TAG = "FakeAddItem";
 	
-	private FakeLoginActivityTask mFakeTask = null;
+	private FakeAddItemActivityTask mFakeTask = null;
 	
 	private View mFakeStatusView = null;
 	private View mFakeView = null;
@@ -31,29 +32,29 @@ public class FakeloginActivity extends POSActivity {
 	private Button mTwoButton = null;
 	private Button mThreeButton = null;
 	
-	private TextView mLoginStatus = null;
+	private TextView mItemStatus = null;
 	private String mStatusMessage = "Select an item to add";
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_fakelogin);
+		setContentView(R.layout.activity_fake_add_item);
 	
-		mFakeView = findViewById(R.id.flogin_form);
-		mFakeStatusView = findViewById(R.id.flogin_spinner);
+		mFakeView = findViewById(R.id.fadd_form);
+		mFakeStatusView = findViewById(R.id.fadd_spinner);
 		
-		mOneButton = (Button) findViewById(R.id.flogin_one);
-		mTwoButton = (Button) findViewById(R.id.flogin_two);
-		mThreeButton = (Button) findViewById(R.id.flogin_three);
+		mOneButton = (Button) findViewById(R.id.fadd_one);
+		mTwoButton = (Button) findViewById(R.id.fadd_two);
+		mThreeButton = (Button) findViewById(R.id.fadd_three);
 		
-		mLoginStatus = (TextView) findViewById(R.id.flogin_status);
+		mItemStatus = (TextView) findViewById(R.id.fadd_status);
 		
 		mOneButton.setOnClickListener(
 				new View.OnClickListener() {
 					@Override
 					public void onClick(View view) {
-						User user = new User("geoff","5555");
-						fakeLogin(user);
+						Item item = new Item("add1","fake add 1","1.99");
+						addItem(item);
 					}
 				});
 
@@ -61,8 +62,8 @@ public class FakeloginActivity extends POSActivity {
 				new View.OnClickListener() {
 					@Override
 					public void onClick(View view) {
-						User user = new User("binh","1234");
-						fakeLogin(user);
+						Item item = new Item("add2","fake add 2","7.99");
+						addItem(item);
 					}
 				});
 		
@@ -70,18 +71,18 @@ public class FakeloginActivity extends POSActivity {
 				new View.OnClickListener() {
 					@Override
 					public void onClick(View view) {
-						User user = new User("pham","4321");
-						fakeLogin(user);
+						Item item = new Item("add3","fake add 3","100");
+						addItem(item);
 					}
 				});
 	}
 
-	public void fakeLogin(User user) {
+	public void addItem(Item item) {
 		if (mFakeTask != null) return;
 		
 		showProgress(true);
-		mFakeTask = new FakeLoginActivityTask();
-		mFakeTask.execute(user);
+		mFakeTask = new FakeAddItemActivityTask();
+		mFakeTask.execute(item);
 	}
 	
 	@Override
@@ -137,14 +138,13 @@ public class FakeloginActivity extends POSActivity {
 	 * call to resend a customer a receipt.
 	 * 
 	 */
-	private class FakeLoginActivityTask extends AsyncTask<User, String, Integer> {
+	private class FakeAddItemActivityTask extends AsyncTask<Item, String, Integer> {
 		@Override
-		protected Integer doInBackground(User... user) {
+		protected Integer doInBackground(Item... item) {
 			// Access to POS storage object to do work of resending receipt
 			Storage storage = getStorage();
 			try {
-				User newUser = storage.login(user[0]);
-				((POSApplication) getApplication()).setUser(newUser);
+				storage.addItem(item[0]);
 				return Activity.RESULT_OK;
 			} catch (ConnectionError e) {
 				mStatusMessage = e.getMessage();
@@ -155,6 +155,10 @@ public class FakeloginActivity extends POSActivity {
 				Log.e(LOG_TAG,e.getMessage());
 				return Activity.RESULT_CANCELED;
 			} catch (BadPasswordException e) {
+				mStatusMessage = e.getMessage();
+				Log.e(LOG_TAG,e.getMessage());
+				return Activity.RESULT_CANCELED;
+			} catch (StorageException e) {
 				mStatusMessage = e.getMessage();
 				Log.e(LOG_TAG,e.getMessage());
 				return Activity.RESULT_CANCELED;
@@ -172,7 +176,8 @@ public class FakeloginActivity extends POSActivity {
 				finish();
 				return;
 			} else {
-				mLoginStatus.setText(mStatusMessage);
+				showProgress(false);
+				mItemStatus.setText(mStatusMessage);
 			}
 		}
 		
@@ -187,5 +192,5 @@ public class FakeloginActivity extends POSActivity {
 			showProgress(false);
 		}
 	}
-	
+
 }

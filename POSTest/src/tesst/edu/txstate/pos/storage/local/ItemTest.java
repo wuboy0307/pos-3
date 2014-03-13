@@ -70,7 +70,7 @@ public class ItemTest extends AndroidTestCase {
 			item.setDescription("New Description");
 			item.setPrice("100.01");
 			updUser.setId(-100);
-			local.update(item, updUser);
+			local.update(item, SyncStatus.DONE, updUser);
 			
 			item = local.getItem("001AA");
 			assertEquals("New Description", item.getDescription());

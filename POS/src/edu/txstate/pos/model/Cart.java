@@ -13,6 +13,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import edu.txstate.db.POSContract;
+import edu.txstate.pos.callback.ServiceCallback;
 import edu.txstate.pos.service.SyncService;
 import edu.txstate.pos.storage.CartLocalStorage;
 import edu.txstate.pos.storage.NoCartFoundException;
@@ -63,7 +64,7 @@ public class Cart {
 	private String total = "0";
 	
 	private CartLocalStorage storage = null;
-	private SyncService syncService = null;
+	private ServiceCallback syncService = null;
 	
 	/**
 	 * Constructor.
@@ -73,7 +74,7 @@ public class Cart {
 	 * @param user user creating the cart
 	 * @throws StorageException
 	 */
-	public Cart(SQLiteDatabase db, String taxRate, User user, SyncService syncService) throws StorageException {
+	public Cart(SQLiteDatabase db, String taxRate, User user, ServiceCallback syncService) throws StorageException {
 		this.user = user;
 		this.syncService = syncService;
 		
@@ -322,7 +323,7 @@ public class Cart {
 		ContentValues values = getValues();
 		values.put(POSContract.Cart.COLUMN_NAME_SYNC,SyncStatus.PUSH);
 		update(values);
-		syncService.startSync();
+		syncService.push();
 		return true;
 	}
 	

@@ -11,8 +11,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 
     <application
         android:name="edu.txstate.pos.POSApplication"
@@ -38,6 +37,7 @@
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -57,20 +57,24 @@
             android:name="edu.txstate.pos.POSControl"
             android:label="@string/title_activity_poscontrol" >
         </activity>
+
         <service
-            android:enabled="true"
-            android:name="edu.txstate.pos.service.POSSyncService">
+            android:name="edu.txstate.pos.service.POSSyncService"
+            android:enabled="true" >
         </service>
         <service
-            android:enabled="true"
-            android:name="edu.txstate.pos.remote.POSRemote">
+            android:name="edu.txstate.pos.remote.POSRemote"
+            android:enabled="true" >
             <intent-filter>
-                <action
-                    android:name="edu.txstate.pos.remote.POSRemote.SERVICE" />
-                <action
-                    android:name="edu.txstate.pos.remote.IRemoteInterface" />
+                <action android:name="edu.txstate.pos.remote.POSRemote.SERVICE" />
+                <action android:name="edu.txstate.pos.remote.IRemoteInterface" />
             </intent-filter>
         </service>
+
+        <activity
+            android:name="edu.txstate.pos.FakeAddItem"
+            android:label="@string/title_activity_fake_add_item" >
+        </activity>
     </application>
 
 </manifest>

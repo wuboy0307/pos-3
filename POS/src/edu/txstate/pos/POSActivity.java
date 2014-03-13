@@ -8,8 +8,10 @@ import edu.txstate.pos.storage.StorageException;
 import android.annotation.TargetApi;
 import android.app.ActionBar;
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -30,6 +32,8 @@ import android.view.MenuItem;
  */
 public class POSActivity extends Activity {
 
+	private static final String LOG_TAG = "POSActivity-Parent";
+	
 	/**
 	 * onCreate() for the Activity
 	 */
@@ -46,6 +50,11 @@ public class POSActivity extends Activity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.all, menu);
+		
+		MenuItem fakeItem = menu.findItem(R.id.menu_action_fakeitem);
+		Intent intent = new Intent(this, FakeAddItem.class);
+		fakeItem.setIntent(intent);
+		
 		return true;
 	}
 	
@@ -79,6 +88,8 @@ public class POSActivity extends Activity {
 				toggleItem.setTitle("Start Sync"); 
 			}
 		}
+		
+
 		return true; // true or else menu will not be shown
 	}
 	
@@ -87,6 +98,7 @@ public class POSActivity extends Activity {
 	 */
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
+	//public boolean onMenuItemSelected(int featureID, MenuItem item) {
 		switch (item.getItemId()) {
 			case R.id.menu_action_poll:
 					// Toggles the alarm
@@ -100,6 +112,11 @@ public class POSActivity extends Activity {
 					break;
 			case R.id.menu_action_settings:
 					break;
+			//case R.id.menu_action_fakeitem:
+			//		Log.d(LOG_TAG, "Fake Item");
+			//		Intent intent = new Intent(this, FakeAddItem.class);
+			//		startService(intent);
+			//		break;
 			default:
 					return super.onOptionsItemSelected(item);
 		}

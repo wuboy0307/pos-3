@@ -11,6 +11,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 import edu.txstate.db.POS_DBHelper;
+import edu.txstate.pos.callback.ServiceCallback;
 import edu.txstate.pos.model.Cart;
 import edu.txstate.pos.model.User;
 import edu.txstate.pos.service.POSSyncService;
@@ -30,7 +31,7 @@ import edu.txstate.pos.storage.StorageException;
  * @author Geoff Marinski
  *
  */
-public class POSApplication extends Application implements SyncService {
+public class POSApplication extends Application implements SyncService, ServiceCallback {
 
 	private static final String LOG_TAG = "POS_APPLICATION";
 	
@@ -199,5 +200,12 @@ public class POSApplication extends Application implements SyncService {
 		Intent syncService = new Intent(getBaseContext(),POSSyncService.class);
 	    getBaseContext().startService(syncService);
 	    Log.i(LOG_TAG,"Started sync");
+	}
+
+	@Override
+	public void push() {
+		Log.i(LOG_TAG,"Push");
+		boolean b = POSSyncService.isServiceAlarmOn(getApplicationContext());
+		Log.i(LOG_TAG, "B: " + b);
 	}
 }

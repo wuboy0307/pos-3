@@ -1,6 +1,7 @@
 package tesst.edu.txstate.pos.storage.local;
 
 import edu.txstate.db.POS_DBHelper;
+import edu.txstate.pos.callback.ServiceCallback;
 import edu.txstate.pos.model.Cart;
 import edu.txstate.pos.model.DebitCard;
 import edu.txstate.pos.model.Item;
@@ -33,7 +34,7 @@ public class CartTest extends AndroidTestCase {
 	private ItemLocalStorage itemLocal = null;
 	
 	private static Cart cart = null;
-	private static SyncService syncService = new JunitSyncStub();
+	private static ServiceCallback syncService = new JunitSyncStub();
 	
 	/**
 	 * Create a cart.  A cart created again for the same

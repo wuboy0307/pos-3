@@ -72,13 +72,13 @@ public class ItemLocalStorage extends LocalStorage {
 	 * @param updUser The user making the update.
 	 * @throws SQLException
 	 */
-	public void update(Item item, User updUser) throws SQLException {
+	public void update(Item item, int sync, User updUser) throws SQLException {
 		ContentValues values = new ContentValues();
 		values.put(POSContract.Item.COLUMN_NAME_ITEM_ID, item.getId());
 		values.put(POSContract.Item.COLUMN_NAME_DESCRIPTION, item.getDescription());
 		values.put(POSContract.Item.COLUMN_NAME_PRICE, item.getPrice());
 		values.put(POSContract.Item.COLUMN_NAME_USER_ID, updUser.getId());
-		values.put(POSContract.Item.COLUMN_NAME_SYNC, SyncStatus.PUSH);
+		values.put(POSContract.Item.COLUMN_NAME_SYNC, sync );
 		
 		String selection = POSContract.Item.COLUMN_NAME_ITEM_ID + " = ?";
 		String[] selectionArgs = { String.valueOf(item.getId()) };
@@ -156,5 +156,38 @@ public class ItemLocalStorage extends LocalStorage {
         return ret;
 	}
 	
+	/**
+	 * Get all of the unsync'd items in the local inventory.
+	 * 
+	 * @return
+	 * @throws SQLException
+	 */
+	public List<Item> getUnsyncdItems() throws SQLException {
+        List<Item> ret = new ArrayList<Item>();
+        
+		String[] projection = {
+                POSContract.Item.COLUMN_NAME_ITEM_ID,
+                POSContract.Item.COLUMN_NAME_DESCRIPTION,
+                POSContract.Item.COLUMN_NAME_PRICE,
+                POSContract.Item.COLUMN_NAME_SYNC,
+                POSContract.Item.COLUMN_NAME_USER_ID
+        };
+        String sortOrder = POSContract.Item.COLUMN_NAME_ITEM_ID;
+        String selection = POSContract.Item.COLUMN_NAME_SYNC + " = ?";
+        String[] selectionArgs = { String.valueOf(SyncStatus.PUSH) };
+        Cursor c = db.query(POSContract.Item.TABLE_NAME, projection, selection, selectionArgs, null, null, sortOrder);
+        if (c.moveToFirst()) {
+	        do {
+	        	Item item = new Item(c.getString(0),
+	        						 c.getString(1),
+	        						 c.getString(2),
+	        						 c.getInt(4));
+	        	item.setSyncStatus(c.getInt(3));
+	        	ret.add(item);
+	        } while (c.moveToNext());
+        }
+		
+        return ret;
+	}
 	
 }

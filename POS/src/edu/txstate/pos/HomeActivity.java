@@ -86,7 +86,7 @@ public class HomeActivity extends POSActivity {
 				new View.OnClickListener() {
 					@Override
 					public void onClick(View view) {
-						Intent intent = new Intent(getBaseContext(), ResendActivity.class);
+						Intent intent = new Intent(getBaseContext(), FakeAddItem.class);
 						startActivity(intent);
 					}
 				});

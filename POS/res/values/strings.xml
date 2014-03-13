@@ -7,7 +7,6 @@
     <string name="button_clear">CLEAR</string>
     <string name="button_login">LOGIN</string>
     <string name="title_activity_admin">Admin</string>
-
     <string name="title_activity_scan">ScanActivity</string>
     <string name="skip_to_scan">Skip to Scan</string>
     <string name="button_scan">SCAN</string>
@@ -15,8 +14,6 @@
     <string name="title_activity_splash">SplashActivity</string>
     <string name="title_activity_home">HomeActivity</string>
     <string name="title_activity_fakelogin">FakeloginActivity</string>
-
-
     <string name="title_activity_offline_login">OfflineLogin</string>
     <string name="title_activity_poscontrol">POSControl</string>
     <string name="user_id">User ID</string>
@@ -26,6 +23,6 @@
     <string name="admin_user_id">Admin ID</string>
     <string name="admin_user_pin">Admin PIN</string>
     <string name="app_version">version 1.0</string>
-
+    <string name="title_activity_fake_add_item">FakeAddItem</string>
 
 </resources>
