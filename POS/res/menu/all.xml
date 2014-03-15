@@ -14,4 +14,9 @@
      android:orderInCategory="300"
      android:showAsAction="never"
      android:title="Fake Add Item"/>
+    <item
+     android:id="@+id/menu_action_fakecart"
+     android:orderInCategory="400"
+     android:showAsAction="never"
+     android:title="Fake Cart"/>
 </menu>

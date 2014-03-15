@@ -80,7 +80,13 @@ public class POSApplication extends Application implements SyncService, ServiceC
 	 */
 	public Cart getCart() throws StorageException {
 		if (isLoggedIn()) {
-			mCart = new Cart(mDb,getCurrentTaxRate(),mUser,this);
+			if (mCart == null) {
+				mCart = new Cart(mDb,getCurrentTaxRate(),mUser,this);
+			} else {
+				if (mCart.getUser().getId() != mUser.getId()) {
+					mCart = new Cart(mDb,getCurrentTaxRate(),mUser,this);
+				}
+			}
 		}
 		return mCart;
 	}

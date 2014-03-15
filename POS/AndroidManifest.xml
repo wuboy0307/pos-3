@@ -75,6 +75,10 @@
             android:name="edu.txstate.pos.FakeAddItem"
             android:label="@string/title_activity_fake_add_item" >
         </activity>
+        <activity
+            android:name="edu.txstate.pos.FakeCartActivity"
+            android:label="@string/title_activity_fake_cart" >
+        </activity>
     </application>
 
 </manifest>

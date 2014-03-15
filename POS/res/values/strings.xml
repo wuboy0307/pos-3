@@ -24,5 +24,6 @@
     <string name="admin_user_pin">Admin PIN</string>
     <string name="app_version">version 1.0</string>
     <string name="title_activity_fake_add_item">FakeAddItem</string>
+    <string name="title_activity_fake_cart">FakeCartActivity</string>
 
 </resources>
