@@ -63,6 +63,7 @@ public class PollService extends IntentService {
 		
 		} else {
 			Log.i(LOG_TAG, "Disconnected");
+			pos.bind();
 		}
 		//stopSelf();
 	}

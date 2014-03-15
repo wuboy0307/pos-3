@@ -38,7 +38,7 @@ public class ItemTest extends AndroidTestCase {
 				"11.99");
 
 		try {
-			local.addItem(item, updUser);
+			local.addItem(item, SyncStatus.DONE, updUser);
 		} catch (SQLException e) {
 			Log.d(LOG_TAG,e.getMessage());
 			assertTrue(false);
@@ -119,9 +119,9 @@ public class ItemTest extends AndroidTestCase {
 			Item i2 = new Item("X002AA","Item 2","10");
 			Item i3 = new Item("X003AA","Item 3","12");
 			
-			local.addItem(i1, updUser);
-			local.addItem(i2, updUser);
-			local.addItem(i3, updUser);
+			local.addItem(i1, SyncStatus.DONE, updUser);
+			local.addItem(i2, SyncStatus.DONE, updUser);
+			local.addItem(i3, SyncStatus.DONE, updUser);
 			
 			boolean found1 = false;
 			boolean found2 = false;

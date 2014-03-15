@@ -210,6 +210,32 @@ sub delete() {
 
 }
 
+sub deleteForDevice() {
+    my $self = shift;
+    my $deviceID = shift;
+    
+    my $ret;
+    my $sql = "delete from item where update_device_id = ?";
+    my $dbh = $self->{'dbh'};
+    my $sth = $dbh->prepare($sql);
+    $sth->execute($deviceID);
+    if ($sth->err() > 0) {
+        $ret->{Constants::RET_RETURN_MESSAGE} = "SQL ERROR: $sql /" . $sth->err() . "/" . $sth->errstr();
+        $ret->{Constants::RET_RETURN_CODE} = Constants::ERROR_SQL_ERROR;
+        $logger->error("SQL ERROR: $sql /" . $sth->err() . "/" . $sth->errstr());
+        return $ret;
+    }
+    
+    $ret->{Constants::RET_RETURN_MESSAGE} = "Success";
+    $ret->{Constants::RET_RETURN_CODE} = Constants::SUCCESS;
+    
+    $sth->finish();
+    $dbh->disconnect();
+    
+    return $ret;
+
+}
+
 sub reset() {
     my $self = shift;
     my $deviceID = shift;

@@ -1,6 +1,11 @@
 package edu.txstate.pos.service;
 
+import java.util.List;
+
 import edu.txstate.pos.POSApplication;
+import edu.txstate.pos.model.Item;
+import edu.txstate.pos.storage.Storage;
+import edu.txstate.pos.storage.StorageException;
 import edu.txstate.pos.storage.SyncData;
 import android.app.AlarmManager;
 import android.app.IntentService;
@@ -53,8 +58,21 @@ public class POSSyncService extends IntentService {
 		// PUSH all : push all data from our local device to the remote DB
 		Log.d(LOG_TAG,"Pushing...");
 		//sync.pushItems();
+		Storage storage = ((POSApplication) getApplication()).getStorage();
+		try {
+			List<Item> items = storage.getUnsyncdItems();
+			for (Item i : items) {
+				Log.d(LOG_TAG, "Push item: " + i.getId());
+				
+				storage.syncItem(i);
+				
+			}
+		} catch (StorageException e) {
+			Log.e(LOG_TAG, "Sync Problem: " + e.getMessage());
+		}
 		
 		// If everything works, then shut myself off
+		Log.i(LOG_TAG, "Stopping Sync");
 		stopSelf();
 	}
 	

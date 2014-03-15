@@ -53,11 +53,15 @@ public class POSListenerApplication extends Application implements ServiceConnec
 		//getBaseContext().startService(pollService);
 		//Intent service = new Intent("edu.txstate.pos.remote.POSRemote.SERVICE");
         //startService(service);
+
+        bind();
+        
+	}
+	
+	public void bind() {
         bindService(new Intent("edu.txstate.pos.remote.POSRemote.SERVICE"), 
-        				this, 
-        				Context.BIND_AUTO_CREATE);
-        
-        
+				this, 
+				Context.BIND_AUTO_CREATE);
 	}
 
 	@Override

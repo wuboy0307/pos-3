@@ -7,6 +7,7 @@ import android.os.Parcelable;
 public class RemoteItem implements Parcelable {
 
 	private Item item = null;
+	private String mDeviceID = null;
 	
 	public static final Parcelable.Creator<RemoteItem>
 		CREATOR = new Parcelable.Creator<RemoteItem>() {
@@ -45,6 +46,7 @@ public class RemoteItem implements Parcelable {
 		String id = src.readString();
 		String description = src.readString();
 		String price = src.readString();
+		mDeviceID = src.readString();
 		item = new Item(id,description,price);
 
 	}
@@ -54,6 +56,13 @@ public class RemoteItem implements Parcelable {
 	 */
 	public Item getItem() {
 		return item;
+	}
+
+	/**
+	 * @return the deviceID
+	 */
+	public String getDeviceID() {
+		return mDeviceID;
 	}
 
 }

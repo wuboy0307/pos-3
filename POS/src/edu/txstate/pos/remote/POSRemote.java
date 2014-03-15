@@ -1,5 +1,9 @@
 package edu.txstate.pos.remote;
 
+import edu.txstate.pos.POSApplication;
+import edu.txstate.pos.storage.NoItemFoundException;
+import edu.txstate.pos.storage.Storage;
+import edu.txstate.pos.storage.StorageException;
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
@@ -38,6 +42,25 @@ public class POSRemote extends Service {
 			new iRemoteInterface.Stub() {
 				public void newItem(RemoteItem i) {
 					Log.i(LOG_TAG,"item received: " + i.getItem().getId());
+					Storage storage = ((POSApplication) getApplication()).getStorage();
+					try {
+						try {
+							storage.getItem(i.getItem().getId());
+							Log.i(LOG_TAG,"Item already exists locally: " + i.getItem().getId());
+							
+							if (i.getDeviceID() != null && i.getDeviceID().equals(storage.getDeviceID())) {
+								Log.i(LOG_TAG, "My item came back: " + i.getItem().getId());
+							} else {
+								Log.i(LOG_TAG, "Updating item: " + i.getItem().getId());
+								storage.updateAsSyncdItem(i.getItem());
+							}
+						} catch (NoItemFoundException e) {
+							Log.i(LOG_TAG,"Item not found locally: " + i.getItem().getId());
+							storage.addSyncdItem(i.getItem());
+						}
+					} catch (StorageException e) {
+						Log.e(LOG_TAG,e.getMessage());
+					}
 				}
 			};
 

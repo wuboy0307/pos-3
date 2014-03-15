@@ -17,6 +17,8 @@
   <li><a href="/~g_m108/cgi-bin/item.pl?action=get&item_id=001">/~g_m108/cgi-bin/item.pl?action=get&item_id=001</a></li>
   <li><a href="/~g_m108/cgi-bin/item.pl?action=sync&device_id=00000000-4609-c2db-ffff-ffff99d603a9">/~g_m108/cgi-bin/item.pl?action=sync&device_id=00000000-4609-c2db-ffff-ffff99d603a9</a></li>
   <li><a href="/~g_m108/cgi-bin/item.pl?action=reset&device_id=00000000-4609-c2db-ffff-ffff99d603a9">/~g_m108/cgi-bin/item.pl?action=reset&device_id=00000000-4609-c2db-ffff-ffff99d603a9</a></li>
+  <li><a href="/~g_m108/cgi-bin/item.pl?action=deleteDeviceItems&device_id=00000000-4609-c2db-ffff-ffff99d603a9">Delete Items for 00000000-4609-c2db-ffff-ffff99d603a9</a></li>
+  <li><a href="/~g_m108/cgi-bin/item.pl?action=deleteDeviceItems&device_id=XX">Delete Items for XX</a></li>
 </ul>
 
 <p>
@@ -28,6 +30,8 @@ Add Item
     <label for="">Description</label><input type="text" name="description" /><br/>
     <label for="price">Price</label><input type="text" name="price" /><br/>
     <label for="device_id">Device</label><input type="text" name="device_id" value="XX" /><br/>
+    <label for="action">Action</label><input type="text" name="action" value="add" /><br/>
+    <label for="update_user_id">User ID</label><input type="text" name="update_user_id" value="-1"/><br/>
     <input type="submit" />
 </form>
 </p>

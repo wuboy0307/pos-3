@@ -28,7 +28,7 @@ public class Storage {
 	// Remote storage
 	private Ping hb = null;
 	private UserRemoteStorage userRemote = null;
-	//private ItemRemoteStorage itemRemote = null;
+	private ItemRemoteStorage itemRemote = null;
 	
 	// Local storage
 	private ItemLocalStorage itemLocal = null;
@@ -58,13 +58,20 @@ public class Storage {
 		// Remote storage objects
 		hb = new Ping(mDeviceID);
 		userRemote = new UserRemoteStorage(mDeviceID);
-		//itemRemote = new ItemRemoteStorage(mDeviceID);
+		itemRemote = new ItemRemoteStorage(mDeviceID);
 		
 		// Local storage obejcts
 		itemLocal = new ItemLocalStorage(db);
 		settingLocal = new SettingsLocalStorage(db);
 	}
 	
+	/**
+	 * @return the deviceID
+	 */
+	public String getDeviceID() {
+		return mDeviceID;
+	}
+
 	/**
 	 * Used when the logged in user changes.
 	 * 
@@ -171,7 +178,7 @@ public class Storage {
 	 */
 	public void addItem(Item item) throws StorageException {
 		try {
-			itemLocal.addItem(item, updUser);
+			itemLocal.addItem(item, SyncStatus.PUSH, updUser);
 			syncService.push();
 		} catch (SQLException e) {
 			Log.e(LOG_TAG,e.getMessage());
@@ -179,6 +186,23 @@ public class Storage {
 		}
 	}
 
+	/**
+	 * Adds a sync'd Item to the inventory. This call is meant to come from
+	 * POSRemote.  Needs to get a DONE or we try to push the things we pulled.
+	 * 
+	 * @param item  Item to add
+	 * @throws StorageException
+	 */
+	public void addSyncdItem(Item item) throws StorageException {
+		try {
+			Log.i(LOG_TAG, "addSyncdItem " + item.getId());
+			itemLocal.addItem(item, SyncStatus.DONE, updUser);
+		} catch (SQLException e) {
+			Log.e(LOG_TAG,e.getMessage());
+			throw new StorageException(e.getMessage());
+		}
+	}
+	
 	/**
 	 * Delete the Item from the inventory for the given
 	 * item ID.
@@ -205,6 +229,23 @@ public class Storage {
 		List<Item> ret = null;
 		try {
 			ret = itemLocal.getItems();
+		} catch (SQLException e) {
+			Log.e(LOG_TAG,e.getMessage());
+			throw new StorageException(e.getMessage());
+		}
+		return ret;
+	}
+
+	/**
+	 * Get all of the unsync'd items in the inventory.
+	 * 
+	 * @return
+	 * @throws StorageException
+	 */
+	public List<Item> getUnsyncdItems() throws StorageException {
+		List<Item> ret = null;
+		try {
+			ret = itemLocal.getUnsyncdItems();
 		} catch (SQLException e) {
 			Log.e(LOG_TAG,e.getMessage());
 			throw new StorageException(e.getMessage());
@@ -255,10 +296,24 @@ public class Storage {
 	 * @param item
 	 * @throws StorageException
 	 */
-	public void setItemSyncd(Item item) throws StorageException {
+	public void updateAsSyncdItem(Item item) throws StorageException {
 		try {
 			itemLocal.update(item, SyncStatus.DONE, updUser);
 		} catch (SQLException e) {
+			Log.e(LOG_TAG,e.getMessage());
+			throw new StorageException(e.getMessage());
+		}
+	}
+	
+	public void syncItem(Item item) throws StorageException {
+		try {
+			try {
+				itemRemote.add(item, updUser);
+			} catch (ItemExistsException e) {
+				Log.i(LOG_TAG,"Item already exists");
+			}
+			itemLocal.update(item, SyncStatus.DONE, updUser);
+		} catch (ConnectionError e) {
 			Log.e(LOG_TAG,e.getMessage());
 			throw new StorageException(e.getMessage());
 		}

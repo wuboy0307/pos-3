@@ -4,6 +4,7 @@ use constant ACTION_GET_ALL => 'getAll';
 use constant ACTION_GET => 'get';
 use constant ACTION_ADD => 'add';
 use constant ACTION_DELETE => 'delete';
+use constant ACTION_DELETE_DEVICE => 'deleteDeviceItems';
 use constant ACTION_LOGIN => 'login';
 use constant ACTION_SYNC => 'sync';
 use constant ACTION_RESET => 'reset';

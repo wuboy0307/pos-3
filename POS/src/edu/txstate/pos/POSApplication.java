@@ -207,5 +207,8 @@ public class POSApplication extends Application implements SyncService, ServiceC
 		Log.i(LOG_TAG,"Push");
 		boolean b = POSSyncService.isServiceAlarmOn(getApplicationContext());
 		Log.i(LOG_TAG, "B: " + b);
+		Intent syncService = new Intent(getApplicationContext(),POSSyncService.class);
+	    startService(syncService);
+	    Log.i(LOG_TAG,"Started push sync");
 	}
 }

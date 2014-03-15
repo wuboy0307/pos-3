@@ -94,6 +94,13 @@ if (Constants::ACTION_GET_ALL eq $action) {
         $a->{'returnMessage'} = "device_id is required.";
         $a->{'returnCode'} = Constants::ERROR_MISSING_REQUIRED_FIELDS;
     }
+} elsif (Constants::ACTION_DELETE_DEVICE eq $action) {
+    if (defined($deviceID)) {
+        $a = $dao->deleteForDevice($deviceID);
+    } else {
+        $a->{'returnMessage'} = "device_id is required.";
+        $a->{'returnCode'} = Constants::ERROR_MISSING_REQUIRED_FIELDS;
+    }    
 } else {
     $a->{Constants::RET_RETURN_MESSAGE} = "No action parameter given.";
     $a->{Constants::RET_RETURN_CODE} = Constants::ERROR_NO_ACTION;

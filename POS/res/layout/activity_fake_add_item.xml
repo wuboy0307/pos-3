@@ -42,19 +42,19 @@
             android:id="@+id/fadd_one"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="XT001" />
+            android:text="add1" />
     
         <Button
             android:id="@+id/fadd_two"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="XT002" />
+            android:text="add2" />
     
         <Button
             android:id="@+id/fadd_three"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="XT003" />
+            android:text="add3" />
 
         <TextView
             android:id="@+id/fadd_status"

@@ -38,16 +38,16 @@ public class ItemLocalStorage extends LocalStorage {
 	 * @param updUser
 	 * @throws SQLException
 	 */
-	public void addItem(Item item, User updUser) throws SQLException {
+	public void addItem(Item item, int sync, User updUser) throws SQLException {
 		ContentValues values = new ContentValues();
 		values.put(POSContract.Item.COLUMN_NAME_ITEM_ID, item.getId());
 		values.put(POSContract.Item.COLUMN_NAME_DESCRIPTION, item.getDescription());
 		values.put(POSContract.Item.COLUMN_NAME_PRICE, item.getPrice());
 		values.put(POSContract.Item.COLUMN_NAME_USER_ID, updUser.getId());
-		values.put(POSContract.Item.COLUMN_NAME_SYNC, SyncStatus.PUSH);
+		values.put(POSContract.Item.COLUMN_NAME_SYNC, sync);
 		
 		db.insertOrThrow(POSContract.Item.TABLE_NAME, null, values);
-		
+		Log.d(LOG_TAG, "addItem " + sync);
 		//values.put(POSContract.Foo.COLUMN_NAME_CODE, "code1");
 		//db.insertOrThrow(POSContract.Foo.TABLE_NAME, null, values);
 	}

@@ -76,13 +76,13 @@ public class CartTest extends AndroidTestCase {
 		item = new Item("C001","Item 1","9.99");
 		item2 = new Item("C002","Item 2","11.99");
 		try {
-			itemLocal.addItem(item, updUser);
+			itemLocal.addItem(item, SyncStatus.DONE, updUser);
 		} catch (SQLException e) {
 			// Don't care - just need them there
 		}
 
 		try {
-			itemLocal.addItem(item2, updUser);
+			itemLocal.addItem(item2, SyncStatus.DONE, updUser);
 		} catch (SQLException e) {
 			// Don't care - just need them there
 		}
