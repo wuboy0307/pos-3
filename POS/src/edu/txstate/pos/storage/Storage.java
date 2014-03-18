@@ -1,13 +1,17 @@
 package edu.txstate.pos.storage;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import org.json.JSONException;
+
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 import edu.txstate.pos.callback.ServiceCallback;
 import edu.txstate.pos.model.Item;
+import edu.txstate.pos.model.RemoteCart;
 import edu.txstate.pos.model.User;
-import edu.txstate.pos.service.SyncService;
 
 /**
  * API for persistent storage for the POS application.  This class abstracts
@@ -29,10 +33,12 @@ public class Storage {
 	private Ping hb = null;
 	private UserRemoteStorage userRemote = null;
 	private ItemRemoteStorage itemRemote = null;
+	private CartRemoteStorage cartRemote = null;
 	
 	// Local storage
 	private ItemLocalStorage itemLocal = null;
 	private SettingsLocalStorage settingLocal = null;
+	private CartLocalStorage cartLocal = null;
 	
 	// Device ID of this device
 	private String mDeviceID = null;
@@ -41,6 +47,9 @@ public class Storage {
 	
 	// Sync Service
 	private ServiceCallback syncService = null;
+	
+	// SQLiteDatabase of local storage
+	private SQLiteDatabase db = null;
 	
 	
 	/**
@@ -54,15 +63,18 @@ public class Storage {
 		mDeviceID = deviceID;
 		updUser = loggedInUser;
 		this.syncService = syncService;
+		this.db = db;
 		
 		// Remote storage objects
 		hb = new Ping(mDeviceID);
 		userRemote = new UserRemoteStorage(mDeviceID);
 		itemRemote = new ItemRemoteStorage(mDeviceID);
+		cartRemote = new CartRemoteStorage(mDeviceID);
 		
-		// Local storage obejcts
+		// Local storage objects
 		itemLocal = new ItemLocalStorage(db);
 		settingLocal = new SettingsLocalStorage(db);
+		cartLocal = new CartLocalStorage(db);
 	}
 	
 	/**
@@ -95,6 +107,35 @@ public class Storage {
 		return hb.ping();
 	}
 
+	/* ++++++++++++++++++++++++++++++++++++++++++++++++
+	 * CART
+	 * ++++++++++++++++++++++++++++++++++++++++++++++++
+	 */
+	
+	public List<RemoteCart> getPushableCarts() {
+		List<RemoteCart> carts = new ArrayList<RemoteCart>();
+		try {
+			List<Long> ids = cartLocal.getPushableCarts();
+			for (Long id : ids) {
+				RemoteCart cart = new RemoteCart(db,id);
+				carts.add(cart);
+			}
+		} catch (NoCartFoundException nc) {
+			Log.e(LOG_TAG,nc.getMessage());
+		} catch (StorageException e) {
+			Log.e(LOG_TAG,e.getMessage());
+		}
+		return carts;
+	}
+	
+	public void pushCart(RemoteCart cart) throws ConnectionError {
+		try {
+			cartRemote.add(cart);
+		} catch (JSONException e) {
+			throw new ConnectionError("JSONError: " + e.getMessage());
+		}
+	}
+	
 	/* ++++++++++++++++++++++++++++++++++++++++++++++++
 	 * USER
 	 * ++++++++++++++++++++++++++++++++++++++++++++++++

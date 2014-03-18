@@ -12,6 +12,7 @@ use constant ACTION_UPDATE => 'update';
 use constant ACTION_PING => 'ping';
 
 use constant FIELD_ACTION => 'action';
+use constant FIELD_CART_JSON => 'cart';
 use constant FIELD_DESCRIPTION => 'description';
 use constant FIELD_ITEM_ID => 'item_id';
 use constant FIELD_PRICE => 'price';

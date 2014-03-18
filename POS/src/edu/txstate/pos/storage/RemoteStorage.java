@@ -115,6 +115,17 @@ public abstract class RemoteStorage {
 	static final String DESCRIPTION = "description";
 	static final String UPDATE_USER = "update_user_id";
 	static final String PRICE = "price";
+	static final String QUANTITY = "quantity";
+	static final String ITEMS = "items";
+	static final String CUSTOMER_EMAIL = "customer_email";
+	static final String SUBTOTAL = "subtotal";
+	static final String TAX_RATE = "tax_rate";
+	static final String TAX_AMOUNT = "tax_amount";
+	static final String TOTAL = "total";
+	static final String PAYMENT_CARD = "payment_card";
+	static final String PAYMENT_PIN = "payment_pin";
+	static final String CART_ID = "cart_id";
+	static final String CART = "cart";
 	
 	// The device ID passed to most methods
 	String androidID = null;

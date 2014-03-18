@@ -14,7 +14,6 @@ import android.util.Log;
 
 import edu.txstate.db.POSContract;
 import edu.txstate.pos.callback.ServiceCallback;
-import edu.txstate.pos.service.SyncService;
 import edu.txstate.pos.storage.CartLocalStorage;
 import edu.txstate.pos.storage.NoCartFoundException;
 import edu.txstate.pos.storage.StorageException;
@@ -52,19 +51,19 @@ public class Cart {
 	public static MathContext mathContext = new MathContext(2,RoundingMode.UP);
 	
 	// -1 means this is an invalid cart
-	private long id = -1;
-	private User user;
-	private Payment payment;
-	private List<CartItem> items;
-	private String customerEmail;
-	private Signature signature;
-	private String taxAmount = "0";
-	private String taxRate = "0";
-	private String subTotal = "0";
-	private String total = "0";
+	protected long id = -1;
+	protected User user;
+	protected Payment payment;
+	protected List<CartItem> items;
+	protected String customerEmail;
+	protected Signature signature;
+	protected String taxAmount = "0";
+	protected String taxRate = "0";
+	protected String subTotal = "0";
+	protected String total = "0";
 	
-	private CartLocalStorage storage = null;
-	private ServiceCallback syncService = null;
+	protected CartLocalStorage storage = null;
+	protected ServiceCallback syncService = null;
 	
 	/**
 	 * Constructor.
@@ -106,11 +105,17 @@ public class Cart {
 		}
 		
 		this.taxRate = taxRate;
-		
-		
-		
+
 	}
 	
+	/**
+	 * Constructor for use by RemoteCart.
+	 * 
+	 */
+	protected Cart() {
+		
+	}
+
 	/**
 	 * Utility method to get the ContentValues with the tax rate and amounts.  Anything
 	 * changed beyond this can be added before sending to the update() method.
@@ -211,12 +216,9 @@ public class Cart {
 	public void addPayment(Payment payment) throws StorageException {
 		ContentValues values = getValues();
 		values.put(POSContract.Cart.COLUMN_NAME_PAYMENT_CARD, payment.getCardNumber());
-		if (payment instanceof DebitCard) {
-			values.put(POSContract.Cart.COLUMN_NAME_PAYMENT_PIN, ((DebitCard) payment).getPin());
-		}
-		for (String s : values.keySet()) {
-			Log.d(LOG_TAG, s + ": " + values.get(s));
-		}
+		if (payment.getPin() != null)
+			values.put(POSContract.Cart.COLUMN_NAME_PAYMENT_PIN, payment.getPin());
+		
 		update(values);
 	}
 		

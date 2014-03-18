@@ -4,6 +4,7 @@ import java.util.List;
 
 import edu.txstate.pos.POSApplication;
 import edu.txstate.pos.model.Item;
+import edu.txstate.pos.model.RemoteCart;
 import edu.txstate.pos.storage.Storage;
 import edu.txstate.pos.storage.StorageException;
 import edu.txstate.pos.storage.SyncData;
@@ -66,6 +67,11 @@ public class POSSyncService extends IntentService {
 				
 				storage.syncItem(i);
 				
+			}
+			
+			List<RemoteCart> carts = storage.getPushableCarts();
+			for (RemoteCart cart : carts) {
+				storage.pushCart(cart);
 			}
 		} catch (StorageException e) {
 			Log.e(LOG_TAG, "Sync Problem: " + e.getMessage());

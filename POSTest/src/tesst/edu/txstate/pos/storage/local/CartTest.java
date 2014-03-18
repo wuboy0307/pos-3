@@ -3,11 +3,10 @@ package tesst.edu.txstate.pos.storage.local;
 import edu.txstate.db.POS_DBHelper;
 import edu.txstate.pos.callback.ServiceCallback;
 import edu.txstate.pos.model.Cart;
-import edu.txstate.pos.model.DebitCard;
 import edu.txstate.pos.model.Item;
+import edu.txstate.pos.model.Payment;
 import edu.txstate.pos.model.User;
 import edu.txstate.pos.service.JunitSyncStub;
-import edu.txstate.pos.service.SyncService;
 import edu.txstate.pos.storage.CartLocalStorage;
 import edu.txstate.pos.storage.ItemLocalStorage;
 import edu.txstate.pos.storage.StorageException;
@@ -171,7 +170,7 @@ public class CartTest extends AndroidTestCase {
 	 * Set the payment
 	 */
 	public void test_G_addPayment() {
-		DebitCard payment = new DebitCard("1234","XXXX");
+		Payment payment = new Payment("1234","XXXX");
 		try {
 			cart.addPayment(payment);
 		} catch (StorageException e) {

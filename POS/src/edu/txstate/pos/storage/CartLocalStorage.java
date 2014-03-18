@@ -102,6 +102,71 @@ public class CartLocalStorage extends LocalStorage {
 		}
 		return ret;
 	}
+
+	/**
+	 * Gets the current draft cart for the user.
+	 * 
+	 * @param updUser
+	 * @return
+	 * @throws SQLException
+	 * @throws NoCartFoundException
+	 */
+	public Map<String,String> getCart(long cartID) throws SQLException, NoCartFoundException {
+		Map<String,String> ret = new HashMap<String,String>();
+		
+		String[] projection = {
+				POSContract.Cart._ID,
+				POSContract.Cart.COLUMN_NAME_USER_ID,
+				POSContract.Cart.COLUMN_NAME_CUSTOMER_ID,
+				POSContract.Cart.COLUMN_NAME_SUBTOTAL,
+				POSContract.Cart.COLUMN_NAME_TAX_RATE,
+				POSContract.Cart.COLUMN_NAME_TAX_AMOUNT,
+				POSContract.Cart.COLUMN_NAME_TOTAL,
+				POSContract.Cart.COLUMN_NAME_PAYMENT_CARD,
+				POSContract.Cart.COLUMN_NAME_PAYMENT_PIN,
+				POSContract.Cart.COLUMN_NAME_SIGNATURE_FILE,
+				POSContract.Cart.COLUMN_NAME_SYNC
+		};
+		String selection = POSContract.Cart._ID + " = ?";
+		String[] selectionArgs = { String.valueOf(cartID) };
+		Cursor c = db.query(POSContract.Cart.TABLE_NAME, projection, selection, selectionArgs, null, null, null);
+		if (c.moveToFirst()) {
+			for (int i = 0; i < projection.length; i++) {
+				ret.put(projection[i], c.getString(i));
+			}
+		} else {
+			throw new NoCartFoundException("No cart found for ID: " + cartID);
+		}
+		return ret;
+	}
+
+	/**
+	 * Gets the completed carts.
+	 * 
+	 * @param updUser
+	 * @return
+	 * @throws SQLException
+	 * @throws NoCartFoundException
+	 */
+	public List<Long> getPushableCarts() throws SQLException, NoCartFoundException {
+		List<Long> ret = new ArrayList<Long>();
+		
+		String[] projection = {
+				POSContract.Cart._ID
+		};
+		String selection = POSContract.Cart.COLUMN_NAME_SYNC + " = ?";
+		String[] selectionArgs = { String.valueOf(SyncStatus.PUSH) };
+		Cursor c = db.query(POSContract.Cart.TABLE_NAME, projection, selection, selectionArgs, null, null, null);
+		if (c.moveToFirst()) {
+			ret.add(c.getLong(0));
+			while (c.moveToNext()) {
+				ret.add(c.getLong(0));
+			}
+		} else {
+			throw new NoCartFoundException("No carts found");
+		}
+		return ret;
+	}
 	
 	/**
 	 * Update the cart with the given ContentValues.
