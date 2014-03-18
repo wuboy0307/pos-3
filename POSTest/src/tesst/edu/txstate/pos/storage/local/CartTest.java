@@ -8,7 +8,9 @@ import edu.txstate.pos.model.Payment;
 import edu.txstate.pos.model.User;
 import edu.txstate.pos.service.JunitSyncStub;
 import edu.txstate.pos.storage.CartLocalStorage;
+import edu.txstate.pos.storage.CartRemoteStorage;
 import edu.txstate.pos.storage.ItemLocalStorage;
+import edu.txstate.pos.storage.Storage;
 import edu.txstate.pos.storage.StorageException;
 import edu.txstate.pos.storage.SyncStatus;
 import android.database.SQLException;
@@ -31,9 +33,9 @@ public class CartTest extends AndroidTestCase {
 	private static SQLiteDatabase db = null;
 	
 	private ItemLocalStorage itemLocal = null;
-	
+
 	private static Cart cart = null;
-	private static ServiceCallback syncService = new JunitSyncStub();
+	private static ServiceCallback syncService = null;
 	
 	/**
 	 * Create a cart.  A cart created again for the same
@@ -204,13 +206,18 @@ public class CartTest extends AndroidTestCase {
 	    if (CartTest.db == null) {
 	    	CartTest.db = dbHelper.getWritableDatabase();
 	    }
+
 		local = new CartLocalStorage(db);
+
 		updUser = new User("JUNIT","JUNIT");
 		updUser.setId(-1);	
 		user2 = new User("USER2","USER2");
 		user2.setId(-2);
 		
 		itemLocal = new ItemLocalStorage(db);
+		
+		Storage storage = new Storage(db,"JUNIT",updUser,null);
+		syncService = new JunitSyncStub(storage);
 		
 	}
 }

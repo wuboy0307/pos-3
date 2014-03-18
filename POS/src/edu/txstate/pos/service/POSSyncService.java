@@ -64,13 +64,12 @@ public class POSSyncService extends IntentService {
 			List<Item> items = storage.getUnsyncdItems();
 			for (Item i : items) {
 				Log.d(LOG_TAG, "Push item: " + i.getId());
-				
 				storage.syncItem(i);
-				
 			}
 			
 			List<RemoteCart> carts = storage.getPushableCarts();
 			for (RemoteCart cart : carts) {
+				Log.d(LOG_TAG, "Push cart: " + cart.getId());
 				storage.pushCart(cart);
 			}
 		} catch (StorageException e) {
