@@ -56,7 +56,7 @@ my $dao = new CartDAO();
 # Return structure
 my $a = {};
 # Action drives what DAO method to use
-if (Constants::ACTION_GET eq $action) {
+if (Constants::ACTION_ADD eq $action) {
     if (defined($cartJSON) && defined($deviceID)) {
         my $cart = decode_json $cartJSON;
         $a = $dao->add($cartJSON,$deviceID);

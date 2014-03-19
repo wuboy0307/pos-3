@@ -112,19 +112,13 @@ public class Storage {
 	 * ++++++++++++++++++++++++++++++++++++++++++++++++
 	 */
 	
-	public List<RemoteCart> getPushableCarts() {
+	public List<RemoteCart> getPushableCarts() throws NoCartFoundException, StorageException {
 		List<RemoteCart> carts = new ArrayList<RemoteCart>();
-		try {
 			List<Long> ids = cartLocal.getPushableCarts();
 			for (Long id : ids) {
 				RemoteCart cart = new RemoteCart(db,id);
 				carts.add(cart);
 			}
-		} catch (NoCartFoundException nc) {
-			Log.e(LOG_TAG,nc.getMessage());
-		} catch (StorageException e) {
-			Log.e(LOG_TAG,e.getMessage());
-		}
 		return carts;
 	}
 	

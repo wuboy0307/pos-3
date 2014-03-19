@@ -8,7 +8,6 @@ import edu.txstate.pos.model.Payment;
 import edu.txstate.pos.model.User;
 import edu.txstate.pos.service.JunitSyncStub;
 import edu.txstate.pos.storage.CartLocalStorage;
-import edu.txstate.pos.storage.CartRemoteStorage;
 import edu.txstate.pos.storage.ItemLocalStorage;
 import edu.txstate.pos.storage.Storage;
 import edu.txstate.pos.storage.StorageException;

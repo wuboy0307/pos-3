@@ -12,6 +12,7 @@ import edu.txstate.pos.model.RemoteCart;
 import edu.txstate.pos.storage.CartLocalStorage;
 import edu.txstate.pos.storage.CartRemoteStorage;
 import edu.txstate.pos.storage.ConnectionError;
+import edu.txstate.pos.storage.NoCartFoundException;
 import edu.txstate.pos.storage.Storage;
 import edu.txstate.pos.storage.StorageException;
 import android.util.Log;
@@ -44,6 +45,9 @@ public class JunitSyncStub implements ServiceCallback {
 			}
 		} catch (StorageException e) {
 			Log.e(LOG_TAG, "Sync Problem: " + e.getMessage());
+		} catch (NoCartFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 

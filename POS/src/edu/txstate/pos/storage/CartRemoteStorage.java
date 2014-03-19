@@ -23,7 +23,6 @@ public class CartRemoteStorage extends RemoteStorage {
 	public void add(Cart cart) throws JSONException, ConnectionError {
 		JSONObject obj = new JSONObject();
 		
-		obj.put(ACTION,ACTION_ADD);
 		obj.put(CART_ID, cart.getId());
 		obj.put(USER_ID, cart.getUser().getId());
 		obj.put(CUSTOMER_EMAIL, cart.getCustomer());

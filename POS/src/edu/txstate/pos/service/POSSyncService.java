@@ -5,6 +5,7 @@ import java.util.List;
 import edu.txstate.pos.POSApplication;
 import edu.txstate.pos.model.Item;
 import edu.txstate.pos.model.RemoteCart;
+import edu.txstate.pos.storage.NoCartFoundException;
 import edu.txstate.pos.storage.Storage;
 import edu.txstate.pos.storage.StorageException;
 import edu.txstate.pos.storage.SyncData;
@@ -21,7 +22,7 @@ public class POSSyncService extends IntentService {
 	private static final String LOG_TAG = "SYNC_SERVICE";
 	
 	// TODO: Make this a configurable interval
-	private static int interval = 1000 * 30;  // 30 seconds
+	private static int interval = 1000 * 5;  // 30 seconds
 	
 	/**
 	 * Constructor.
@@ -54,7 +55,16 @@ public class POSSyncService extends IntentService {
 		((POSApplication) getApplication()).setConnected(isNetworkAvailable);
 		
 		// No sense in going on if the network or web sercvice isn't working
-		if (!isNetworkAvailable) return;
+		if (!isNetworkAvailable) {
+			Log.i(LOG_TAG, "Network connectivity is down.");
+			boolean isOn = isServiceAlarmOn(getApplicationContext());
+			Log.e(LOG_TAG, "On?: " + isOn);
+			if (!isOn) {
+				Log.i(LOG_TAG, "Turn on!");
+				setServiceAlarm(getApplicationContext(), true);
+			}
+			return;
+		}
 		
 		// PUSH all : push all data from our local device to the remote DB
 		Log.d(LOG_TAG,"Pushing...");
@@ -72,13 +82,25 @@ public class POSSyncService extends IntentService {
 				Log.d(LOG_TAG, "Push cart: " + cart.getId());
 				storage.pushCart(cart);
 			}
+			stopSelf();
+			// If everything works, then shut myself off
+			Log.i(LOG_TAG, "Stopping Sync");
+		} catch (NoCartFoundException e) {
+			stopSelf();
+			// If everything works, then shut myself off
+			Log.i(LOG_TAG, "Stopping Sync");
 		} catch (StorageException e) {
 			Log.e(LOG_TAG, "Sync Problem: " + e.getMessage());
+			boolean isOn = isServiceAlarmOn(getApplicationContext());
+			Log.e(LOG_TAG, "On?: " + isOn);
+			if (!isOn) {
+				Log.i(LOG_TAG, "Turn on!");
+				setServiceAlarm(getApplicationContext(), true);
+			}
 		}
 		
-		// If everything works, then shut myself off
-		Log.i(LOG_TAG, "Stopping Sync");
-		stopSelf();
+		
+		
 	}
 	
 	/**

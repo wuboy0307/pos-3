@@ -52,3 +52,4 @@ CREATE TABLE system_settings (
 
 insert into system_settings values ('simulate_down_nice','0');
 insert into system_settings values ('simulate_down_broken','0');
+
