@@ -5,9 +5,11 @@ import java.util.List;
 
 import org.json.JSONException;
 
+import android.content.ContentValues;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
+import edu.txstate.db.POSContract;
 import edu.txstate.pos.callback.ServiceCallback;
 import edu.txstate.pos.model.Item;
 import edu.txstate.pos.model.RemoteCart;
@@ -125,8 +127,20 @@ public class Storage {
 	public void pushCart(RemoteCart cart) throws ConnectionError {
 		try {
 			cartRemote.add(cart);
+			
 		} catch (JSONException e) {
 			throw new ConnectionError("JSONError: " + e.getMessage());
+		}
+	}
+	
+	public void setCartDone(long cartID) throws ConnectionError {
+		ContentValues cart = new ContentValues();
+		cart.put(POSContract.Cart.COLUMN_NAME_SYNC, 0);
+		try {
+			Log.d(LOG_TAG,"setCartDone");
+			cartLocal.updateCart(cartID, cart);
+		} catch (SQLException e) {
+			throw new ConnectionError(e.getMessage());
 		}
 	}
 	

@@ -53,3 +53,17 @@ CREATE TABLE system_settings (
 insert into system_settings values ('simulate_down_nice','0');
 insert into system_settings values ('simulate_down_broken','0');
 
+DROP TABLE IF EXISTS cart;
+CREATE TABLE cart (
+    device_id       varchar(96) NOT NULL,
+    cart_id         integer NOT NULL,
+    user_id         integer NOT NULL,
+    customer_id     varchar(128),
+    subtotal        varchar(32),
+    tax_rate        varchar(32),
+    tax_amount      varchar(32),
+    total           varchar(32),
+    payment_card   varchar(32),
+    payment_pin     varchar(32),
+    PRIMARY KEY (device_id, cart_id)
+);

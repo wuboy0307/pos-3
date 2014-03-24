@@ -42,12 +42,13 @@ public class JunitSyncStub implements ServiceCallback {
 			for (RemoteCart cart : carts) {
 				Log.d(LOG_TAG, "Push cart: " + cart.getId());
 				storage.pushCart(cart);
+				storage.setCartDone(cart.getId());
 			}
 		} catch (StorageException e) {
 			Log.e(LOG_TAG, "Sync Problem: " + e.getMessage());
-		} catch (NoCartFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} catch (NoCartFoundException e) {
+			Log.e(LOG_TAG, "NoCartFoundException");
 		}
 	}
 

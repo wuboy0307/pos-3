@@ -81,8 +81,12 @@ public class POSSyncService extends IntentService {
 			for (RemoteCart cart : carts) {
 				Log.d(LOG_TAG, "Push cart: " + cart.getId());
 				storage.pushCart(cart);
+				storage.setCartDone(cart.getId());
 			}
-			stopSelf();
+			
+			//stopSelf();
+			setServiceAlarm(getApplicationContext(), false);
+			
 			// If everything works, then shut myself off
 			Log.i(LOG_TAG, "Stopping Sync");
 		} catch (NoCartFoundException e) {

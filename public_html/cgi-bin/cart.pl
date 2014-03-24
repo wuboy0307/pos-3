@@ -55,11 +55,12 @@ $logger->debug("ID: $deviceID");
 my $dao = new CartDAO();
 # Return structure
 my $a = {};
+my $json = new JSON;
 # Action drives what DAO method to use
 if (Constants::ACTION_ADD eq $action) {
     if (defined($cartJSON) && defined($deviceID)) {
-        my $cart = decode_json $cartJSON;
-        $a = $dao->add($cartJSON,$deviceID);
+        my $cart = decode_json($cartJSON);
+        $a = $dao->add($cart,$deviceID);
     } else {
         $a->{'returnMessage'} = "Cart data is required.";
         $a->{'returnCode'} = Constants::ERROR_MISSING_REQUIRED_FIELDS;
