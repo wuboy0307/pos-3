@@ -32,12 +32,17 @@ public class PollService extends IntentService {
 	}
 	
 	@Override
+	/**
+	 * The polling event.  Connects to the POS application and sends any
+	 * Items that have been found to be new.
+	 */
 	protected void onHandleIntent(Intent intent) {
 		Log.i(LOG_TAG, "POLL!!!!");
 
 		POSListenerApplication pos = (POSListenerApplication) getApplicationContext();
 		iRemoteInterface mRemoteInterface = pos.getRemoteInterface();
 		
+		// If the interface is already there, just use it.
 		if (mRemoteInterface != null) {
 			Log.i(LOG_TAG, "Interface connected");
 			
@@ -48,6 +53,7 @@ public class PollService extends IntentService {
 			try {
 				List<RemoteItem> items = sync.sync();
 				
+				// for each one, make the remote service call
 				for (RemoteItem i : items) {
 					Log.i(LOG_TAG, "Items: " + i.getId());
 					mRemoteInterface.newItem(i);
@@ -62,6 +68,7 @@ public class PollService extends IntentService {
 			}
 		
 		} else {
+			// The service was disconnected, so bind to it
 			Log.i(LOG_TAG, "Disconnected");
 			pos.bind();
 		}

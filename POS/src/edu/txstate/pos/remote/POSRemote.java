@@ -31,13 +31,22 @@ public class POSRemote extends Service {
 	}
 	
 	@Override
+	/**
+	 * When the client binds, it needs the remote interface that applies to be
+	 * returned.
+	 * 
+	 * @param Intent - The intent of the calling application
+	 */
 	public IBinder onBind(Intent arg0) {
 		// Looks like you can have more than one
 		// bound interface -- intent as that info - pg 25
 		return mNewItemInterfaceBinder;
 	}
 	
-	// The remote interface
+	/**
+	 * Implementation of the service called.  Adds the new item passed in to the
+	 * local storage.
+	 */
 	private final iRemoteInterface.Stub mNewItemInterfaceBinder =
 			new iRemoteInterface.Stub() {
 				public void newItem(RemoteItem i) {

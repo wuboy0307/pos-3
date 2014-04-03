@@ -41,8 +41,15 @@ public class RemoteItem implements Parcelable {
 
 	}
 	
+	/**
+	 * Reads the serialized data.  Use the data to construct
+	 * the object that is needed.  Called by the Android OS when
+	 * it is time de-serialize the data sent.
+	 * 
+	 * @param src
+	 */
 	public void readFromParcel(Parcel src) {
-		// see if device id is this one.
+		// unmarshall the data
 		String id = src.readString();
 		String description = src.readString();
 		String price = src.readString();

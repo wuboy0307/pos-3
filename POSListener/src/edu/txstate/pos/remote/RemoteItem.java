@@ -92,15 +92,27 @@ public class RemoteItem implements Parcelable {
 		// TODO Auto-generated method stub
 		return 0;
 	}
-
+	
 	@Override
+	/**
+	 * Break the object data down into primitives.  Called by the
+	 * Android OS to serialize the data.
+	 * 
+	 * @param Parcel
+	 * @param int - flag to indicate if this is a return object, too
+	 */
 	public void writeToParcel(Parcel parcel, int arg1) {
+		// marshall the data
 		parcel.writeString(id);
 		parcel.writeString(description);
 		parcel.writeString(price);
 		parcel.writeString(deviceID);
 	}
 	
+	/**
+	 * Don't need this on the client side.
+	 * @param src
+	 */
 	public void readFromParcel(Parcel src) {
 
 	}
