@@ -30,5 +30,7 @@
     <string name="charge_amt">Charge Amount</string>
     <string name="charge_button">Charge</string>
     <string name="invoice_et">Invoice #</string>
+    <string name="action_poll">Sync Off</string>
+    <string name="action_scan">Scan</string>
 
 </resources>
