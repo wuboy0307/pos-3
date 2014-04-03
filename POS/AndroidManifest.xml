@@ -13,6 +13,24 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 
+    <!-- Start of PayAnywhere permissions & settings -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
+    <supports-screens
+        android:anyDensity="false"
+        android:largeScreens="true"
+        android:normalScreens="true"
+        android:smallScreens="true" >
+    </supports-screens>
+
+    <!-- End of PayAnywhere permissions & settings -->
+
     <application
         android:name="edu.txstate.pos.POSApplication"
         android:allowBackup="true"
@@ -71,6 +89,10 @@
             </intent-filter>
         </service>
 
+        <!-- Begin PayAnywhere Service -->
+        <service android:name="com.nabancard.sdkadvanced.HeadsetService" />
+        <!-- End PayAnywhere Service -->
+
         <activity
             android:name="edu.txstate.pos.FakeAddItem"
             android:label="@string/title_activity_fake_add_item" >
@@ -79,9 +101,43 @@
             android:name="edu.txstate.pos.FakeCartActivity"
             android:label="@string/title_activity_fake_cart" >
         </activity>
+
         <activity
             android:name="edu.txstate.pos.ItemActivity"
             android:label="@string/title_activity_item" >
+        </activity>
+
+        <!-- Start of PayAnywhere manifest -->
+        <activity android:name="com.nabancard.sdkadvanced.ActivityCardTypePicker" />
+        <activity
+            android:name="com.nabancard.sdkadvanced.ActivityCharge"
+            android:configChanges="orientation|keyboardHidden" />
+        <activity android:name="com.nabancard.sdkadvanced.ActivityDatePicker" />
+        <activity android:name="com.nabancard.sdkadvanced.ActivityDetail" />
+        <activity android:name="com.nabancard.sdkadvanced.ActivityEditableAmount" />
+        <activity android:name="com.nabancard.sdkadvanced.ActivityEmailReceipt" />
+        <activity android:name="com.nabancard.sdkadvanced.ActivityEnterCardNumber" />
+        <activity
+            android:name="com.nabancard.sdkadvanced.ActivityProcessing"
+            android:configChanges="orientation|keyboardHidden" />
+        <activity android:name="com.nabancard.sdkadvanced.ActivityRecentVoidRefund" />
+        <activity android:name="com.nabancard.sdkadvanced.ActivitySearch" />
+        <activity android:name="com.nabancard.sdkadvanced.ActivitySelectRange" />
+        <activity
+            android:name="com.nabancard.sdkadvanced.ActivitySignatureScreen"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name="com.nabancard.sdkadvanced.ActivityTransactionAuth"
+            android:configChanges="orientation|keyboardHidden" />
+        <activity
+            android:name="com.nabancard.sdkadvanced.ActivityDialog"
+            android:configChanges="keyboardHidden|orientation"
+            android:theme="@android:style/Theme.Dialog" />
+        <!-- End of PayAnywhere manifest -->
+        <activity
+            android:name="edu.txstate.pos.PayAnywhereTestActivity"
+            android:label="@string/title_activity_pay_anywhere_test" >
         </activity>
     </application>
 

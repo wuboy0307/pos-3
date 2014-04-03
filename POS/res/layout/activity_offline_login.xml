@@ -9,7 +9,7 @@
     tools:context=".OfflineLogin" >
 
     <EditText
-        android:id="@+id/editText1"
+        android:id="@+id/charge_amt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
@@ -49,8 +49,8 @@
         android:id="@+id/editText2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/editText1"
-        android:layout_below="@+id/editText1"
+        android:layout_alignLeft="@+id/charge_amt"
+        android:layout_below="@+id/charge_amt"
         android:layout_marginTop="19dp"
         android:background="#FFFFFF"
         android:ems="10"
