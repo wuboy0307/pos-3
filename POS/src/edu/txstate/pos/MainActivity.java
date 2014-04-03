@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.Settings.Secure;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -50,9 +51,8 @@ public class MainActivity extends POSActivity {
 		//convert editText to a string
 		String userID = editTextUserId.getText().toString();
 		String pin = editTextUserPin.getText().toString();
-		
-		User user = new User(userID,pin);
-		
+Log.i("login_test", "101010");
+		User user = new User(userID,pin);		
 		
 /*TEST SECTION***********
 		Intent intent = new Intent (this, POSControl.class);
@@ -61,17 +61,14 @@ public class MainActivity extends POSActivity {
 		startActivity(intent);
 *************************/
 		
+//****CREATE alert dialog for bad login
 		AlertDialog alertDialogBadLogin = new AlertDialog.Builder(MainActivity.this).create();
-
 		// Setting Dialog Title
 		alertDialogBadLogin.setTitle("Alert");
-		
 		// Setting Dialog Message
 		alertDialogBadLogin.setMessage("User ID or PIN is invalid.");
-			
 		// Setting Icon to Dialog
 		alertDialogBadLogin.setIcon(R.drawable.ic_action_bad);
-		
 		// Setting OK Button
 		alertDialogBadLogin.setButton("OK", new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int which) {
@@ -79,46 +76,21 @@ public class MainActivity extends POSActivity {
 				Toast.makeText(getApplicationContext(), "Please verify User ID and PIN.", Toast.LENGTH_SHORT).show();
 			}
 		});
-
-		// Showing Alert Message
-		alertDialogBadLogin.show();
+//****End of alert dialog
 		
 		try {
-			User validUser = storage.login(user);
-			// if you get here, it worked
-//TODO: launch new activity with user name displayed on ActionBar
-			
+			User validUser = storage.login(user);			
+Log.e("MainAct_login", "inside login");
 
 			Intent intentPOSControl = new Intent (this, POSControl.class);
 			intentPOSControl.putExtra(USER_ID, validUser.getId());
 			startActivity(intentPOSControl);
 			
 		} catch (NoUserFoundException e) {
-			// if bad username, then do something here
-			
-			if(numRetries > 3)
-			{
-//TODO: exceeded number of retries, freeze login for 30 sec?
-			}
-			else
-				alertDialogBadLogin.show();
-			
-			++numRetries; //inc # retries
-			
+			alertDialogBadLogin.show();
 		} catch (BadPasswordException e) {
-			// if bad password, then do something here
-			
-			if(numRetries > 3)
-			{
-//TODO: exceeded number of retries, freeze login for 30 sec?
-			}
-			else
-				alertDialogBadLogin.show();
-			
-			++numRetries; //inc # of retries
-			
+			alertDialogBadLogin.show();
 		} catch (ConnectionError e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -152,14 +124,11 @@ public class MainActivity extends POSActivity {
 		}
 	}
 
-
+/*
 	public void openScanActivity(View view) {
 		// Opens the activity_scan Activity to do some scanning stuff
 		Intent intent = new Intent(this, ScanActivity.class);
 		startActivity(intent);
-
-
-
 	}
-	
+	*/
 }

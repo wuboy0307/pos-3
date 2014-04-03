@@ -60,7 +60,7 @@ public class HomeActivity extends POSActivity {
 				new View.OnClickListener() {
 					@Override
 					public void onClick(View view) {
-						Intent intent = new Intent(getBaseContext(), FakeloginActivity.class);
+						Intent intent = new Intent(getBaseContext(), MainActivity.class);
 						startActivityForResult(intent, FAKE_LOGIN_RESPONSE);
 					}
 				});

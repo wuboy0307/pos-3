@@ -27,10 +27,10 @@
         android:layout_below="@+id/textView1"
         android:layout_centerHorizontal="true"
         android:background="#FFFFFF"
-        android:textColor="#000000"
         android:ems="10"
         android:hint="@string/user_id"
-        android:inputType="number" />
+        android:inputType="text"
+        android:textColor="#000000" />
 
     <TextView
         android:id="@+id/textView2"
@@ -45,7 +45,7 @@
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <Button
-        android:id="@+id/button1"
+        android:id="@+id/b_login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
@@ -78,15 +78,6 @@
         android:ems="10"
         android:inputType="numberPassword" />
 
-    <Button
-        android:id="@+id/button3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/button1"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="37dp"
-        android:background="#0099FF"
-        android:text="@string/skip_to_scan"
-        android:onClick="openScanActivity" />
+
 
 </RelativeLayout>

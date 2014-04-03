@@ -25,5 +25,9 @@
     <string name="app_version">version 1.0</string>
     <string name="title_activity_fake_add_item">FakeAddItem</string>
     <string name="title_activity_fake_cart">FakeCartActivity</string>
+    <string name="title_activity_pay_anywhere_test">PayAnywhereTestActivity</string>
+    <string name="charge_amt">Charge Amount</string>
+    <string name="charge_button">Charge</string>
+    <string name="invoice_et">Invoice #</string>
 
 </resources>
