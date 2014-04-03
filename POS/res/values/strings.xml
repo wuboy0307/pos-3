@@ -26,6 +26,8 @@
     <string name="admin_user_id">Admin ID</string>
     <string name="admin_user_pin">Admin PIN</string>
     <string name="app_version">version 1.0</string>
+    <string name="action_poll">Sync Off</string>
+    <string name="action_scan">Scan</string>
 
 
 </resources>

@@ -13,11 +13,20 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.os.AsyncTask;
+import edu.txstate.pos.model.Item;
+import edu.txstate.pos.storage.ItemExistsException;
+import edu.txstate.pos.storage.NoItemFoundException;
+import edu.txstate.pos.storage.Storage;
+import edu.txstate.pos.storage.StorageException;
 
-public class ScanActivity extends Activity implements OnClickListener {
+
+public class ScanActivity extends POSActivity implements OnClickListener {
 
 	private Button scanBtn;
 	private TextView formatTxt, contentTxt;
+	private TextView storageDescTxt, storagePriceTxt;
+	private ScanActivityTask mScanTask = null;
 	
 	@SuppressLint("NewApi")
 	@Override
@@ -33,13 +42,15 @@ public class ScanActivity extends Activity implements OnClickListener {
 		scanBtn = (Button)findViewById(R.id.scan_button);
 		formatTxt = (TextView)findViewById(R.id.scan_format);
 		contentTxt = (TextView)findViewById(R.id.scan_content);
+		storageDescTxt = (TextView)findViewById(R.id.storage_content_description);
+		storagePriceTxt = (TextView)findViewById(R.id.storage_content_price);
 		scanBtn.setOnClickListener(this);
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.scan, menu);
+		getMenuInflater().inflate(R.menu.all, menu);
 		return true;
 	}
 	
@@ -61,12 +72,53 @@ public class ScanActivity extends Activity implements OnClickListener {
 			String scanFormat = scanningResult.getFormatName();
 			formatTxt.setText("FORMAT: " + scanFormat);
 			contentTxt.setText("CONTENT: " + scanContent);
+			mScanTask.execute(scanContent);
 			}
 		else{
 		    Toast toast = Toast.makeText(getApplicationContext(),
 		        "No scan data received!", Toast.LENGTH_SHORT);
 		    toast.show();
 		}
+	}
+
+	private class ScanActivityTask extends AsyncTask<String, Void, Item> {
+
+		@Override
+		protected Item doInBackground(String... content) {
+			// Check to see if scan content exists as an Item in POS storage
+			Storage storage = getStorage();
+			Item checkItem = null;
+			Item newItem = new Item(content[0], "test item", "test price");
+			try {
+				checkItem = storage.getItem(content[0]);
+			} catch (NoItemFoundException e) {
+				try {
+					storage.addItem(newItem);
+				} catch (StorageException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			} catch (StorageException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} finally {
+
+				if (checkItem != null) {
+					// print out checkItem
+					storageDescTxt.setText(checkItem.getDescription());
+					storagePriceTxt.setText(checkItem.getPrice());
+				}
+				else {
+					// print out newItem
+					storageDescTxt.setText(newItem.getDescription());
+					storagePriceTxt.setText(newItem.getPrice());
+
+				}
+			}
+			
+			return null;
+		}
+		
 	}
 
 }
