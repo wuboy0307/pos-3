@@ -23,7 +23,7 @@ public class MainActivity extends POSActivity {
 	public final static String USER_ID = "edu.txstate.pos.USER_ID";
 	public final static String USER_PIN = "edu.txstate.pos.USER_PIN";
 //TODO need to hide offline admin information more securely
-	private final static User offlineAdmin = new User("123456", "1234");
+	private final static User offlineAdmin = new User("admin", "1234");
 	public static int numRetries = 0;
 	
 	@Override
@@ -41,7 +41,7 @@ public class MainActivity extends POSActivity {
 	
 	@SuppressWarnings("deprecation")
 	public void login(View view) {
-		String androidID = Secure.getString(getBaseContext().getContentResolver(),Secure.ANDROID_ID); 
+		//String androidID = Secure.getString(getBaseContext().getContentResolver(),Secure.ANDROID_ID); 
 		Storage storage = getStorage();
 		
 		//get userID and userPIN from EditText from MainActivity
@@ -109,12 +109,14 @@ Log.e("MainAct_login", "inside login");
 		//convert editText to string
 		String UserID = editTextUserId.getText().toString();
 		String UserPIN = editTextUserPin.getText().toString();
-		
+
 		//pass user info to user object
 		User user = new User(UserID, UserPIN);
-			
-		if(user.getLogin() == offlineAdmin.getLogin() && user.getPIN() == offlineAdmin.getPIN()) {
-
+Log.d("Main_act", "Before if");
+		String userLogin = user.getLogin();
+		String offlineLogin = offlineAdmin.getLogin();
+		if(userLogin.contentEquals(offlineAdmin.getLogin()) && user.getPIN().contentEquals(offlineAdmin.getPIN())) {
+Log.d("Main_act", "inside if");
 			Intent intent = new Intent (this, OfflineLogin.class);
 			
 			intent.putExtra(USER_ID, user.getLogin());
