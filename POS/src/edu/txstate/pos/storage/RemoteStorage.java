@@ -177,6 +177,7 @@ public abstract class RemoteStorage {
 		StringBuilder buffer = new StringBuilder();
         HttpClient client = new DefaultHttpClient();
         String url = "http://cs.txstate.edu/~g_m108/cgi-bin/" + getScriptName() + ".pl";
+        //String url = "http://172.16.89.20/~g_m108/cgi-bin/" + getScriptName() + ".pl";
 
         HttpPost httpPost = new HttpPost(url);
         Log.d(LOG_TAG, url);
