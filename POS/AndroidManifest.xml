@@ -98,7 +98,7 @@
             android:label="@string/title_activity_fake_add_item" >
         </activity>
         <activity
-            android:name="edu.txstate.pos.FakeCartActivity"
+            android:name="edu.txstate.pos.CartActivity"
             android:label="@string/title_activity_fake_cart" >
         </activity>
 

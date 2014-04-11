@@ -69,7 +69,7 @@ public class HomeActivity extends POSActivity {
 				new View.OnClickListener() {
 					@Override
 					public void onClick(View view) {
-						Intent intent = new Intent(getBaseContext(), FakeCartActivity.class);
+						Intent intent = new Intent(getBaseContext(), CartActivity.class);
 						startActivity(intent);
 					}
 				});

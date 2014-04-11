@@ -144,4 +144,12 @@ public class Item {
 			return (item != null && ((Item) item).getId().equals(id));
 		} else return false;
 	}
+	
+	/**
+	 * 
+	 */
+	@Override
+	public String toString() {
+		return description + " - $" + price;
+	}
 }

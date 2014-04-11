@@ -56,7 +56,7 @@ public class POSActivity extends Activity {
 		fakeItem.setIntent(intent);
 		
 		MenuItem fakeCart = menu.findItem(R.id.menu_action_fakecart);
-		Intent cartIntent = new Intent(this, FakeCartActivity.class);
+		Intent cartIntent = new Intent(this, CartActivity.class);
 		fakeCart.setIntent(cartIntent);
 		
 		return true;

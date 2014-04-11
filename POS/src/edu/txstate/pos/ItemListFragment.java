@@ -4,14 +4,30 @@ import java.util.ArrayList;
 
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
+import android.util.Log;
+import android.widget.ArrayAdapter;
 import edu.txstate.pos.model.Item;
 
 public class ItemListFragment extends ListFragment {
+	private static String LOG_TAG = "ItemListFragment";
+	
 	private ArrayList<Item> mItems;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		getActivity().setTitle("Item Inventory");
+		Log.d(LOG_TAG,"onCreate");
+		
+		ArrayList<Item> al = new ArrayList<Item>();
+		for (int i = 0; i<100; i++) {
+			Item item = new Item("foo","Item 1","1.00");
+			al.add(item);
+		}
+		
+		ArrayAdapter<Item> adapter = new ArrayAdapter<Item>(
+				getActivity(),
+				android.R.layout.simple_list_item_1,
+				al);
+		setListAdapter(adapter);
 	}
 }

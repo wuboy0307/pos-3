@@ -8,7 +8,9 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textSize="25sp"
         android:text="Customer Email"
+        android:textColor="#669900"
         style="?android:listSeparatorTextViewStyle"
         />
     <EditText android:id="@+id/customer_email"
@@ -20,6 +22,94 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textSize="25sp"
+        android:textColor="#669900"
+        android:text="Price"
+        style="?android:listSeparatorTextViewStyle"
+        />
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:layout_gravity="center"
+        >
+            <TextView 
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:textSize="20sp"
+                  android:text="Subtotal: " />
+            <TextView android:id="@+id/Subtotal"
+		          android:layout_width="wrap_content"
+		          android:layout_height="wrap_content"
+		          android:textSize="20sp"
+		          android:text="$ 0.00" />
+            <TextView 
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:textSize="20sp"
+                  android:text="     Tax: " />
+            <TextView android:id="@+id/Tax"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:textSize="20sp"
+                  android:text="$ 0.00" />
+            <TextView 
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:textSize="20sp"
+                  android:text="     Total: " />
+            <TextView android:id="@+id/Total"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:textSize="20sp"
+                  android:text="$ 0.00" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        >
+            <Button
+                android:id="@+id/cart_add_item_button"
+                android:layout_width="wrap_content"
+                android:layout_weight="1"
+                android:layout_gravity="left"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:background="#669900"
+                android:text="Add Item" />
+            <Button
+                android:id="@+id/cart_manual_button"
+                android:layout_width="wrap_content"
+                android:layout_weight="1"
+                android:layout_gravity="right"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:background="#669900"
+                android:layout_toRightOf= "@+id/cart_add_item_button"
+                android:text="Manual" />
+            <Button
+                android:id="@+id/cart_sell_button"
+                android:layout_width="wrap_content"
+                android:layout_weight="1"
+                android:layout_gravity="right"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:background="#669900"
+                android:layout_toRightOf="@+id/cart_manual_button"
+                android:text="Pay" />
+    </LinearLayout>        
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="25sp"
+        android:textColor="#669900"
         android:text="Items"
         style="?android:listSeparatorTextViewStyle"
         />

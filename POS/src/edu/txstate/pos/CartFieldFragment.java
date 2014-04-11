@@ -11,9 +11,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
-public class FakeCartFieldFragment extends POSFragment {
+public class CartFieldFragment extends POSFragment {
 
-	private final String LOG_TAG = "FAKE_CART_FRAG";
+	private final String LOG_TAG = "CART_FRAG";
 	
 	private EditText mCustomerEmail;
 	
