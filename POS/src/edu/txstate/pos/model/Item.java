@@ -8,7 +8,7 @@ import java.math.BigDecimal;
  * Note the equals method is overridden.
  * 
  */
-public class Item {
+public class Item implements POSModel {
 	private String id;
 	private String price;
 	private String description;

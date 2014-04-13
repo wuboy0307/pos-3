@@ -11,7 +11,7 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-public class RemoteCart extends Cart {
+public class RemoteCart extends Cart implements POSModel {
 
 	public RemoteCart(SQLiteDatabase db, long cartID) throws StorageException {
 		super();

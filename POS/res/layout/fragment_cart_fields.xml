@@ -37,8 +37,8 @@
                   android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
                   android:textSize="20sp"
-                  android:text="Subtotal: " />
-            <TextView android:id="@+id/Subtotal"
+                  android:text="Subtotal: $" />
+            <TextView android:id="@+id/subtotal"
 		          android:layout_width="wrap_content"
 		          android:layout_height="wrap_content"
 		          android:textSize="20sp"
@@ -47,8 +47,8 @@
                   android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
                   android:textSize="20sp"
-                  android:text="     Tax: " />
-            <TextView android:id="@+id/Tax"
+                  android:text="     Tax: $" />
+            <TextView android:id="@+id/tax"
                   android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
                   android:textSize="20sp"
@@ -57,8 +57,8 @@
                   android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
                   android:textSize="20sp"
-                  android:text="     Total: " />
-            <TextView android:id="@+id/Total"
+                  android:text="     Total: $" />
+            <TextView android:id="@+id/total"
                   android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
                   android:textSize="20sp"

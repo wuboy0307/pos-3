@@ -5,13 +5,13 @@
     android:orientation="vertical" >
 
     <LinearLayout
-        android:id="@+id/cart_field_container"
+        android:id="@+id/fragment_field_container"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical" />
 
     <LinearLayout
-        android:id="@+id/cart_item_container"
+        android:id="@+id/fragment_item_container"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical" >

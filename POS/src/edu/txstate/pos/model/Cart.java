@@ -44,7 +44,7 @@ import edu.txstate.pos.storage.SyncStatus;
  * To remove an item, use the updateQuantity() method and set the quantity to 0.
  *
  */
-public class Cart {
+public class Cart implements POSModel {
 	
 	public static final String LOG_TAG = "CART";
 	
@@ -106,6 +106,7 @@ public class Cart {
 		
 		this.taxRate = taxRate;
 
+		calculate();
 	}
 	
 	/**

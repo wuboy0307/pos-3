@@ -38,7 +38,7 @@
         android:label="@string/app_name"
         android:theme="@android:style/Theme.Holo" >
         <activity
-            android:name="edu.txstate.pos.MainActivity"
+            android:name="edu.txstate.pos.LoginActivity"
             android:label="POS" >
         </activity>
         <activity
@@ -101,9 +101,8 @@
             android:name="edu.txstate.pos.CartActivity"
             android:label="@string/title_activity_fake_cart" >
         </activity>
-
         <activity
-            android:name="edu.txstate.pos.ItemActivity"
+            android:name="edu.txstate.pos.InventoryActivity"
             android:label="@string/title_activity_item" >
         </activity>
 
@@ -138,6 +137,14 @@
         <activity
             android:name="edu.txstate.pos.PayAnywhereTestActivity"
             android:label="@string/title_activity_pay_anywhere_test" >
+        </activity>
+        <activity
+            android:name="edu.txstate.pos.UserAdminActivity"
+            android:label="@string/title_activity_user_admin" >
+        </activity>
+        <activity
+            android:name="edu.txstate.pos.AddCartItemActivity"
+            android:label="@string/title_activity_add_cart_item" >
         </activity>
     </application>
 

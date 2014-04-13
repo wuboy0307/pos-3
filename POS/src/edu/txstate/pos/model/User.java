@@ -4,7 +4,7 @@ package edu.txstate.pos.model;
  * User of the application.
  *
  */
-public class User {
+public class User implements POSModel {
 	
 	private boolean isAdmin = false;
 	private String PIN;

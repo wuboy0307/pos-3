@@ -1,10 +1,12 @@
 package edu.txstate.pos;
 
-import edu.txstate.pos.model.Cart;
-import edu.txstate.pos.model.User;
-import edu.txstate.pos.service.POSSyncService;
-import edu.txstate.pos.storage.Storage;
-import edu.txstate.pos.storage.StorageException;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.util.HashMap;
+import java.util.Map;
+
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.ActionBar;
 import android.app.Activity;
@@ -14,6 +16,13 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import edu.txstate.pos.model.Cart;
+import edu.txstate.pos.model.POSModel;
+import edu.txstate.pos.model.User;
+import edu.txstate.pos.service.POSSyncService;
+import edu.txstate.pos.storage.Storage;
+import edu.txstate.pos.storage.StorageException;
 
 /**
  * Parent class for every POS application Activity.  This class provides
@@ -30,17 +39,32 @@ import android.view.MenuItem;
  * @author Geoff Marinski
  *
  */
-public class POSActivity extends Activity {
+public abstract class POSActivity extends Activity implements POSTaskParent {
 
 	private static final String LOG_TAG = "POSActivity-Parent";
+	
+	private View mSpinnerView = null;
+	private View mMainView = null;
+	private Map<String,POSTask> tasks = null;
 	
 	/**
 	 * onCreate() for the Activity
 	 */
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		// Don't think we need to do anything here at this point.
+		setContentView(getContentView());
+		mSpinnerView = (View) findViewById(getSpinnerView());
+		mMainView = (View) findViewById(getMainView());
+		tasks = new HashMap<String,POSTask>();
+		Log.d(LOG_TAG,"Null? " + (mSpinnerView == null));
 	}
+	
+	// The child's content view
+	abstract int getContentView();
+	// The child's main view
+	abstract int getMainView();
+	// The child's spinner view
+	abstract int getSpinnerView();
 	
 	/**
 	 * Uses all.xml to make a common menu base for all actions...
@@ -127,6 +151,9 @@ public class POSActivity extends Activity {
 		return true;
 	}
 	
+	/**
+	 * Handler for activity being resumed.
+	 */
 	protected void onResume() {
 		super.onResume();
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
@@ -156,7 +183,7 @@ public class POSActivity extends Activity {
 	 * 
 	 * @return The Storage object
 	 */
-	protected Storage getStorage() {
+	public Storage getStorage() {
 		return ((POSApplication) getApplication()).getStorage();
 	}
 	
@@ -168,6 +195,87 @@ public class POSActivity extends Activity {
 	 */
 	protected Cart getCart() throws StorageException {
 		return ((POSApplication) getApplication()).getCart();
+	}
+	
+	/**
+	 * Shows the spinner.
+	 * 
+	 * @param Show spinner or not
+	 */
+	@TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
+	public void showProgress(final boolean show) {
+		// On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
+		// for very easy animations. If available, use these APIs to fade-in
+		// the progress spinner.
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
+			int shortAnimTime = getResources().getInteger(
+					android.R.integer.config_shortAnimTime);
+
+			mSpinnerView.setVisibility(View.VISIBLE);
+			mSpinnerView.animate().setDuration(shortAnimTime)
+					.alpha(show ? 1 : 0)
+					.setListener(new AnimatorListenerAdapter() {
+						@Override
+						public void onAnimationEnd(Animator animation) {
+							mSpinnerView.setVisibility(show ? View.VISIBLE
+									: View.GONE);
+						}
+					});
+
+			mMainView.setVisibility(View.VISIBLE);
+			mMainView.animate().setDuration(shortAnimTime)
+					.alpha(show ? 0 : 1)
+					.setListener(new AnimatorListenerAdapter() {
+						@Override
+						public void onAnimationEnd(Animator animation) {
+							mMainView.setVisibility(show ? View.GONE
+									: View.VISIBLE);
+						}
+					});
+		} else {
+			// The ViewPropertyAnimator APIs are not available, so simply show
+			// and hide the relevant UI components.
+			mSpinnerView.setVisibility(show ? View.VISIBLE : View.GONE);
+			mMainView.setVisibility(show ? View.GONE : View.VISIBLE);
+		}
+	}
+
+	/**
+	 * Sets the return value for the activity
+	 * 
+	 * @param result The return value
+	 */
+	public void setTaskResult(int result) {
+		setResult(result);
+	}
+	
+	/**
+	 * When an async taks is complete, remove it from
+	 * the task list and turn off the spinner
+	 * 
+	 * @param Name of the task
+	 */
+	public void finishCallback(String taskName) {
+		POSTask task = tasks.get(taskName);
+		if (task != null) tasks.remove(taskName);
+		showProgress(false);
+		
+	}
+	
+	/**
+	 * Execute the given async task if it isn't already
+	 * being executed.
+	 * 
+	 * @param task An instance of the task to be executed
+	 * @param args The arguments given to the task
+	 */
+	void executeAsyncTask(POSTask task, POSModel... args) {
+		POSTask current = tasks.get(task.getClass().getName());
+		if (current == null) { 
+			showProgress(true);
+			tasks.put(task.getClass().getName(), task);
+			task.execute(args);
+		}
 	}
 	
 }

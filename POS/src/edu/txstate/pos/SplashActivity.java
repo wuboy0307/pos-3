@@ -59,4 +59,22 @@ public class SplashActivity extends POSActivity {
 
 	}
 	
+	@Override
+	int getContentView() {
+		return 0;
+	}
+	
+	@Override
+	int getMainView() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	int getSpinnerView() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+	
+	
 }

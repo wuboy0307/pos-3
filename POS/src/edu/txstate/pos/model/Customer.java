@@ -5,7 +5,7 @@ package edu.txstate.pos.model;
  * email address.
  * 
  */
-public class Customer {
+public class Customer implements POSModel {
 	
 	private String email = null;
 	

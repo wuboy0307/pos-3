@@ -1,6 +1,6 @@
 package edu.txstate.pos.model;
 
-public class Payment {
+public class Payment implements POSModel {
 
 	private String cardNumber = null;
 	private String pin = null;

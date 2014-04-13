@@ -1,6 +1,6 @@
 package edu.txstate.pos.model;
 
-public class CartItem {
+public class CartItem implements POSModel {
 	private Item item;
 	private int quantity;
 	
@@ -34,5 +34,13 @@ public class CartItem {
 		if (this.item.getId() == null || item == null) return false;
 		if (this.item.getId().equals(item.getId())) return true;
 		else return false;
+	}
+	
+	/**
+	 * 
+	 */
+	@Override
+	public String toString() {
+		return item.getDescription() + " - $" + item.getPrice() + " x " + quantity;
 	}
 }

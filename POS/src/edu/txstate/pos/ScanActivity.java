@@ -48,6 +48,24 @@ public class ScanActivity extends POSActivity implements OnClickListener {
 	}
 
 	@Override
+	int getContentView() {
+		return 0;
+	}
+	
+	@Override
+	int getMainView() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	int getSpinnerView() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+	
+	
+	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.all, menu);

@@ -66,6 +66,24 @@ public class ResendActivity extends POSActivity {
 	}
 
 	@Override
+	int getContentView() {
+		return 0;
+	}
+	
+	@Override
+	int getMainView() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	int getSpinnerView() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+	
+	
+	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		super.onCreateOptionsMenu(menu);
 		getMenuInflater().inflate(R.menu.resend, menu);
@@ -116,9 +134,7 @@ public class ResendActivity extends POSActivity {
 		}
 	}
 
-	/**
-	 * Shows the progress UI and hides the form.
-	 */
+	/*
 	@TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
 	private void showProgress(final boolean show) {
 		// On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
@@ -155,7 +171,7 @@ public class ResendActivity extends POSActivity {
 			mResendStatusView.setVisibility(show ? View.VISIBLE : View.GONE);
 			mResendFormView.setVisibility(show ? View.GONE : View.VISIBLE);
 		}
-	}
+	} */
 
 	/**
 	 * Represents an asynchronous task.  In this case, one that makes a network

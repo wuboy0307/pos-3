@@ -5,7 +5,7 @@ import edu.txstate.pos.storage.Storage;
 import edu.txstate.pos.storage.StorageException;
 import android.support.v4.app.Fragment;
 
-public class POSFragment extends Fragment {
+public class POSFieldFragment extends Fragment {
 
 	protected Storage getStorage() {
 		return ((POSApplication) getActivity().getApplication()).getStorage();

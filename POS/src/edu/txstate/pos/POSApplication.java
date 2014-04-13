@@ -123,6 +123,15 @@ public class POSApplication extends Application implements SyncService, ServiceC
 	}
 
 	/**
+	 * Log the current user out.
+	 * 
+	 */
+	public void logUserOut() {
+		mUser = null;
+		// Don't think setting cart to null is required
+	}
+
+	/**
 	 * Returns the unique device ID established for this device.
 	 * 
 	 * @return The unique device ID

@@ -32,5 +32,7 @@
     <string name="invoice_et">Invoice #</string>
     <string name="action_poll">Sync Off</string>
     <string name="action_scan">Scan</string>
+    <string name="title_activity_user_admin">UserAdminActivity</string>
+    <string name="title_activity_add_cart_item">AddCartItemActivity</string>
 
 </resources>

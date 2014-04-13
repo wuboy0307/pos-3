@@ -1,5 +1,5 @@
 package edu.txstate.pos.model;
 
-public class Signature {
+public class Signature implements POSModel {
 
 }

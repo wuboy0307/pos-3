@@ -3,12 +3,11 @@ package edu.txstate.pos;
 import java.util.ArrayList;
 
 import android.os.Bundle;
-import android.support.v4.app.ListFragment;
 import android.util.Log;
 import android.widget.ArrayAdapter;
 import edu.txstate.pos.model.Item;
 
-public class ItemListFragment extends ListFragment {
+public class ItemListFragment extends POSListFragment {
 	private static String LOG_TAG = "ItemListFragment";
 	
 	private ArrayList<Item> mItems;

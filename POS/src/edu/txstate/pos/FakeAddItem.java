@@ -76,7 +76,25 @@ public class FakeAddItem extends POSActivity {
 					}
 				});
 	}
+	
+	@Override
+	int getContentView() {
+		return 0;
+	}
 
+	@Override
+	int getMainView() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	int getSpinnerView() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	
 	public void addItem(Item item) {
 		if (mFakeTask != null) return;
 		
@@ -92,9 +110,7 @@ public class FakeAddItem extends POSActivity {
 		return true;
 	}
 
-	/**
-	 * Shows the progress UI and hides the form.
-	 */
+	/*
 	@TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
 	private void showProgress(final boolean show) {
 		// On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
@@ -132,7 +148,7 @@ public class FakeAddItem extends POSActivity {
 			mFakeView.setVisibility(show ? View.GONE : View.VISIBLE);
 		}
 	}
-
+*/
 	/**
 	 * Represents an asynchronous task.  In this case, one that makes a network
 	 * call to resend a customer a receipt.
@@ -192,5 +208,6 @@ public class FakeAddItem extends POSActivity {
 			showProgress(false);
 		}
 	}
+
 
 }

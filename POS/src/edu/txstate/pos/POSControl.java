@@ -14,8 +14,8 @@ public class POSControl extends Activity {
 		
 		Intent intent = getIntent();
 		
-		String message = intent.getStringExtra(MainActivity.USER_ID);
-		message += ", " + intent.getStringExtra(MainActivity.USER_PIN);
+		String message = intent.getStringExtra(LoginActivity.USER_ID);
+		message += ", " + intent.getStringExtra(LoginActivity.USER_PIN);
 		
 		TextView textView = new TextView(this);
 		textView.setTextSize(40);

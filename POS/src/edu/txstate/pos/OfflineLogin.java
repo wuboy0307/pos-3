@@ -14,8 +14,8 @@ public class OfflineLogin extends Activity {
 		
 		Intent intent = getIntent();
 		
-		String userId = intent.getStringExtra(MainActivity.USER_ID);
-		String userPin = intent.getStringExtra(MainActivity.USER_PIN);
+		String userId = intent.getStringExtra(LoginActivity.USER_ID);
+		String userPin = intent.getStringExtra(LoginActivity.USER_PIN);
 		
 //***TEST
 TextView userIdView = new TextView(this);
