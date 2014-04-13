@@ -29,4 +29,5 @@ public class ItemListFragment extends POSListFragment {
 				al);
 		setListAdapter(adapter);
 	}
+	
 }

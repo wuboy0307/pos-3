@@ -34,17 +34,12 @@ public class CartFieldFragment extends POSFieldFragment {
 	}
 	
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
-		View v = inflater.inflate(R.layout.fragment_cart_fields, parent, false);
-		
-		mCustomerEmail = (EditText) v.findViewById(R.id.customer_email);
-		mSubtotal = (TextView) v.findViewById(R.id.subtotal);
-		mTax = (TextView) v.findViewById(R.id.tax);
-		mTotal = (TextView) v.findViewById(R.id.total);
-		mAddItemButton = (Button) v.findViewById(R.id.cart_add_item_button);
-		mManualButton = (Button) v.findViewById(R.id.cart_manual_button);
-		mPayButton = (Button) v.findViewById(R.id.cart_sell_button);
-		
+	public void onResume() {
+		super.onResume();
+		updateFields();
+	}
+
+	public void updateFields() {
 		try {
 			Cart cart = getCart();
 			Log.d(LOG_TAG,"Cart ID: " + cart.getId());
@@ -58,7 +53,37 @@ public class CartFieldFragment extends POSFieldFragment {
 			
 			e.printStackTrace();
 		}
-
+	}
+	
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
+		View v = inflater.inflate(R.layout.fragment_cart_fields, parent, false);
+		
+		mCustomerEmail = (EditText) v.findViewById(R.id.customer_email);
+		mSubtotal = (TextView) v.findViewById(R.id.subtotal);
+		mTax = (TextView) v.findViewById(R.id.tax);
+		mTotal = (TextView) v.findViewById(R.id.total);
+		mAddItemButton = (Button) v.findViewById(R.id.cart_add_item_button);
+		mManualButton = (Button) v.findViewById(R.id.cart_manual_button);
+		mPayButton = (Button) v.findViewById(R.id.cart_sell_button);
+		
+		
+		updateFields();
+		/*
+		try {
+			Cart cart = getCart();
+			Log.d(LOG_TAG,"Cart ID: " + cart.getId());
+			mCustomerEmail.setText(cart.getCustomer());
+			mSubtotal.setText(cart.getSubTotal());
+			mTax.setText(cart.getTaxAmount());
+			mTotal.setText(cart.getTotal());
+		} catch (StorageException e) {
+			Toast.makeText(getActivity().getApplicationContext(), 
+					"Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
+			
+			e.printStackTrace();
+		}
+		*/
 		
 		mCustomerEmail.addTextChangedListener(new TextWatcher() {
 					public void onTextChanged(CharSequence c, int start, int before, int count) {

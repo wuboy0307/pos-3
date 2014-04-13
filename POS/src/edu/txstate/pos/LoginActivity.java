@@ -71,7 +71,7 @@ public class LoginActivity extends POSActivity {
 		
 		User user = new User(userID,pin);	
 		
-		executeAsyncTask(new LoginActivityTask("LoginTask",this), user);
+		executeAsyncTask("LoginTask",new LoginActivityTask("LoginTask",this), true, user);
 		
 	}
 
@@ -109,7 +109,7 @@ public class LoginActivity extends POSActivity {
 	 * call to resend a customer a receipt.
 	 * 
 	 */
-	public class LoginActivityTask extends POSTask {
+	public class LoginActivityTask extends POSTask<Integer> {
 		
 		public LoginActivityTask(String name, POSTaskParent parent) {
 			super(name,parent);

@@ -46,6 +46,7 @@ public abstract class POSActivity extends Activity implements POSTaskParent {
 	private View mSpinnerView = null;
 	private View mMainView = null;
 	private Map<String,POSTask> tasks = null;
+	boolean showProgress = true;
 	
 	/**
 	 * onCreate() for the Activity
@@ -258,7 +259,7 @@ public abstract class POSActivity extends Activity implements POSTaskParent {
 	public void finishCallback(String taskName) {
 		POSTask task = tasks.get(taskName);
 		if (task != null) tasks.remove(taskName);
-		showProgress(false);
+		if (!showProgress) showProgress(false);
 		
 	}
 	
@@ -269,12 +270,17 @@ public abstract class POSActivity extends Activity implements POSTaskParent {
 	 * @param task An instance of the task to be executed
 	 * @param args The arguments given to the task
 	 */
-	void executeAsyncTask(POSTask task, POSModel... args) {
-		POSTask current = tasks.get(task.getClass().getName());
-		if (current == null) { 
-			showProgress(true);
+	void executeAsyncTask(String name, POSTask task, boolean showProgress, POSModel... args) {
+		Log.d(LOG_TAG,"executeAsync");
+		POSTask current = tasks.get(name);
+		if (current == null) {
+			Log.d(LOG_TAG,"Not found");
+			this.showProgress = showProgress;
+			showProgress(true && showProgress);
 			tasks.put(task.getClass().getName(), task);
 			task.execute(args);
+		} else {
+			Log.d(LOG_TAG,"Found");
 		}
 	}
 	

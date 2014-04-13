@@ -6,13 +6,14 @@ import android.app.Activity;
 import android.os.AsyncTask;
 import android.util.Log;
 
-public abstract class POSTask extends AsyncTask<POSModel, String, Integer> {
+public abstract class POSTask<X> extends AsyncTask<POSModel, String, X> {
 
 	private static String LOG_TAG = "POSTask (Parent)";
 	
 	private String name;
 	private Storage storage;
 	private POSTaskParent parent;
+	private boolean showProgress;
 	
 	public POSTask(String name, POSTaskParent parent) {
 		this.name = name;
@@ -21,24 +22,25 @@ public abstract class POSTask extends AsyncTask<POSModel, String, Integer> {
 	}
 	
 	@Override
-	protected Integer doInBackground(POSModel... args) {
+	protected X doInBackground(POSModel... args) {
 		Log.e(LOG_TAG,"DO IN BACKGROUND");
-		Integer ret = null;
+		X ret = null;
 		try {
 			ret = backgroundWork(storage,args);
 		} catch (Exception e) {
-			ret = Integer.valueOf(Activity.RESULT_CANCELED);
+			ret = null;
 		}
 		
 		return ret;
 	}
 	
 	@Override
-	protected void onPostExecute(final Integer success) {
+	protected void onPostExecute(X x) {
 		Log.e(LOG_TAG,"POST EXECUTE");
-		parent.setTaskResult(success.intValue());
+		if (x == null) parent.setTaskResult(Activity.RESULT_CANCELED);
+		else parent.setTaskResult(Activity.RESULT_OK);
 		parent.finishCallback(name);
-		postWork(storage,success);
+		postWork(storage,x);
 	}
 	
 	@Override
@@ -46,7 +48,7 @@ public abstract class POSTask extends AsyncTask<POSModel, String, Integer> {
 		parent.finishCallback(name);
 	}
 	
-	abstract Integer backgroundWork(Storage storage, POSModel... args);
-	abstract void postWork(Storage storage, Integer success);
+	abstract X backgroundWork(Storage storage, POSModel... args);
+	abstract void postWork(Storage storage, X workResult);
 
 }
