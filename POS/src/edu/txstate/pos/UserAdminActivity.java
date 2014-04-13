@@ -6,16 +6,23 @@ import android.view.Menu;
 
 public class UserAdminActivity extends POSFragmentActivity {
 
+	private UserFieldFragment mFieldFragment;
+	private UserListFragment mListFragment;
+	
 	@Override
 	POSFieldFragment getFieldFragment() {
-		// TODO Auto-generated method stub
-		return null;
+		mFieldFragment = new UserFieldFragment();
+		return mFieldFragment;
 	}
 
 	@Override
 	POSListFragment getListFragment() {
-		// TODO Auto-generated method stub
-		return null;
+		mListFragment = new UserListFragment();
+		return mListFragment;
+	}
+	
+	public void deleteSelectedItem() {
+		mListFragment.deleteSelectedItem();
 	}
 
 }

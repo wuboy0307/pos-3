@@ -67,7 +67,6 @@ public class CartFieldFragment extends POSFieldFragment {
 		mManualButton = (Button) v.findViewById(R.id.cart_manual_button);
 		mPayButton = (Button) v.findViewById(R.id.cart_sell_button);
 		
-		
 		updateFields();
 		/*
 		try {

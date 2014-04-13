@@ -1,6 +1,7 @@
 package edu.txstate.pos;
 
 import java.io.File;
+import java.util.List;
 import java.util.UUID;
 
 import android.app.Application;
@@ -16,6 +17,7 @@ import edu.txstate.pos.model.Cart;
 import edu.txstate.pos.model.User;
 import edu.txstate.pos.service.POSSyncService;
 import edu.txstate.pos.service.SyncService;
+import edu.txstate.pos.storage.ConnectionError;
 import edu.txstate.pos.storage.Storage;
 import edu.txstate.pos.storage.StorageException;
 
@@ -42,6 +44,7 @@ public class POSApplication extends Application implements SyncService, ServiceC
 	private static final int deviceUserID = -1;
 	private boolean connected = true;
 	private SQLiteDatabase mDb = null;
+	private List<User> mUsers = null;
 
 	// This setting will delete the database when the application starts
 	private boolean killDBEveryTime = false;
@@ -120,6 +123,22 @@ public class POSApplication extends Application implements SyncService, ServiceC
 			// New user means we need to reset the Storage object with that user
 			mStorage.setLoggedInUser(mUser);
 		}
+	}
+
+	/**
+	 * @return the users
+	 * @throws ConnectionError 
+	 */
+	public List<User> getUsers() throws ConnectionError {
+		if (mUsers == null) mUsers = mStorage.getUsers();
+		return mUsers;
+	}
+
+	/**
+	 * @param users the users to set
+	 */
+	public void setUsers(List<User> users) {
+		mUsers = users;
 	}
 
 	/**
