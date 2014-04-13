@@ -13,7 +13,7 @@ public abstract class POSTask<X> extends AsyncTask<POSModel, String, X> {
 	private String name;
 	private Storage storage;
 	private POSTaskParent parent;
-	private boolean showProgress;
+	//private boolean showProgress;
 	
 	public POSTask(String name, POSTaskParent parent) {
 		this.name = name;

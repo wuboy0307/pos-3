@@ -146,6 +146,10 @@
             android:name="edu.txstate.pos.AddCartItemActivity"
             android:label="@string/title_activity_add_cart_item" >
         </activity>
+        <activity
+            android:name="edu.txstate.pos.AddUserActivity"
+            android:label="@string/title_activity_add_user" >
+        </activity>
     </application>
 
 </manifest>

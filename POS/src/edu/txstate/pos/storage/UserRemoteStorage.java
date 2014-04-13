@@ -190,7 +190,7 @@ public class UserRemoteStorage extends RemoteStorage {
 					user = new User(rec.getString(LOGIN),rec.getString(PIN));
 					user.setActive(rec.getString(IS_ACTIVE));
 					user.setAdmin(rec.getString(IS_ADMIN));
-					ret.add(user);
+					if (!"DEVICE".equals(user.getLogin())) ret.add(user);
 				}
 			} else {
 				throw new ConnectionError("Return code: " + json.getInt(RETURN_CODE));

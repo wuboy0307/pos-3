@@ -4,12 +4,9 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.TextView;
 import edu.txstate.db.POSContract;
 import edu.txstate.db.POS_DBHelper;
-import edu.txstate.pos.storage.ConnectionError;
-import edu.txstate.pos.storage.Storage;
 
 public class SplashActivity extends POSActivity {
 

@@ -136,5 +136,12 @@ public class User implements POSModel {
 		PIN = pIN;
 	}
 
+	public String toString() {
+		StringBuffer ret = new StringBuffer();
+		ret.append(getLogin());
+		if (isAdmin) ret.append(" [Admin]");
+		if (!isActive) ret.append(" [Inactive]");
+		return ret.toString();
+	}
 
 }

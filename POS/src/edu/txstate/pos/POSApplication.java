@@ -1,6 +1,7 @@
 package edu.txstate.pos;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -126,19 +127,31 @@ public class POSApplication extends Application implements SyncService, ServiceC
 	}
 
 	/**
+	 * Get the user list for the UserAdminActivity ArrayAdapter.
+	 * 
 	 * @return the users
 	 * @throws ConnectionError 
 	 */
-	public List<User> getUsers() throws ConnectionError {
-		if (mUsers == null) mUsers = mStorage.getUsers();
+	public List<User> getUsers() {
+		if (mUsers == null) mUsers = new ArrayList<User>();
 		return mUsers;
 	}
 
 	/**
+	 * Set the user list used by the UserAdminActivity.  This
+	 * list is backing an ArrayAdapter so it can't be a simple
+	 * set since the object that is created by getUsers() is
+	 * being used - not the reference itself.  So the obejct
+	 * must be cleared out and reset with the new data passed
+	 * in.
+	 * 
 	 * @param users the users to set
 	 */
 	public void setUsers(List<User> users) {
-		mUsers = users;
+		if (mUsers != null) {
+			mUsers.clear();
+			mUsers.addAll(users);
+		}
 	}
 
 	/**

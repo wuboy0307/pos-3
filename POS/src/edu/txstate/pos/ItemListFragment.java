@@ -7,11 +7,10 @@ import android.util.Log;
 import android.widget.ArrayAdapter;
 import edu.txstate.pos.model.Item;
 
-public class ItemListFragment extends POSListFragment {
+public class ItemListFragment extends POSListFragment<Item> {
 	private static String LOG_TAG = "ItemListFragment";
 	
-	private ArrayList<Item> mItems;
-	
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -28,6 +27,12 @@ public class ItemListFragment extends POSListFragment {
 				android.R.layout.simple_list_item_1,
 				al);
 		setListAdapter(adapter);
+	}
+
+	@Override
+	public void deleteSelectedItem() {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }

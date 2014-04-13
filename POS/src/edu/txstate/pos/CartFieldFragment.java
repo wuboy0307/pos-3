@@ -68,21 +68,6 @@ public class CartFieldFragment extends POSFieldFragment {
 		mPayButton = (Button) v.findViewById(R.id.cart_sell_button);
 		
 		updateFields();
-		/*
-		try {
-			Cart cart = getCart();
-			Log.d(LOG_TAG,"Cart ID: " + cart.getId());
-			mCustomerEmail.setText(cart.getCustomer());
-			mSubtotal.setText(cart.getSubTotal());
-			mTax.setText(cart.getTaxAmount());
-			mTotal.setText(cart.getTotal());
-		} catch (StorageException e) {
-			Toast.makeText(getActivity().getApplicationContext(), 
-					"Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
-			
-			e.printStackTrace();
-		}
-		*/
 		
 		mCustomerEmail.addTextChangedListener(new TextWatcher() {
 					public void onTextChanged(CharSequence c, int start, int before, int count) {

@@ -1,14 +1,11 @@
 package edu.txstate.pos;
 
-import edu.txstate.pos.model.Cart;
 import edu.txstate.pos.model.CartItem;
 import edu.txstate.pos.model.Item;
 import edu.txstate.pos.model.POSModel;
 import edu.txstate.pos.storage.NoItemFoundException;
 import edu.txstate.pos.storage.Storage;
 import edu.txstate.pos.storage.StorageException;
-import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -20,19 +17,16 @@ import android.widget.EditText;
 public class AddCartItemActivity extends POSActivity {
 
 	private static String LOG_TAG = "AddCartItemActivity";
-	
-	private static Integer ITEM_NOT_FOUND = Integer.valueOf(-2);
-	
+
 	private Button mScanButton = null;
 	private Button mAddButton = null;
 	private EditText mUPC = null;
 	private EditText mDescription = null;
 	private EditText mPrice = null;
 	private EditText mQuantity = null;
-	private String mStatusMessage = null;
 	
-	private String mCurrentUPC = null;
-	private long mUPCTime = 0;
+	//private String mCurrentUPC = null;
+	//private long mUPCTime = 0;
 	
 	private boolean addItem = false;
 	
@@ -62,8 +56,8 @@ public class AddCartItemActivity extends POSActivity {
 			public void afterTextChanged(Editable c) {
 				// do nothing
 				Log.d(LOG_TAG,"After" + c);
-				mCurrentUPC = c.toString();
-				mUPCTime = System.currentTimeMillis();
+				//mCurrentUPC = c.toString();
+				//mUPCTime = System.currentTimeMillis();
 				checkInventory();
 				setButtons();
 			}

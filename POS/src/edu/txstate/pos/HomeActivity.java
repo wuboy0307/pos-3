@@ -73,7 +73,8 @@ public class HomeActivity extends POSActivity {
 				new View.OnClickListener() {
 					@Override
 					public void onClick(View view) {
-
+						Intent intent = new Intent(getBaseContext(), UserAdminActivity.class);
+						startActivity(intent);
 					}
 				});
 

@@ -1,9 +1,7 @@
 package edu.txstate.pos;
 
-import edu.txstate.pos.storage.StorageException;
+import android.content.Intent;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,23 +16,19 @@ public class UserFieldFragment extends POSFieldFragment {
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
-		View v = inflater.inflate(R.layout.fragment_cart_fields, parent, false);
+		Log.d(LOG_TAG,"onCreateView");
+		View v = inflater.inflate(R.layout.fragment_user_fields, parent, false);
 		
 		mAdd = (Button) v.findViewById(R.id.user_add_button);
 		
-		mAdd.addTextChangedListener(new TextWatcher() {
-			public void onTextChanged(CharSequence c, int start, int before, int count) {
-				
-			}
-			
-			public void beforeTextChanged(CharSequence c, int start, int count, int after) {
-				// do nothing
-			}
-			
-			public void afterTextChanged(Editable c) {
-				// do nothing
-			}
-		});
+		mAdd.setOnClickListener(
+				new View.OnClickListener() {
+					@Override
+					public void onClick(View view) {
+						Intent intent = new Intent(getActivity().getBaseContext(), AddUserActivity.class);
+						getActivity().startActivity(intent);
+					}
+				});
 		
 		return v;
 	}

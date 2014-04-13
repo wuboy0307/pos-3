@@ -1,10 +1,7 @@
 package edu.txstate.pos;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
-
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
@@ -47,6 +44,7 @@ public abstract class POSActivity extends Activity implements POSTaskParent {
 	private View mMainView = null;
 	private Map<String,POSTask> tasks = null;
 	boolean showProgress = true;
+	String mStatusMessage = null;
 	
 	/**
 	 * onCreate() for the Activity
@@ -259,7 +257,7 @@ public abstract class POSActivity extends Activity implements POSTaskParent {
 	public void finishCallback(String taskName) {
 		POSTask task = tasks.get(taskName);
 		if (task != null) tasks.remove(taskName);
-		if (!showProgress) showProgress(false);
+		if (showProgress) showProgress(false);
 		
 	}
 	
@@ -270,7 +268,7 @@ public abstract class POSActivity extends Activity implements POSTaskParent {
 	 * @param task An instance of the task to be executed
 	 * @param args The arguments given to the task
 	 */
-	void executeAsyncTask(String name, POSTask task, boolean showProgress, POSModel... args) {
+	public void executeAsyncTask(String name, POSTask task, boolean showProgress, POSModel... args) {
 		Log.d(LOG_TAG,"executeAsync");
 		POSTask current = tasks.get(name);
 		if (current == null) {

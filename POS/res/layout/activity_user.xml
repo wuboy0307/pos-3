@@ -5,7 +5,7 @@
     <!-- Progress -->
 
     <LinearLayout
-        android:id="@+id/cart_item_spinner"
+        android:id="@+id/user_spinner"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -20,7 +20,7 @@
             android:layout_marginBottom="8dp" />
 
         <TextView
-            android:id="@+id/cart_item_spinner_message"
+            android:id="@+id/user_spinner_message"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
@@ -29,78 +29,61 @@
             android:textAppearance="?android:attr/textAppearanceMedium" />
     </LinearLayout>
 
-    <!-- Add cart item form -->
+    <!-- user form -->
+
     <LinearLayout 
-        android:id="@+id/cart_add_item_form"
+        android:id="@+id/user_form"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        tools:context=".FakeAddItem" >
-    <Button
-        android:id="@+id/cart_scan_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#669900"
-        android:text="Scan" />
+        tools:context=".AddUserActivity" >
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="25sp"
-        android:text="Item ID (UPC Code)"
+        android:text="Login"
         android:textColor="#669900"
         />
-    <EditText android:id="@+id/cart_item_id"
+    <EditText android:id="@+id/user_login"
         android:inputType="text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="0123456789"
+        android:hint="mylogin"
         />
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="25sp"
-        android:text="Description"
+        android:text="Password"
         android:textColor="#669900"
         />
-    <EditText android:id="@+id/cart_item_description"
+    <EditText android:id="@+id/user_password"
         android:inputType="text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Item description"
+        android:hint="password"
         />
-    <TextView
+
+    <CheckBox android:id="@+id/user_admin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="25sp"
-        android:text="Price"
-        android:textColor="#669900"
+        android:text="Admin"
         />
-    <EditText android:id="@+id/cart_item_price"
-        android:inputType="numberDecimal"
+    <CheckBox android:id="@+id/user_active"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="9.00"
+        android:text="Active"
         />
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="25sp"
-        android:text="Quantity"
-        android:textColor="#669900"
-        />
-    <EditText android:id="@+id/cart_item_quantity"
-        android:inputType="number"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="1"
-        />
+    
     <Button
-        android:id="@+id/cart_add_button"
+        android:id="@+id/user_action_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#669900"
         android:enabled="false"
         android:text="Add" />
+    
     </LinearLayout>
+
 
 </merge>

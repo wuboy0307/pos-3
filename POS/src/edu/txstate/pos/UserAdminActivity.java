@@ -1,8 +1,6 @@
 package edu.txstate.pos;
 
-import android.os.Bundle;
-import android.app.Activity;
-import android.view.Menu;
+import edu.txstate.pos.model.User;
 
 public class UserAdminActivity extends POSFragmentActivity {
 
@@ -16,13 +14,23 @@ public class UserAdminActivity extends POSFragmentActivity {
 	}
 
 	@Override
-	POSListFragment getListFragment() {
+	POSListFragment<User> getListFragment() {
 		mListFragment = new UserListFragment();
 		return mListFragment;
 	}
 	
 	public void deleteSelectedItem() {
 		mListFragment.deleteSelectedItem();
+	}
+
+	@Override
+	int getMainView() {
+		return R.id.fragmentContainer;
+	}
+
+	@Override
+	int getSpinnerView() {
+		return R.id.fragment_spinner;
 	}
 
 }
