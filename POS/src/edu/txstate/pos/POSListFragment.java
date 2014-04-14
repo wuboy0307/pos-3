@@ -65,6 +65,7 @@ public abstract class POSListFragment<X> extends ListFragment {
 	@Override
 	public void onResume() {
 		super.onResume();
+		Log.d(LOG_TAG, "onResume()");
 		mAdapter.notifyDataSetChanged();
 	}
 	

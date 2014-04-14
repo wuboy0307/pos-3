@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+import static edu.txstate.pos.CartActivity.*;
 
 public class CartFieldFragment extends POSFieldFragment {
 
@@ -25,7 +26,7 @@ public class CartFieldFragment extends POSFieldFragment {
 	private TextView mTotal;
 	private Button mAddItemButton;
 	private Button mManualButton;
-	private Button mPayButton;
+	private Button mSwipeButton;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -65,7 +66,7 @@ public class CartFieldFragment extends POSFieldFragment {
 		mTotal = (TextView) v.findViewById(R.id.total);
 		mAddItemButton = (Button) v.findViewById(R.id.cart_add_item_button);
 		mManualButton = (Button) v.findViewById(R.id.cart_manual_button);
-		mPayButton = (Button) v.findViewById(R.id.cart_sell_button);
+		mSwipeButton = (Button) v.findViewById(R.id.cart_sell_button);
 		
 		updateFields();
 		
@@ -101,12 +102,13 @@ public class CartFieldFragment extends POSFieldFragment {
 				new View.OnClickListener() {
 					@Override
 					public void onClick(View view) {
-
+						Intent intent = new Intent(getActivity().getBaseContext(), ManualPayActivity.class);
+						getActivity().startActivityForResult(intent, MANUAL_PAYMENT);
 					}
 				});
 
 		
-		mPayButton.setOnClickListener(
+		mSwipeButton.setOnClickListener(
 				new View.OnClickListener() {
 					@Override
 					public void onClick(View view) {

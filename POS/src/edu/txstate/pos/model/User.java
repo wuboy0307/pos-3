@@ -30,6 +30,14 @@ public class User implements POSModel {
 		this.PIN = PIN;
 	}
 	
+	public void setUser(User user) {
+		this.id = user.getId();
+		this.login = user.getLogin();
+		this.PIN = user.getPIN();
+		this.isActive = user.isActive;
+		this.isAdmin = user.isAdmin;
+	}
+	
 	/**
 	 * If the user is an administrator.
 	 * 

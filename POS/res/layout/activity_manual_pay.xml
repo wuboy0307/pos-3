@@ -1,0 +1,78 @@
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".ManualPayActivity" >
+    
+    <!-- Progress -->
+
+    <LinearLayout
+        android:id="@+id/manual_spinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:visibility="gone" >
+
+        <ProgressBar
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp" />
+
+        <TextView
+            android:id="@+id/manual_spinner_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:fontFamily="sans-serif-light"
+            android:text="Loading"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+    </LinearLayout>
+
+    <!-- user form -->
+
+    <LinearLayout 
+        android:id="@+id/manual_form"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".ManualPayActivity" >
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="25sp"
+        android:text="Credit Card Number"
+        android:textColor="#669900"
+        />
+    <EditText android:id="@+id/manual_card_number"
+        android:inputType="number"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="1234567890123456"
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="25sp"
+        android:text="PIN"
+        android:textColor="#669900"
+        />
+    <EditText android:id="@+id/manual_pin"
+        android:inputType="text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="pin"
+        />
+    
+    <Button
+        android:id="@+id/manual_action_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#669900"
+        android:enabled="false"
+        android:text="Pay" />
+    
+    </LinearLayout>
+
+
+</merge>

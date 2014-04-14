@@ -27,13 +27,13 @@
         android:text="Price"
         style="?android:listSeparatorTextViewStyle"
         />
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:orientation="horizontal"
         android:layout_gravity="center"
         >
-            <TextView 
+            <TextView android:id="@+id/subtotal_label"
                   android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
                   android:textSize="20sp"
@@ -42,32 +42,49 @@
 		          android:layout_width="wrap_content"
 		          android:layout_height="wrap_content"
 		          android:textSize="20sp"
+		          android:layout_toRightOf= "@+id/subtotal_label"
 		          android:text="$ 0.00" />
-            <TextView 
+            <TextView android:id="@+id/tax_label"
                   android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
                   android:textSize="20sp"
+                  android:layout_toRightOf= "@+id/subtotal"
                   android:text="     Tax: $" />
             <TextView android:id="@+id/tax"
                   android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
                   android:textSize="20sp"
+                  android:layout_toRightOf= "@+id/tax_label"
                   android:text="$ 0.00" />
-            <TextView 
+            <TextView android:id="@+id/total_label"
                   android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
                   android:textSize="20sp"
+                  android:layout_toRightOf= "@+id/tax"
                   android:text="     Total: $" />
             <TextView android:id="@+id/total"
                   android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
                   android:textSize="20sp"
+                  android:layout_toRightOf= "@+id/total_label"
                   android:text="$ 0.00" />
-    </LinearLayout>
-    <LinearLayout
+    </RelativeLayout>
+    <RelativeLayout
         android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        >
+            <TextView android:id="@+id/payment"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_centerInParent="true"
+                  android:textSize="20sp"
+                  android:text="Payment: Not entered" />   
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:orientation="horizontal"
+        android:layout_gravity="center"
         >
             <Button
                 android:id="@+id/cart_add_item_button"
@@ -78,6 +95,7 @@
                 android:layout_marginTop="16dp"
                 android:paddingLeft="5dp"
                 android:paddingRight="5dp"
+                android:layout_margin="10dp"
                 android:background="#669900"
                 android:text="Add Item" />
             <Button
@@ -89,9 +107,36 @@
                 android:layout_marginTop="16dp"
                 android:paddingLeft="5dp"
                 android:paddingRight="5dp"
+                android:layout_margin="10dp"
                 android:background="#669900"
                 android:layout_toRightOf= "@+id/cart_add_item_button"
                 android:text="Manual" />
+            <Button
+                android:id="@+id/cart_swipe_button"
+                android:layout_width="wrap_content"
+                android:layout_weight="1"
+                android:layout_gravity="right"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:layout_margin="10dp"
+                android:background="#669900"
+                android:layout_toRightOf="@+id/cart_manual_button"
+                android:text="Pay" />
+            <Button
+                android:id="@+id/cart_cancel_button"
+                android:layout_width="wrap_content"
+                android:layout_weight="1"
+                android:layout_gravity="left"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:layout_margin="10dp"
+                android:background="#669900"
+                android:layout_toRightOf="@+id/cart_swipe_button"
+                android:text="Cancel" />
             <Button
                 android:id="@+id/cart_sell_button"
                 android:layout_width="wrap_content"
@@ -102,9 +147,10 @@
                 android:paddingLeft="5dp"
                 android:paddingRight="5dp"
                 android:background="#669900"
-                android:layout_toRightOf="@+id/cart_manual_button"
-                android:text="Pay" />
-    </LinearLayout>        
+                android:layout_margin="10dp"
+                android:layout_toRightOf= "@+id/cart_cancel_button"
+                android:text="Sell" />
+    </RelativeLayout>  
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

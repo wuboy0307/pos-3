@@ -35,5 +35,6 @@
     <string name="title_activity_user_admin">UserAdminActivity</string>
     <string name="title_activity_add_cart_item">AddCartItemActivity</string>
     <string name="title_activity_add_user">AddUserActivity</string>
+    <string name="title_activity_manual_pay">ManualPayActivity</string>
 
 </resources>

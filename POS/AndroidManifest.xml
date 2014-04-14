@@ -150,6 +150,10 @@
             android:name="edu.txstate.pos.AddUserActivity"
             android:label="@string/title_activity_add_user" >
         </activity>
+        <activity
+            android:name="edu.txstate.pos.ManualPayActivity"
+            android:label="@string/title_activity_manual_pay" >
+        </activity>
     </application>
 
 </manifest>

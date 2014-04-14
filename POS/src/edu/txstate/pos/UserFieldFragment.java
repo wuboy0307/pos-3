@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import static edu.txstate.pos.UserListFragment.*;
 
 public class UserFieldFragment extends POSFieldFragment {
 
@@ -26,6 +27,9 @@ public class UserFieldFragment extends POSFieldFragment {
 					@Override
 					public void onClick(View view) {
 						Intent intent = new Intent(getActivity().getBaseContext(), AddUserActivity.class);
+						Bundle extras = new Bundle();
+						extras.putInt(EXTRA_FIELD_MODE, EXTRA_MODE_ADD);
+						intent.putExtras(extras);
 						getActivity().startActivity(intent);
 					}
 				});
