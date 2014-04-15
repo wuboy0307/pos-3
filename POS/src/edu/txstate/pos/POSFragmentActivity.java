@@ -24,6 +24,7 @@ public abstract class POSFragmentActivity extends FragmentActivity implements PO
 	POSListFragment mItemFragment;
 	private Map<String,POSTask> tasks = null;
 	boolean showProgress = true;
+	String mStatusMessage;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {

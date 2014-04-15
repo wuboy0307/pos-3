@@ -8,6 +8,7 @@ import java.util.UUID;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.telephony.TelephonyManager;
@@ -19,6 +20,7 @@ import edu.txstate.pos.model.User;
 import edu.txstate.pos.service.POSSyncService;
 import edu.txstate.pos.service.SyncService;
 import edu.txstate.pos.storage.ConnectionError;
+import edu.txstate.pos.storage.NoCartFoundException;
 import edu.txstate.pos.storage.Storage;
 import edu.txstate.pos.storage.StorageException;
 
@@ -93,6 +95,13 @@ public class POSApplication extends Application implements SyncService, ServiceC
 			}
 		}
 		return mCart;
+	}
+	
+	public void deleteCart() throws SQLException, NoCartFoundException {
+		if (mCart != null) {
+			mCart.delete();
+			mCart = null;
+		}
 	}
 	
 	// TODO: Get this from the settings

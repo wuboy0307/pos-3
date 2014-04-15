@@ -330,6 +330,10 @@ public class Cart implements POSModel {
 		return true;
 	}
 	
+	public void delete() throws SQLException, NoCartFoundException {
+		storage.deleteCurrentCart(user);
+	}
+	
 	// *********************************
 	//	Getters
 	// *********************************

@@ -59,10 +59,16 @@ public class CartLocalStorage extends LocalStorage {
 	 * @param updUser	The cart of the user
 	 * @param syncStatus
 	 * @throws SQLException
+	 * @throws NoCartFoundException 
 	 */
-	public void deleteCurrentCart(User updUser) throws SQLException {
-		String selection = POSContract.Cart.COLUMN_NAME_USER_ID + " = ? AND " + POSContract.Cart.COLUMN_NAME_SYNC + " = ?";
-		String[] selectionArgs = { String.valueOf(updUser.getId()), String.valueOf(SyncStatus.DRAFT) };
+	public void deleteCurrentCart(User updUser) throws SQLException, NoCartFoundException {
+		
+		Map<String,String> cart = getCart(updUser);
+		
+		String selection = POSContract.CartItem.COLUMN_NAME_CART_ID + " = ?";
+		String[] selectionArgs = { cart.get(POSContract.Cart._ID) };
+		db.delete(POSContract.CartItem.TABLE_NAME, selection, selectionArgs);
+		selection = POSContract.Cart._ID + " = ?";
 		db.delete(POSContract.Cart.TABLE_NAME, selection, selectionArgs);
 	}
 	

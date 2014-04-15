@@ -9,6 +9,7 @@ import edu.txstate.pos.model.User;
 import edu.txstate.pos.service.JunitSyncStub;
 import edu.txstate.pos.storage.CartLocalStorage;
 import edu.txstate.pos.storage.ItemLocalStorage;
+import edu.txstate.pos.storage.NoCartFoundException;
 import edu.txstate.pos.storage.Storage;
 import edu.txstate.pos.storage.StorageException;
 import edu.txstate.pos.storage.SyncStatus;
@@ -46,6 +47,8 @@ public class CartTest extends AndroidTestCase {
 			local.deleteCurrentCart(user2);
 		} catch (SQLException e) {
 			// Don't care - need clean slate
+		} catch (NoCartFoundException e) {
+			// Don't care
 		}
 		
 		try {
@@ -63,6 +66,12 @@ public class CartTest extends AndroidTestCase {
 			
 			local.deleteCurrentCart(user2);
 		} catch (StorageException e) {
+			Log.e(LOG_TAG, e.getMessage());
+			assertTrue(false);
+		} catch (SQLException e) {
+			Log.e(LOG_TAG, e.getMessage());
+			assertTrue(false);
+		} catch (NoCartFoundException e) {
 			Log.e(LOG_TAG, e.getMessage());
 			assertTrue(false);
 		}

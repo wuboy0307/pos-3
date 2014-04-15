@@ -7,6 +7,7 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import static edu.txstate.pos.CartActivity.*;
 
 
 public class ManualPayActivity extends POSActivity {
@@ -67,6 +68,8 @@ public class ManualPayActivity extends POSActivity {
 	
 	public void addPayment() {
 		Intent ret = new Intent("edu.txstate.pos.Payment.MANUAL");
+		ret.putExtra(EXTRA_FIELD_CARD,mCreditCard.getText().toString());
+		ret.putExtra(EXTRA_FIELD_PIN,mPIN.getText().toString());
 		setResult(RESULT_OK, ret);
 		finish();
 	}

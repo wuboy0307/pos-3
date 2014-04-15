@@ -24,10 +24,10 @@ public class PayAnywhereTestActivity extends Activity implements SDKAdvancedCall
 	private static String app_name = "Mobile Point-Of-Sale";
 	
 
-	private final static String pa_mid = "<8788290228799-021>",
-								pa_login_id = "<206318>",
-								pa_username = "<paya3928>",
-								pa_password = "<2014Test>",
+	private final static String pa_mid = "8788290228799021",
+								pa_login_id = "206318",
+								pa_username = "paya3928",
+								pa_password = "2014Test",
 								pa_MyAppName = "Mobile Point of Sales";
 
 	

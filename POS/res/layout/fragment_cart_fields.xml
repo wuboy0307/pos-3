@@ -123,7 +123,7 @@
                 android:layout_margin="10dp"
                 android:background="#669900"
                 android:layout_toRightOf="@+id/cart_manual_button"
-                android:text="Pay" />
+                android:text="Swipe" />
             <Button
                 android:id="@+id/cart_cancel_button"
                 android:layout_width="wrap_content"
@@ -137,19 +137,6 @@
                 android:background="#669900"
                 android:layout_toRightOf="@+id/cart_swipe_button"
                 android:text="Cancel" />
-            <Button
-                android:id="@+id/cart_sell_button"
-                android:layout_width="wrap_content"
-                android:layout_weight="1"
-                android:layout_gravity="right"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:paddingLeft="5dp"
-                android:paddingRight="5dp"
-                android:background="#669900"
-                android:layout_margin="10dp"
-                android:layout_toRightOf= "@+id/cart_cancel_button"
-                android:text="Sell" />
     </RelativeLayout>  
     <TextView
         android:layout_width="match_parent"

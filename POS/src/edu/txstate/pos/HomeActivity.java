@@ -2,12 +2,14 @@ package edu.txstate.pos;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
 public class HomeActivity extends POSActivity {
 
+	private static final String LOG_TAG = "HomeActivity";
 	private static final int LOGIN_RESPONSE = 0;
 	
 	private TextView mMessage = null;
@@ -47,6 +49,7 @@ public class HomeActivity extends POSActivity {
 					@Override
 					public void onClick(View view) {
 						Intent intent = new Intent(getBaseContext(), CartActivity.class);
+						//intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 						startActivity(intent);
 					}
 				});
@@ -122,7 +125,8 @@ public class HomeActivity extends POSActivity {
 	}
 
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == RESULT_OK) {
+        Log.d(LOG_TAG,"----------------------- ON RESULT!!!!!");
+		if (resultCode == RESULT_OK) {
         	setButtonsAndText();
         }
 	}
