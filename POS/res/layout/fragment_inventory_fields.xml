@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+        <Button
+            android:id="@+id/inventory_refresh_button"
+            android:layout_width="fill_parent"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:background="#669900"
+            android:text="Refresh" />    
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="25sp"
+            android:textColor="#669900"
+            android:text="Items"
+            style="?android:listSeparatorTextViewStyle"
+            />
+</LinearLayout>

@@ -25,7 +25,7 @@ public abstract class POSFragmentActivity extends FragmentActivity implements PO
 	private View mSpinnerView = null;
 	private View mMainView = null;
 	POSFieldFragment mFieldFragment;
-	POSListFragment mItemFragment;
+	POSListFragment mListFragment;
 	private Map<String,POSTask> tasks = null;
 	boolean showProgress = true;
 	String mStatusMessage;
@@ -39,14 +39,16 @@ public abstract class POSFragmentActivity extends FragmentActivity implements PO
 		mMainView = (View) findViewById(getMainView());
 		
 		mFieldFragment  = getFieldFragment();
-		mItemFragment = getListFragment();
+		mListFragment = getListFragment();
 		
 		tasks = new HashMap<String,POSTask>();
 		
 		FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 		transaction.add(getFieldContainer(), mFieldFragment);
-		transaction.add(getListContainer(), mItemFragment);
+		transaction.add(getListContainer(), mListFragment);
 		transaction.commit();
+		
+		setTitle("Mobile Point of Sale");
 
 	}
 	
@@ -68,7 +70,7 @@ public abstract class POSFragmentActivity extends FragmentActivity implements PO
 	}
 	
 	public void deleteSelectedItem() {
-		mItemFragment.deleteSelectedItem();
+		mListFragment.deleteSelectedItem();
 	}
 	
 	/**

@@ -27,7 +27,7 @@ public class Login extends AndroidTestCase {
 	 */
 	public void testValid() {
 		Log.d(LOG_TAG, "testValid");
-		User user = new User("geoff","5555");
+		User user = new User("geoff","1111");
 		
 		try {
 			user = remote.login(user);

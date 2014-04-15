@@ -18,6 +18,7 @@ public class HomeActivity extends POSActivity {
 	private Button mCheckoutButton = null;
 	private Button mPriceCheckButton = null;
 	private Button mResendReceiptButton = null;
+	private Button mInventoryButton = null;
 	private Button mUserAdminButton = null;
 	
 	@Override
@@ -28,6 +29,7 @@ public class HomeActivity extends POSActivity {
 		mLoginButton = (Button) findViewById(R.id.login_button);
 		mCheckoutButton = (Button) findViewById(R.id.checkout_button);
 		mPriceCheckButton = (Button) findViewById(R.id.pricecheck_button);
+		mInventoryButton = (Button) findViewById(R.id.inventory_button);
 		mResendReceiptButton = (Button) findViewById(R.id.resendrec_button);
 		mUserAdminButton = (Button) findViewById(R.id.admin_button);
 		
@@ -60,6 +62,15 @@ public class HomeActivity extends POSActivity {
 					@Override
 					public void onClick(View view) {
 						Intent intent = new Intent(getBaseContext(), ScanActivity.class);
+						startActivity(intent);
+					}
+				});
+		
+		mInventoryButton.setOnClickListener(
+				new View.OnClickListener() {
+					@Override
+					public void onClick(View view) {
+						Intent intent = new Intent(getBaseContext(), InventoryActivity.class);
 						startActivity(intent);
 					}
 				});
@@ -132,6 +143,7 @@ public class HomeActivity extends POSActivity {
 			mLoginButton.setText("Logout");
 			mCheckoutButton.setEnabled(true);
 			mPriceCheckButton.setEnabled(true);
+			mInventoryButton.setEnabled(true);
 			mResendReceiptButton.setEnabled(true);
 			if (getUser().isAdmin() && mNetworkAvailable) {
 				mUserAdminButton.setEnabled(true);
@@ -144,6 +156,7 @@ public class HomeActivity extends POSActivity {
 			mLoginButton.setText("Login");
 			mCheckoutButton.setEnabled(false);
 			mPriceCheckButton.setEnabled(false);
+			mInventoryButton.setEnabled(false);
 			mResendReceiptButton.setEnabled(false);
 			mUserAdminButton.setEnabled(false);
 		}

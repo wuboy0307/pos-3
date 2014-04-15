@@ -60,6 +60,7 @@ public abstract class POSActivity extends Activity implements POSTaskParent {
 		mMainView = (View) findViewById(getMainView());
 		tasks = new HashMap<String,POSTask>();
 		Log.d(LOG_TAG,"Null? " + (mSpinnerView == null));
+		setTitle("Mobile Point of Sale");
 	}
 	
 	// The child's content view

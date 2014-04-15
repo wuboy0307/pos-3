@@ -119,8 +119,8 @@ public class SyncItems {
 	public String call(Map<String, String> params) throws ConnectionError {
 		StringBuilder buffer = new StringBuilder();
         HttpClient client = new DefaultHttpClient();
-        String url = "http://172.16.89.203/~g_m108/cgi-bin/item.pl";
-        //String url = "http://cs.txstate.edu/~g_m108/cgi-bin/item.pl";
+        //String url = "http://172.16.89.203/~g_m108/cgi-bin/item.pl";
+        String url = "http://cs.txstate.edu/~g_m108/cgi-bin/item.pl";
 
         HttpPost httpPost = new HttpPost(url);
         Log.d(LOG_TAG, url);

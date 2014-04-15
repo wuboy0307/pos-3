@@ -6,26 +6,28 @@ public class InventoryActivity extends POSFragmentActivity {
 
 	@Override
 	POSFieldFragment getFieldFragment() {
-		// TODO Auto-generated method stub
-		return null;
+		mFieldFragment = new InventoryFieldFragment();
+		return mFieldFragment;
 	}
 
 	@Override
 	POSListFragment<Item> getListFragment() {
-		// TODO Auto-generated method stub
-		return new ItemListFragment();
+		mListFragment = new InventoryListFragment();
+		return mListFragment;
 	}
 
 	@Override
 	int getMainView() {
-		// TODO Auto-generated method stub
-		return 0;
+		return R.id.fragmentContainer;
 	}
 
 	@Override
 	int getSpinnerView() {
-		// TODO Auto-generated method stub
-		return 0;
+		return R.id.fragment_spinner;
+	}
+	
+	public void refreshList() {
+		((InventoryListFragment) mListFragment).updateItems();
 	}
 
 }

@@ -6,9 +6,12 @@ import edu.txstate.pos.storage.Storage;
 import edu.txstate.pos.storage.StorageException;
 import android.app.Activity;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 
 public abstract class POSFieldFragment extends Fragment {
 
+	private static String LOG_TAG = "POSFieldFragment";
+	
 	protected String mStatusMessage;
 	POSTaskParent parent = null;
 	boolean mNetworkAvailable;
@@ -41,7 +44,7 @@ public abstract class POSFieldFragment extends Fragment {
 	}
 	
 	protected void setPing() {
-		if (mPingTask == null) return;
+		if (mPingTask != null) return;
 		else {
 			mPingTask = new PingTask("PingTask",parent);
 			mPingTask.execute((POSModel) null);
@@ -57,7 +60,9 @@ public abstract class POSFieldFragment extends Fragment {
 
 		@Override
 		Boolean backgroundWork(Storage storage, POSModel... args) {
-			return ((POSApplication) ((POSFragmentActivity) parent).getApplication()).ping();
+			boolean ret = ((POSApplication) ((POSFragmentActivity) parent).getApplication()).ping(); 
+			Log.d(LOG_TAG,"background " + ret);
+			return ret;
 		}
 
 		@Override

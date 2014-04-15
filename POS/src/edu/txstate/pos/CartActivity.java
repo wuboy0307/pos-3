@@ -92,12 +92,12 @@ public class CartActivity extends POSFragmentActivity implements SDKAdvancedCall
 
 	@Override
 	POSListFragment<CartItem> getListFragment() {
-		mItemFragment = new CartItemListFragment();
-		return mItemFragment;
+		mListFragment = new CartItemListFragment();
+		return mListFragment;
 	}
 
 	public void deleteSelectedItem() {
-		mItemFragment.deleteSelectedItem();
+		mListFragment.deleteSelectedItem();
 	}
 
 	@Override

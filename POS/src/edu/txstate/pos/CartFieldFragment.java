@@ -63,10 +63,12 @@ public class CartFieldFragment extends POSFieldFragment {
 	public void onResume() {
 		super.onResume();
 		updateFields();
+		setPing();
 	}
 
 	@Override
 	void netStatusUpdate() {
+		Log.d(LOG_TAG,"netStatusUpdate " + mNetworkAvailable);
 		if (!mNetworkAvailable) {
 			mSwipeButton.setEnabled(false);
 		} else {
@@ -80,8 +82,11 @@ public class CartFieldFragment extends POSFieldFragment {
 		mSubtotal.setText(mCart.getSubTotal());
 		mTax.setText(mCart.getTaxAmount());
 		mTotal.setText(mCart.getTotal());
+		Log.d(LOG_TAG,"netStatusUpdate " + mNetworkAvailable);
 		if (!mNetworkAvailable) {
 			mSwipeButton.setEnabled(false);
+		} else {
+			mSwipeButton.setEnabled(true);
 		}
 	}
 	

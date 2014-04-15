@@ -150,6 +150,6 @@ public class Item implements POSModel {
 	 */
 	@Override
 	public String toString() {
-		return description + " - $" + price;
+		return "[" + id + "] " + description + " - $" + price;
 	}
 }
