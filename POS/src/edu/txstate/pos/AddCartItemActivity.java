@@ -1,11 +1,15 @@
 package edu.txstate.pos;
 
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
+
 import edu.txstate.pos.model.CartItem;
 import edu.txstate.pos.model.Item;
 import edu.txstate.pos.model.POSModel;
 import edu.txstate.pos.storage.NoItemFoundException;
 import edu.txstate.pos.storage.Storage;
 import edu.txstate.pos.storage.StorageException;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -13,6 +17,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class AddCartItemActivity extends POSActivity {
 
@@ -117,11 +122,16 @@ public class AddCartItemActivity extends POSActivity {
 				new View.OnClickListener() {
 					@Override
 					public void onClick(View view) {
-						
+						startScanner();
 					}
 				});
 		
 		setButtons();
+	}
+	
+	private void startScanner() {
+		IntentIntegrator scanIntegrator = new IntentIntegrator(this);
+		scanIntegrator.initiateScan();
 	}
 	
 	boolean allFieldsFilledIn() {
@@ -165,6 +175,25 @@ public class AddCartItemActivity extends POSActivity {
 			Item item = new Item(itemID,null,null);
 			executeAsyncTask("CheckInventory",new CheckInventoryTask("CheckInventory", this), false, item);
 			
+		}
+	}
+	
+	public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+		//retrieve scan result
+		IntentResult scanningResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
+		if (scanningResult != null) {
+			//we have a result
+			String scanContent = scanningResult.getContents();
+			//String scanFormat = scanningResult.getFormatName();
+			//formatTxt.setText("FORMAT: " + scanFormat);
+			//contentTxt.setText("CONTENT: " + scanContent);
+			//mScanTask.execute(scanContent);
+			mUPC.setText(scanContent);
+			}
+		else{
+		    Toast toast = Toast.makeText(getApplicationContext(),
+		        "No scan data received!", Toast.LENGTH_SHORT);
+		    toast.show();
 		}
 	}
 
