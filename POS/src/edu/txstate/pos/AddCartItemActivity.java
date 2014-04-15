@@ -246,4 +246,10 @@ public class AddCartItemActivity extends POSActivity {
 		}
 	}
 
+	@Override
+	void netStatusUpdate() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

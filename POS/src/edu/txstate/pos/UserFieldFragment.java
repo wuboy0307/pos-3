@@ -36,5 +36,11 @@ public class UserFieldFragment extends POSFieldFragment {
 		
 		return v;
 	}
+
+	@Override
+	void netStatusUpdate() {
+		// TODO Auto-generated method stub
+		
+	}
 	
 }

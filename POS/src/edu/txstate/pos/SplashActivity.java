@@ -72,6 +72,12 @@ public class SplashActivity extends POSActivity {
 		// TODO Auto-generated method stub
 		return 0;
 	}
+
+	@Override
+	void netStatusUpdate() {
+		// TODO Auto-generated method stub
+		
+	}
 	
 	
 }

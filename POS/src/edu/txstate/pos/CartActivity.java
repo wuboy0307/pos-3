@@ -6,6 +6,7 @@ import com.nabancard.sdkadvanced.SDKAdvancedCallbacks;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 import edu.txstate.pos.model.Cart;
 import edu.txstate.pos.model.CartItem;
 import edu.txstate.pos.model.POSModel;
@@ -77,10 +78,10 @@ public class CartActivity extends POSFragmentActivity implements SDKAdvancedCall
 	}
 	
 	public void swipe(String total, String cartID) {
-			instance.setAmount(total);
-			String deviceID = ((POSApplication) getApplication()).getDeviceID();
-			instance.setInvoice(deviceID + "-" + cartID);
-			instance.showChargeScreen();
+		instance.setAmount(total);
+		String deviceID = ((POSApplication) getApplication()).getDeviceID();
+		instance.setInvoice(deviceID + "-" + cartID);
+		instance.showChargeScreen();
 	}
 
 	@Override
@@ -112,7 +113,20 @@ public class CartActivity extends POSFragmentActivity implements SDKAdvancedCall
 	private void sell(Payment payment) {
 		executeAsyncTask("SellCartTask", 
 				new SellCartTask("SellCartTask",this), true, payment);
+		
+		//((POSApplication) getApplication()).getHome().sendEmail();
+		
+		try {
+			Cart cart = ((POSApplication) getApplication()).getCart();
+			((POSApplication) getApplication()).getHome().sendEmail(cart);
+		} catch (StorageException e) {
+			Toast.makeText(this, 
+					"Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
+		}
+	
 	}
+	
+	
 
 	/************************************************/
 	/*	Pay Anywhere Integration                   */
@@ -174,6 +188,10 @@ public class CartActivity extends POSFragmentActivity implements SDKAdvancedCall
 		@Override
 		void postWork(Storage storage, Payment workResult) {
 			if (workResult != null) finish();
+			else {
+				Toast.makeText(CartActivity.this, 
+						"Error: " + mStatusMessage, Toast.LENGTH_LONG).show();
+			}
 		}
 		
 	}

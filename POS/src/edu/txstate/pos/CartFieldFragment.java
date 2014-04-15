@@ -41,20 +41,22 @@ public class CartFieldFragment extends POSFieldFragment {
 	private Button mSwipeButton;
 	private Button mCancelButton;
 	
-	private Cart cart;
+	private Cart mCart;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
 		try {
-			cart = getCart();
+			mCart = getCart();
 		} catch (StorageException e) {
 			Toast.makeText(getActivity().getApplicationContext(), 
 					"Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
 			
 			e.printStackTrace();
 		}
+		
+		setPing();
 	}
 	
 	@Override
@@ -63,12 +65,24 @@ public class CartFieldFragment extends POSFieldFragment {
 		updateFields();
 	}
 
+	@Override
+	void netStatusUpdate() {
+		if (!mNetworkAvailable) {
+			mSwipeButton.setEnabled(false);
+		} else {
+			mSwipeButton.setEnabled(true);
+		}
+	}
+	
 	public void updateFields() {
-		Log.d(LOG_TAG,"Cart ID: " + cart.getId());
-		mCustomerEmail.setText(cart.getCustomer());
-		mSubtotal.setText(cart.getSubTotal());
-		mTax.setText(cart.getTaxAmount());
-		mTotal.setText(cart.getTotal());
+		Log.d(LOG_TAG,"Cart ID: " + mCart.getId());
+		mCustomerEmail.setText(mCart.getCustomer());
+		mSubtotal.setText(mCart.getSubTotal());
+		mTax.setText(mCart.getTaxAmount());
+		mTotal.setText(mCart.getTotal());
+		if (!mNetworkAvailable) {
+			mSwipeButton.setEnabled(false);
+		}
 	}
 	
 	@Override
@@ -173,12 +187,13 @@ public class CartFieldFragment extends POSFieldFragment {
 	
 	private void swipe() {
 		String total = mTotal.getText().toString();	
-		((CartActivity) parent).swipe(total, String.valueOf(cart.getId()));
+		((CartActivity) parent).swipe(total, String.valueOf(mCart.getId()));
 	}
 	
 	public void setPaymentMessage(String message) {
 		mPayMessage.setText("Payment: " + message);
 	}
+	
 	
 	public class CancelCartTask extends POSTask<Cart> {
 		public CancelCartTask(String name, POSTaskParent parent) {
@@ -218,6 +233,5 @@ public class CartFieldFragment extends POSFieldFragment {
 			}
 		}
 	}
-	
 	
 }

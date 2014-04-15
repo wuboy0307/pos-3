@@ -1,5 +1,6 @@
 package edu.txstate.pos;
 
+import edu.txstate.pos.model.Cart;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -82,7 +83,18 @@ public class HomeActivity extends POSActivity {
 				});
 
 		setButtonsAndText();
-		
+		setPing();
+		((POSApplication) getApplication()).setHome(this);
+	}
+	
+	public void sendEmail(Cart cart) {
+		Intent intent = new Intent(Intent.ACTION_SEND);
+		intent.setType("message/rfc822");
+		intent.putExtra(Intent.EXTRA_EMAIL, "geoff@marinski.com");
+		intent.putExtra(Intent.EXTRA_SUBJECT, "Mobile POS Receipt");
+		intent.putExtra(Intent.EXTRA_TEXT, "Total");
+		Intent mailer = Intent.createChooser(intent, null);
+		startActivity(mailer);
 	}
 	
 	@Override
@@ -99,6 +111,19 @@ public class HomeActivity extends POSActivity {
 	int getSpinnerView() {
 		return R.id.home_spinner;
 	}
+	
+	@Override
+	public void onResume() {
+		super.onResume();
+		setButtonsAndText();
+		setPing();
+	}
+	
+	@Override
+	void netStatusUpdate() {
+		if(!mNetworkAvailable) mUserAdminButton.setEnabled(false);
+		else if (isLoggedIn() && getUser().isAdmin()) mUserAdminButton.setEnabled(true);
+	}
 		
 	private void setButtonsAndText() {
 		if (isLoggedIn()) {
@@ -108,7 +133,7 @@ public class HomeActivity extends POSActivity {
 			mCheckoutButton.setEnabled(true);
 			mPriceCheckButton.setEnabled(true);
 			mResendReceiptButton.setEnabled(true);
-			if (getUser().isAdmin()) {
+			if (getUser().isAdmin() && mNetworkAvailable) {
 				mUserAdminButton.setEnabled(true);
 			} else {
 				mUserAdminButton.setEnabled(false);

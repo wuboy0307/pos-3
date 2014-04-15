@@ -202,5 +202,11 @@ public class FakeloginActivity extends POSActivity {
 			showProgress(false);
 		}
 	}
+
+	@Override
+	void netStatusUpdate() {
+		// TODO Auto-generated method stub
+		
+	}
 	
 }

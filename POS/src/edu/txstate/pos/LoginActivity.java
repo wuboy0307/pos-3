@@ -154,4 +154,11 @@ public class LoginActivity extends POSActivity {
 		}
 
 	}
+
+
+	@Override
+	void netStatusUpdate() {
+		// TODO Auto-generated method stub
+		
+	}
 }

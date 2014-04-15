@@ -139,4 +139,10 @@ public class ScanActivity extends POSActivity implements OnClickListener {
 		
 	}
 
+	@Override
+	void netStatusUpdate() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

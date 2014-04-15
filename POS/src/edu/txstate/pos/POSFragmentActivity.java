@@ -3,15 +3,19 @@ package edu.txstate.pos;
 import java.util.HashMap;
 import java.util.Map;
 import edu.txstate.pos.model.POSModel;
+import edu.txstate.pos.service.POSSyncService;
 import edu.txstate.pos.storage.Storage;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.app.ActionBar;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 
 public abstract class POSFragmentActivity extends FragmentActivity implements POSTaskParent {
@@ -126,6 +130,10 @@ public abstract class POSFragmentActivity extends FragmentActivity implements PO
 	public Storage getStorage() {
 		return ((POSApplication) getApplication()).getStorage();
 	}
+	
+	protected boolean ping() {
+		return ((POSApplication) getApplication()).ping();
+	}
 
 	@Override
 	public void executeAsyncTask(String name, POSTask task,	boolean showProgress, POSModel... args) {
@@ -140,5 +148,91 @@ public abstract class POSFragmentActivity extends FragmentActivity implements PO
 		} else {
 			Log.d(LOG_TAG,"Found");
 		}
+	}
+	
+	/**
+	 * Uses all.xml to make a common menu base for all actions...
+	 * unless this gets overridden.
+	 */
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.all, menu);
+		
+		/*
+		MenuItem fakeItem = menu.findItem(R.id.menu_action_fakeitem);
+		Intent intent = new Intent(this, FakeAddItem.class);
+		fakeItem.setIntent(intent);
+		
+		MenuItem fakeCart = menu.findItem(R.id.menu_action_fakecart);
+		Intent cartIntent = new Intent(this, CartActivity.class);
+		fakeCart.setIntent(cartIntent);
+		*/
+		return true;
+	}
+	
+	/**
+	 * Used to update the contents of a menu option.  This is called right 
+	 * before the menu is shown, every time it is shown.
+	 * 
+	 */
+	@Override
+	@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
+	public boolean onPrepareOptionsMenu(Menu menu) {
+		super.onPrepareOptionsMenu(menu);
+
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
+			ActionBar actionBar = this.getActionBar();
+			if (((POSApplication) getApplication()).isConnected()) {
+				actionBar.setIcon(R.drawable.ic_pos_app);
+			} else {
+				actionBar.setIcon(R.drawable.ic_action_bad);	
+			}
+		}
+		
+		// If the "all" menu is being used, set the right toggle
+		// If the MenuItem isn't found, then that activity has a custom
+		// menu
+		MenuItem toggleItem = menu.findItem(R.id.menu_action_poll);
+		if (toggleItem != null) {
+			if (POSSyncService.isServiceAlarmOn(getBaseContext())) {
+				toggleItem.setTitle("Stop Sync");
+			} else {
+				toggleItem.setTitle("Start Sync"); 
+			}
+		}
+		
+
+		return true; // true or else menu will not be shown
+	}
+	
+	/**
+	 * Handler for the menu clicks.
+	 */
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+	//public boolean onMenuItemSelected(int featureID, MenuItem item) {
+		switch (item.getItemId()) {
+			case R.id.menu_action_poll:
+					// Toggles the alarm
+					boolean shouldStart = !POSSyncService.isServiceAlarmOn(getBaseContext());
+					POSSyncService.setServiceAlarm(getBaseContext(), shouldStart);
+					
+					// This is required in later versions to tell the action bar
+					// to update itself.
+					if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
+						this.invalidateOptionsMenu();
+					break;
+			//case R.id.menu_action_settings:
+			//		break;
+			//case R.id.menu_action_fakeitem:
+			//		Log.d(LOG_TAG, "Fake Item");
+			//		Intent intent = new Intent(this, FakeAddItem.class);
+			//		startService(intent);
+			//		break;
+			default:
+					return super.onOptionsItemSelected(item);
+		}
+		return true;
 	}
 }

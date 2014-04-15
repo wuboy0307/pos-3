@@ -109,6 +109,53 @@ public class Cart implements POSModel {
 		calculate();
 	}
 	
+	protected Cart(SQLiteDatabase db, String email) throws StorageException, NoCartFoundException {
+		this.user = new User();
+		//this.syncService = syncService;
+		
+		storage = new CartLocalStorage(db);
+		
+		try {
+			Map<String,String> cart = storage.getCart(email);
+			
+			Log.d(LOG_TAG, "Pulled existing cart");
+			id = Long.valueOf(cart.get(POSContract.Cart._ID));
+			
+			String val = cart.get(POSContract.Cart.COLUMN_NAME_CUSTOMER_ID);
+			if (val != null) 
+				customerEmail = val;
+			
+			val = cart.get(POSContract.Cart.COLUMN_NAME_PAYMENT_CARD);
+			if (val != null) 
+				payment = new Payment(val);
+		
+			subTotal = cart.get(POSContract.Cart.COLUMN_NAME_SUBTOTAL);
+			taxAmount = cart.get(POSContract.Cart.COLUMN_NAME_TAX_AMOUNT);
+			total = cart.get(POSContract.Cart.COLUMN_NAME_TOTAL);
+			
+			// Get the items
+			items = storage.getItems(id);
+		
+		} catch (SQLException e) {
+			Log.e(LOG_TAG, e.getMessage());
+			throw new StorageException(e.getMessage());
+		}
+	}
+	
+	public static Cart getLastCart(SQLiteDatabase db, String email) throws StorageException, NoCartFoundException {
+		Cart cart = null;
+		try {
+			cart = new Cart(db, email);
+		} catch (StorageException e) {
+			Log.e(LOG_TAG, e.getMessage());
+			throw e;
+		} catch (NoCartFoundException e) {
+			Log.d(LOG_TAG, "Created new cart");
+			throw e;
+		}
+		return cart;
+	}
+	
 	/**
 	 * Constructor for use by RemoteCart.
 	 * 

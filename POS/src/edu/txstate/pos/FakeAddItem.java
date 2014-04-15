@@ -209,5 +209,11 @@ public class FakeAddItem extends POSActivity {
 		}
 	}
 
+	@Override
+	void netStatusUpdate() {
+		// TODO Auto-generated method stub
+		
+	}
+
 
 }

@@ -101,4 +101,10 @@ public class ManualPayActivity extends POSActivity {
 		return R.id.user_spinner;
 	}
 
+	@Override
+	void netStatusUpdate() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

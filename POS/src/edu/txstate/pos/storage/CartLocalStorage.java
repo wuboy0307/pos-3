@@ -147,6 +147,49 @@ public class CartLocalStorage extends LocalStorage {
 	}
 
 	/**
+	 * Gets the last cart for email.
+	 * 
+	 * @param updUser
+	 * @return
+	 * @throws SQLException
+	 * @throws NoCartFoundException
+	 */
+	public Map<String,String> getCart(String email) throws SQLException, NoCartFoundException {
+		Map<String,String> ret = new HashMap<String,String>();
+		
+		String[] projection = {
+				POSContract.Cart._ID,
+				POSContract.Cart.COLUMN_NAME_USER_ID,
+				POSContract.Cart.COLUMN_NAME_CUSTOMER_ID,
+				POSContract.Cart.COLUMN_NAME_SUBTOTAL,
+				POSContract.Cart.COLUMN_NAME_TAX_RATE,
+				POSContract.Cart.COLUMN_NAME_TAX_AMOUNT,
+				POSContract.Cart.COLUMN_NAME_TOTAL,
+				POSContract.Cart.COLUMN_NAME_PAYMENT_CARD,
+				POSContract.Cart.COLUMN_NAME_PAYMENT_PIN,
+				POSContract.Cart.COLUMN_NAME_SIGNATURE_FILE,
+				POSContract.Cart.COLUMN_NAME_SYNC
+		};
+		String selection = POSContract.Cart.COLUMN_NAME_CUSTOMER_ID + " = ?";
+		String[] selectionArgs = { String.valueOf(email) };
+		Cursor c = db.query(POSContract.Cart.TABLE_NAME, 
+				            projection, 
+				            selection, 
+				            selectionArgs, 
+				            null, 
+				            null, 
+				            POSContract.Cart._ID + " DESC");
+		if (c.moveToFirst()) {
+			for (int i = 0; i < projection.length; i++) {
+				ret.put(projection[i], c.getString(i));
+			}
+		} else {
+			throw new NoCartFoundException("No cart found for email: " + email);
+		}
+		return ret;
+	}
+	
+	/**
 	 * Gets the completed carts.
 	 * 
 	 * @param updUser

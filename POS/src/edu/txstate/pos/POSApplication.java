@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.net.ConnectivityManager;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 import edu.txstate.db.POS_DBHelper;
@@ -23,6 +24,7 @@ import edu.txstate.pos.storage.ConnectionError;
 import edu.txstate.pos.storage.NoCartFoundException;
 import edu.txstate.pos.storage.Storage;
 import edu.txstate.pos.storage.StorageException;
+import edu.txstate.pos.storage.SyncData;
 
 /**
  * Custom Application class for the POS application.  Used to keep some persistent
@@ -52,6 +54,8 @@ public class POSApplication extends Application implements SyncService, ServiceC
 	// This setting will delete the database when the application starts
 	private boolean killDBEveryTime = false;
 	
+	private HomeActivity mHome = null;
+	
 	/**
 	 * Status of network connectivity
 	 * 
@@ -68,6 +72,20 @@ public class POSApplication extends Application implements SyncService, ServiceC
 	 */
 	public void setConnected(boolean connected) {
 		this.connected = connected;
+	}
+
+	/**
+	 * @return the home
+	 */
+	public HomeActivity getHome() {
+		return mHome;
+	}
+
+	/**
+	 * @param home the home to set
+	 */
+	public void setHome(HomeActivity home) {
+		mHome = home;
 	}
 
 	/**
@@ -102,6 +120,12 @@ public class POSApplication extends Application implements SyncService, ServiceC
 			mCart.delete();
 			mCart = null;
 		}
+	}
+	
+	public Cart getLastCart(String email) throws StorageException, NoCartFoundException {
+		Cart ret = null;
+		ret = Cart.getLastCart(mDb, email);
+		return ret;
 	}
 	
 	// TODO: Get this from the settings
@@ -266,5 +290,20 @@ public class POSApplication extends Application implements SyncService, ServiceC
 		Intent syncService = new Intent(getApplicationContext(),POSSyncService.class);
 	    startService(syncService);
 	    Log.i(LOG_TAG,"Started push sync");
+	}
+	
+	public boolean ping() {
+		ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+		@SuppressWarnings("deprecation")
+		boolean isNetworkAvailable = cm.getBackgroundDataSetting() && cm.getActiveNetworkInfo() != null;
+		
+		// The network is there, so try to ping the web service
+		SyncData sync = null;
+		if (isNetworkAvailable) {
+			sync = new SyncData(mStorage);
+			isNetworkAvailable = isNetworkAvailable && sync.ping();
+		}
+		Log.d(LOG_TAG,"PING: " + isNetworkAvailable);
+		return isNetworkAvailable;
 	}
 }

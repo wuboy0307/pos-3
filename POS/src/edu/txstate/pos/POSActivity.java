@@ -14,7 +14,9 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import edu.txstate.pos.POSFieldFragment.PingTask;
 import edu.txstate.pos.model.Cart;
+import edu.txstate.pos.model.CartItem;
 import edu.txstate.pos.model.POSModel;
 import edu.txstate.pos.model.User;
 import edu.txstate.pos.service.POSSyncService;
@@ -45,6 +47,8 @@ public abstract class POSActivity extends Activity implements POSTaskParent {
 	private Map<String,POSTask> tasks = null;
 	boolean showProgress = true;
 	String mStatusMessage = null;
+	boolean mNetworkAvailable;
+	protected POSTask<Boolean> mPingTask;
 	
 	/**
 	 * onCreate() for the Activity
@@ -74,6 +78,7 @@ public abstract class POSActivity extends Activity implements POSTaskParent {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.all, menu);
 		
+		/*
 		MenuItem fakeItem = menu.findItem(R.id.menu_action_fakeitem);
 		Intent intent = new Intent(this, FakeAddItem.class);
 		fakeItem.setIntent(intent);
@@ -81,6 +86,7 @@ public abstract class POSActivity extends Activity implements POSTaskParent {
 		MenuItem fakeCart = menu.findItem(R.id.menu_action_fakecart);
 		Intent cartIntent = new Intent(this, CartActivity.class);
 		fakeCart.setIntent(cartIntent);
+		*/
 		
 		return true;
 	}
@@ -137,8 +143,8 @@ public abstract class POSActivity extends Activity implements POSTaskParent {
 					if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
 						this.invalidateOptionsMenu();
 					break;
-			case R.id.menu_action_settings:
-					break;
+			//case R.id.menu_action_settings:
+			//		break;
 			//case R.id.menu_action_fakeitem:
 			//		Log.d(LOG_TAG, "Fake Item");
 			//		Intent intent = new Intent(this, FakeAddItem.class);
@@ -194,6 +200,14 @@ public abstract class POSActivity extends Activity implements POSTaskParent {
 	 */
 	protected Cart getCart() throws StorageException {
 		return ((POSApplication) getApplication()).getCart();
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	protected boolean ping() {
+		return ((POSApplication) getApplication()).ping();
 	}
 	
 	/**
@@ -279,6 +293,66 @@ public abstract class POSActivity extends Activity implements POSTaskParent {
 			task.execute(args);
 		} else {
 			Log.d(LOG_TAG,"Found");
+		}
+	}
+	
+	protected void setPing() {
+		if (mPingTask != null) return;
+		else {
+			mPingTask = new PingTask("PingTask",this);
+			mPingTask.execute((POSModel) null);
+		}
+	}
+	
+	public void sendEmail(Cart cart) {
+		Intent intent = new Intent(Intent.ACTION_SEND);
+		intent.setType("message/rfc822");
+		intent.putExtra(Intent.EXTRA_EMAIL, cart.getCustomer());
+		intent.putExtra(Intent.EXTRA_SUBJECT, "Mobile Point of Sale Receipt");
+		intent.putExtra(Intent.EXTRA_TEXT, emailBody(cart));
+		Intent mailer = Intent.createChooser(intent, null);
+		startActivity(mailer);
+	}
+	
+	private String emailBody(Cart cart) {
+		StringBuffer buf = new StringBuffer();
+		buf.append("Receipt for Mobile Point of Sale\n\n");
+		
+		buf.append("Items\n")
+		.append("--------------------------------------\n");
+		
+		for (CartItem item : cart.getItems()) {
+			buf.append(item.toString()).append("\n");
+		}
+		
+		buf.append("\n");
+		buf.append("Subtotal: ").append(cart.getSubTotal()).append("\n");
+		buf.append("Tax: ").append(cart.getTaxAmount()).append("\n");
+		buf.append("Total: ").append(cart.getTotal()).append("\n");
+		return buf.toString();
+	}
+	
+	
+	abstract void netStatusUpdate();
+	
+	public class PingTask extends POSTask<Boolean> {
+		public PingTask(String name, POSTaskParent parent) {
+			super(name,parent);
+		}
+
+		@Override
+		Boolean backgroundWork(Storage storage, POSModel... args) {
+			//Log.d(LOG_TAG,"Ping background");
+			return ((POSApplication) getApplication()).ping();
+		}
+
+		@Override
+		void postWork(Storage storage, Boolean workResult) {
+			//Log.d(LOG_TAG,"Post ping " + workResult);
+			mNetworkAvailable = workResult;
+			((POSApplication) getApplication()).setConnected(mNetworkAvailable);
+			netStatusUpdate();
+			mPingTask = null;
 		}
 	}
 	
