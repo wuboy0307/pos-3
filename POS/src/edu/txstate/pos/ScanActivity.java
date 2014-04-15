@@ -97,17 +97,19 @@ public class ScanActivity extends POSActivity implements OnClickListener {
 		        "No scan data received!", Toast.LENGTH_SHORT);
 		    toast.show();
 		}
+
 	}
 
-	private class ScanActivityTask extends AsyncTask<String, Void, Item> {
+	private class ScanActivityTask extends AsyncTask<String, Void, String> {
 
 		@Override
-		protected Item doInBackground(String... content) {
+		protected String doInBackground(String... content) {
 			// Check to see if scan content exists as an Item in POS storage
-			Storage storage = getStorage();
-			Item checkItem = null;
-			Item newItem = new Item(content[0], "test item", "test price");
-			try {
+//			Storage storage = getStorage();
+//			Item checkItem = null;
+			String newItem = "test item";
+//			Item newItem = new Item(content[0], "test item", "test price");
+/*			try {
 				checkItem = storage.getItem(content[0]);
 			} catch (NoItemFoundException e) {
 				try {
@@ -127,16 +129,21 @@ public class ScanActivity extends POSActivity implements OnClickListener {
 					storagePriceTxt.setText(checkItem.getPrice());
 				}
 				else {
-					// print out newItem
-					storageDescTxt.setText(newItem.getDescription());
-					storagePriceTxt.setText(newItem.getPrice());
+*/					// print out newItem
+//					storageDescTxt.setText(newItem.getDescription());
+//					storagePriceTxt.setText(newItem.getPrice());
 
-				}
-			}
+//				}
+//			}
 			
-			return null;
+			return newItem;
 		}
 		
+		protected void onPostExecute(String result) {
+			storageDescTxt.setText(result);
+//			storageDescTxt.setText(result.getDescription());
+//			storagePriceTxt.setText(result.getPrice());
+		}
 	}
 
 	@Override
