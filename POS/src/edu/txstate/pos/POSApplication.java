@@ -115,6 +115,10 @@ public class POSApplication extends Application implements SyncService, ServiceC
 		return mCart;
 	}
 	
+	public void sellCart() {
+		mCart = null;
+	}
+	
 	public void deleteCart() throws SQLException, NoCartFoundException {
 		if (mCart != null) {
 			mCart.delete();

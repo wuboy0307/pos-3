@@ -187,8 +187,10 @@ public class CartActivity extends POSFragmentActivity implements SDKAdvancedCall
 
 		@Override
 		void postWork(Storage storage, Payment workResult) {
-			if (workResult != null) finish();
-			else {
+			if (workResult != null) {
+				((POSApplication) getApplication()).sellCart(); 
+				finish();
+			} else {
 				Toast.makeText(CartActivity.this, 
 						"Error: " + mStatusMessage, Toast.LENGTH_LONG).show();
 			}

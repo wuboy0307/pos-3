@@ -98,15 +98,6 @@ public class HomeActivity extends POSActivity {
 		((POSApplication) getApplication()).setHome(this);
 	}
 	
-	public void sendEmail(Cart cart) {
-		Intent intent = new Intent(Intent.ACTION_SEND);
-		intent.setType("message/rfc822");
-		intent.putExtra(Intent.EXTRA_EMAIL, "geoff@marinski.com");
-		intent.putExtra(Intent.EXTRA_SUBJECT, "Mobile POS Receipt");
-		intent.putExtra(Intent.EXTRA_TEXT, "Total");
-		Intent mailer = Intent.createChooser(intent, null);
-		startActivity(mailer);
-	}
 	
 	@Override
 	int getContentView() {
