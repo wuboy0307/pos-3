@@ -19,6 +19,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+/**
+ * Add an item to the cart.
+ * 
+ * 
+ */
 public class AddCartItemActivity extends POSActivity {
 
 	private static String LOG_TAG = "AddCartItemActivity";

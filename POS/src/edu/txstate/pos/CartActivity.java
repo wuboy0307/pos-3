@@ -15,6 +15,10 @@ import edu.txstate.pos.storage.Storage;
 import edu.txstate.pos.storage.StorageException;
 
 
+/**
+ * The cart.  Add items, shows the total, start the payment options.
+ *
+ */
 public class CartActivity extends POSFragmentActivity implements SDKAdvancedCallbacks {
 
 	private static final String LOG_TAG = "CartActivity";

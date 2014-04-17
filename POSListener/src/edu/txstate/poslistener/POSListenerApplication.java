@@ -12,6 +12,12 @@ import android.os.IBinder;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 
+/**
+ * The IPC service connection implementation.
+ * 
+ * @author gmarinsk
+ *
+ */
 public class POSListenerApplication extends Application implements ServiceConnection {
 	
 	private static final String LOG_TAG = "POSListener";

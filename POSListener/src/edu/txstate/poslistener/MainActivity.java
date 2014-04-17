@@ -9,6 +9,13 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+/**
+ * Main activity that allows for the user to start/stop the 
+ * background service as a convenience.
+ * 
+ * @author gmarinsk
+ *
+ */
 public class MainActivity extends Activity {
 
 	private static final String LOG_TAG = "MainActivity";

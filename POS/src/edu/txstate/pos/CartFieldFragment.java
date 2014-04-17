@@ -26,6 +26,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 import static edu.txstate.pos.CartActivity.*;
 
+/**
+ * The button and entry field fragment for the cart activity. 
+ *
+ */
 public class CartFieldFragment extends POSFieldFragment {
 
 	private final String LOG_TAG = "CART_FRAG";

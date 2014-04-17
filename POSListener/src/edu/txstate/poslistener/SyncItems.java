@@ -27,6 +27,12 @@ import edu.txstate.pos.remote.RemoteItem;
 
 import android.util.Log;
 
+/**
+ * API for the web services.
+ * 
+ * @author gmarinsk
+ *
+ */
 public class SyncItems {
 
 	private final String LOG_TAG = "Listener Sync RemoteItems";

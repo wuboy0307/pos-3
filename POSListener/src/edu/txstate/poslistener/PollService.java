@@ -13,6 +13,13 @@ import android.content.Intent;
 import android.os.RemoteException;
 import android.util.Log;
 
+/**
+ * Actively polls the remote web service for new
+ * items.
+ * 
+ * @author gmarinsk
+ *
+ */
 public class PollService extends IntentService {
 
 	private static final String LOG_TAG = "PollService";

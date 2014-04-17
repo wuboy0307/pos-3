@@ -19,6 +19,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 import static edu.txstate.pos.UserListFragment.*;
 
+/**
+ * Add a user to the application.
+ * 
+ */
 public class AddUserActivity extends POSActivity {
 	
 	private static final String LOG_TAG = "AddUserActivity";

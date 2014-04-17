@@ -9,6 +9,10 @@ import android.widget.Toast;
 import edu.txstate.pos.model.CartItem;
 import edu.txstate.pos.storage.StorageException;
 
+/**
+ *	The list of items fragment for the cart. 
+ *
+ */
 public class CartItemListFragment extends POSListFragment<CartItem> {
 	private static String LOG_TAG = "CartItemListFragment";
 
