@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.os.AsyncTask;
@@ -116,38 +117,27 @@ public class ScanActivity extends POSActivity implements OnClickListener {
 			try {
 				checkItem = storage.getItem(content[0]);
 			} catch (NoItemFoundException e) {
-//				try {
-//					storage.addItem(newItem);
-//				} catch (StorageException e1) {
-//					// TODO Auto-generated catch block
-					e.printStackTrace();
-//				} 
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			} catch (StorageException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			} /*finally {
-
-				if (checkItem != null) {
-					// print out checkItem
-					storageDescTxt.setText(checkItem.getDescription());
-					storagePriceTxt.setText(checkItem.getPrice());
-				}
-				else {
-					// print out newItem
-					storageDescTxt.setText(newItem.getDescription());
-					storagePriceTxt.setText(newItem.getPrice());
-
-				}
-			}*/
-			
-//			return newItem;
+			} 
 			return checkItem;
 		}
 		
 		protected void onPostExecute(Item result) {
-//			storageDescTxt.setText(result);
-			storageDescTxt.setText(result.getDescription());
-			storagePriceTxt.setText(result.getPrice());
+			if (result.getDescription() != null) {
+				storageDescTxt.setText(result.getDescription());
+				storagePriceTxt.setText(result.getPrice());				
+			}
+			else {
+				Toast toast = Toast.makeText(getApplicationContext(), "Scanned Item not found!", Toast.LENGTH_SHORT);
+				LinearLayout toastLayout = (LinearLayout) toast.getView();
+				TextView toastTV = (TextView) toastLayout.getChildAt(0);
+				toastTV.setTextSize(25);
+				toast.show();				
+			}
 			mScanTask = null;
 		}
 	}

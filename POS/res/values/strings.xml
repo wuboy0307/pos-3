@@ -10,7 +10,7 @@
     <string name="title_activity_scan">ScanActivity</string>
     <string name="skip_to_scan">Skip to Scan</string>
     <string name="button_scan">SCAN</string>
-    <string name="text_scan_test">Testing the Scanning feature</string>
+    <string name="text_scan_test">Scan item to Price Check</string>
     <string name="title_activity_splash">SplashActivity</string>
     <string name="title_activity_home">HomeActivity</string>
     <string name="title_activity_fakelogin">FakeloginActivity</string>
