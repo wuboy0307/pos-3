@@ -80,7 +80,8 @@ public class CartActivity extends POSFragmentActivity implements SDKAdvancedCall
 	public void swipe(String total, String cartID) {
 		instance.setAmount(total);
 		String deviceID = ((POSApplication) getApplication()).getDeviceID();
-		instance.setInvoice(deviceID + "-" + cartID);
+		//instance.setInvoice(deviceID + "-" + cartID);
+		instance.setInvoice("123456");
 		instance.showChargeScreen();
 	}
 
@@ -149,13 +150,13 @@ public class CartActivity extends POSFragmentActivity implements SDKAdvancedCall
 
 	@Override
 	public void cancelledTransaction() {
-		//Log.d(LOG_TAG,"CANCELLED");
+		Log.d(LOG_TAG,"CANCELLED");
 		((CartFieldFragment) mFieldFragment).setPaymentMessage("Cancelled");
 	}
 
 	@Override
 	public void declinedTransaction(String message, String reason) {
-		//Log.d(LOG_TAG,"DECLINED");
+		Log.d(LOG_TAG,"DECLINED" + message + ", " + reason);
 		((CartFieldFragment) mFieldFragment).setPaymentMessage("Declined");
 	}
 

@@ -32,7 +32,7 @@ public class ScanActivity extends POSActivity implements OnClickListener {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_scan);
+//		setContentView(R.layout.activity_scan);
 		
 		//Make sure we're running on Honeycomb (v. 11) or greater to use the ActionBar APIs
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
@@ -49,7 +49,7 @@ public class ScanActivity extends POSActivity implements OnClickListener {
 
 	@Override
 	int getContentView() {
-		return 0;
+		return R.layout.activity_scan;
 	}
 	
 	@Override
@@ -90,8 +90,12 @@ public class ScanActivity extends POSActivity implements OnClickListener {
 			String scanFormat = scanningResult.getFormatName();
 			formatTxt.setText("FORMAT: " + scanFormat);
 			contentTxt.setText("CONTENT: " + scanContent);
-			mScanTask.execute(scanContent);
+			mScanTask = new ScanActivityTask();
+			if (mScanTask != null) {
+				mScanTask.execute(scanContent);
 			}
+			
+		}
 		else{
 		    Toast toast = Toast.makeText(getApplicationContext(),
 		        "No scan data received!", Toast.LENGTH_SHORT);
@@ -100,28 +104,28 @@ public class ScanActivity extends POSActivity implements OnClickListener {
 
 	}
 
-	private class ScanActivityTask extends AsyncTask<String, Void, String> {
+	private class ScanActivityTask extends AsyncTask<String, Void, Item> {
 
 		@Override
-		protected String doInBackground(String... content) {
+		protected Item doInBackground(String... content) {
 			// Check to see if scan content exists as an Item in POS storage
-//			Storage storage = getStorage();
-//			Item checkItem = null;
-			String newItem = "test item";
+			Storage storage = getStorage();
+			Item checkItem = new Item(null, null, null);
+//			String newItem = "test item";
 //			Item newItem = new Item(content[0], "test item", "test price");
-/*			try {
+			try {
 				checkItem = storage.getItem(content[0]);
 			} catch (NoItemFoundException e) {
-				try {
-					storage.addItem(newItem);
-				} catch (StorageException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+//				try {
+//					storage.addItem(newItem);
+//				} catch (StorageException e1) {
+//					// TODO Auto-generated catch block
+					e.printStackTrace();
+//				} 
 			} catch (StorageException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			} finally {
+			} /*finally {
 
 				if (checkItem != null) {
 					// print out checkItem
@@ -129,20 +133,22 @@ public class ScanActivity extends POSActivity implements OnClickListener {
 					storagePriceTxt.setText(checkItem.getPrice());
 				}
 				else {
-*/					// print out newItem
-//					storageDescTxt.setText(newItem.getDescription());
-//					storagePriceTxt.setText(newItem.getPrice());
+					// print out newItem
+					storageDescTxt.setText(newItem.getDescription());
+					storagePriceTxt.setText(newItem.getPrice());
 
-//				}
-//			}
+				}
+			}*/
 			
-			return newItem;
+//			return newItem;
+			return checkItem;
 		}
 		
-		protected void onPostExecute(String result) {
-			storageDescTxt.setText(result);
-//			storageDescTxt.setText(result.getDescription());
-//			storagePriceTxt.setText(result.getPrice());
+		protected void onPostExecute(Item result) {
+//			storageDescTxt.setText(result);
+			storageDescTxt.setText(result.getDescription());
+			storagePriceTxt.setText(result.getPrice());
+			mScanTask = null;
 		}
 	}
 
