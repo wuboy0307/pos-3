@@ -49,7 +49,7 @@ public class ScanActivity extends POSActivity implements OnClickListener {
 
 	@Override
 	int getContentView() {
-		return 0;
+		return R.layout.activity_scan;
 	}
 	
 	@Override

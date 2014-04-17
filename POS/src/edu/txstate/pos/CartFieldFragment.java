@@ -88,6 +88,7 @@ public class CartFieldFragment extends POSFieldFragment {
 		} else {
 			mSwipeButton.setEnabled(true);
 		}
+		
 	}
 	
 	@Override

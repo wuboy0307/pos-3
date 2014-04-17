@@ -345,6 +345,16 @@ public class Cart implements POSModel {
 	public void setSignature(Signature signature) {
 		this.signature = signature;
 	}
+	
+	public boolean isReadyForPayment() {
+		boolean ret = false;
+		if (items.size() > 0 
+				&& customerEmail != null 
+				&& !customerEmail.isEmpty()) {
+			ret = true;
+		}
+		return ret;
+	}
 
 	/**
 	 * 

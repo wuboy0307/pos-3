@@ -52,7 +52,7 @@ public class POSApplication extends Application implements SyncService, ServiceC
 	private List<User> mUsers = null;
 
 	// This setting will delete the database when the application starts
-	private boolean killDBEveryTime = true;
+	private boolean killDBEveryTime = false;
 	
 	private HomeActivity mHome = null;
 	

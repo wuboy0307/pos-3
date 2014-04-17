@@ -39,20 +39,24 @@
         android:theme="@android:style/Theme.Holo" >
         <activity
             android:name="edu.txstate.pos.LoginActivity"
+            android:screenOrientation="portrait"
             android:label="POS" >
         </activity>
         <activity
             android:name="edu.txstate.pos.SplashActivity"
+            android:screenOrientation="portrait"
             android:label="POS Starting" >
         </activity>
         <activity
             android:name="edu.txstate.pos.ResendActivity"
             android:label="Resend Receipt"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateVisible" >
         </activity>
         <activity
             android:name="edu.txstate.pos.HomeActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
             <intent-filter>
 				<action android:name="android.intent.action.MAIN" />
 				<category android:name="android.intent.category.LAUNCHER" />
@@ -60,19 +64,23 @@
         </activity>
         <activity
             android:name="edu.txstate.pos.FakeloginActivity"
-            android:label="@string/title_activity_fakelogin" >
+            android:label="@string/title_activity_fakelogin"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name="edu.txstate.pos.ScanActivity"
-            android:label="@string/title_activity_scan" >
+            android:label="@string/title_activity_scan"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name="edu.txstate.pos.OfflineLogin"
-            android:label="@string/title_activity_offline_login" >
+            android:label="@string/title_activity_offline_login"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name="edu.txstate.pos.POSControl"
-            android:label="@string/title_activity_poscontrol" >
+            android:label="@string/title_activity_poscontrol"
+            android:screenOrientation="portrait" >
         </activity>
 
         <service
@@ -94,14 +102,17 @@
 
         <activity
             android:name="edu.txstate.pos.FakeAddItem"
+            android:screenOrientation="portrait"
             android:label="@string/title_activity_fake_add_item" >
         </activity>
         <activity
             android:name="edu.txstate.pos.CartActivity"
+            android:screenOrientation="portrait"
             android:label="@string/title_activity_fake_cart" >
         </activity>
         <activity
             android:name="edu.txstate.pos.InventoryActivity"
+            android:screenOrientation="portrait"
             android:label="@string/title_activity_item" >
         </activity>
 
@@ -139,18 +150,22 @@
         </activity>
         <activity
             android:name="edu.txstate.pos.UserAdminActivity"
+            android:screenOrientation="portrait"
             android:label="@string/title_activity_user_admin" >
         </activity>
         <activity
             android:name="edu.txstate.pos.AddCartItemActivity"
+            android:screenOrientation="portrait"
             android:label="@string/title_activity_add_cart_item" >
         </activity>
         <activity
             android:name="edu.txstate.pos.AddUserActivity"
+            android:screenOrientation="portrait"
             android:label="@string/title_activity_add_user" >
         </activity>
         <activity
             android:name="edu.txstate.pos.ManualPayActivity"
+            android:screenOrientation="portrait"
             android:label="@string/title_activity_manual_pay" >
         </activity>
         <activity
