@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<class-diagram version="1.1.5" icons="true" always-add-relationships="false" generalizations="true" realizations="true" 
-  associations="true" dependencies="false" nesting-relationships="true">  
+<class-diagram version="1.1.5" icons="true" automaticImage="PNG" always-add-relationships="false" generalizations="true" 
+  realizations="true" associations="true" dependencies="false" nesting-relationships="true">  
   <class id="1" language="java" name="edu.txstate.pos.HomeActivity" project="POS" 
     file="/POS/src/edu/txstate/pos/HomeActivity.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="52" width="115" x="413" y="129"/>    
