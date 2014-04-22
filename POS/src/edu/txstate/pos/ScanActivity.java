@@ -33,7 +33,6 @@ public class ScanActivity extends POSActivity implements OnClickListener {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-//		setContentView(R.layout.activity_scan);
 		
 		//Make sure we're running on Honeycomb (v. 11) or greater to use the ActionBar APIs
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
@@ -112,8 +111,6 @@ public class ScanActivity extends POSActivity implements OnClickListener {
 			// Check to see if scan content exists as an Item in POS storage
 			Storage storage = getStorage();
 			Item checkItem = new Item(null, null, null);
-//			String newItem = "test item";
-//			Item newItem = new Item(content[0], "test item", "test price");
 			try {
 				checkItem = storage.getItem(content[0]);
 			} catch (NoItemFoundException e) {
