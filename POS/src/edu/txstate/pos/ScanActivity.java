@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.os.AsyncTask;
@@ -32,7 +33,6 @@ public class ScanActivity extends POSActivity implements OnClickListener {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_scan);
 		
 		//Make sure we're running on Honeycomb (v. 11) or greater to use the ActionBar APIs
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
@@ -90,8 +90,12 @@ public class ScanActivity extends POSActivity implements OnClickListener {
 			String scanFormat = scanningResult.getFormatName();
 			formatTxt.setText("FORMAT: " + scanFormat);
 			contentTxt.setText("CONTENT: " + scanContent);
-			mScanTask.execute(scanContent);
+			mScanTask = new ScanActivityTask();
+			if (mScanTask != null) {
+				mScanTask.execute(scanContent);
 			}
+			
+		}
 		else{
 		    Toast toast = Toast.makeText(getApplicationContext(),
 		        "No scan data received!", Toast.LENGTH_SHORT);
@@ -100,49 +104,38 @@ public class ScanActivity extends POSActivity implements OnClickListener {
 
 	}
 
-	private class ScanActivityTask extends AsyncTask<String, Void, String> {
+	private class ScanActivityTask extends AsyncTask<String, Void, Item> {
 
 		@Override
-		protected String doInBackground(String... content) {
+		protected Item doInBackground(String... content) {
 			// Check to see if scan content exists as an Item in POS storage
-//			Storage storage = getStorage();
-//			Item checkItem = null;
-			String newItem = "test item";
-//			Item newItem = new Item(content[0], "test item", "test price");
-/*			try {
+			Storage storage = getStorage();
+			Item checkItem = new Item(null, null, null);
+			try {
 				checkItem = storage.getItem(content[0]);
 			} catch (NoItemFoundException e) {
-				try {
-					storage.addItem(newItem);
-				} catch (StorageException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			} catch (StorageException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			} finally {
-
-				if (checkItem != null) {
-					// print out checkItem
-					storageDescTxt.setText(checkItem.getDescription());
-					storagePriceTxt.setText(checkItem.getPrice());
-				}
-				else {
-*/					// print out newItem
-//					storageDescTxt.setText(newItem.getDescription());
-//					storagePriceTxt.setText(newItem.getPrice());
-
-//				}
-//			}
-			
-			return newItem;
+			} 
+			return checkItem;
 		}
 		
-		protected void onPostExecute(String result) {
-			storageDescTxt.setText(result);
-//			storageDescTxt.setText(result.getDescription());
-//			storagePriceTxt.setText(result.getPrice());
+		protected void onPostExecute(Item result) {
+			if (result.getDescription() != null) {
+				storageDescTxt.setText(result.getDescription());
+				storagePriceTxt.setText(result.getPrice());				
+			}
+			else {
+				Toast toast = Toast.makeText(getApplicationContext(), "Scanned Item not found!", Toast.LENGTH_SHORT);
+				LinearLayout toastLayout = (LinearLayout) toast.getView();
+				TextView toastTV = (TextView) toastLayout.getChildAt(0);
+				toastTV.setTextSize(25);
+				toast.show();				
+			}
+			mScanTask = null;
 		}
 	}
 

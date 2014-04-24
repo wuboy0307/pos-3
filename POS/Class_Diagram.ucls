@@ -1,0 +1,797 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<class-diagram version="1.1.5" icons="true" automaticImage="PNG" always-add-relationships="false" generalizations="true" 
+  realizations="true" associations="true" dependencies="false" nesting-relationships="true">  
+  <package id="1" language="java" name="edu.txstate.pos" project="POS" file="/POS/src/edu/txstate/pos" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="50" width="131" x="315" y="37"/>    
+    <display autosize="true" stereotype="true" accessors="true"/>  
+  </package>  
+  <class id="2" language="java" name="edu.txstate.pos.AddCartItemActivity.CheckInventoryTask" project="POS" 
+    file="/POS/src/edu/txstate/pos/AddCartItemActivity.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="52" width="165" x="1291" y="313"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="3" language="java" name="edu.txstate.pos.AddCartItemActivity.AddItemTask" project="POS" 
+    file="/POS/src/edu/txstate/pos/AddCartItemActivity.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="52" width="114" x="1496" y="313"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="4" language="java" name="edu.txstate.pos.AddCartItemActivity" project="POS" 
+    file="/POS/src/edu/txstate/pos/AddCartItemActivity.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="52" width="161" x="1367" y="221"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="5" language="java" name="edu.txstate.pos.AddUserActivity.AddUserTask" project="POS" 
+    file="/POS/src/edu/txstate/pos/AddUserActivity.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="116" width="267" x="2106" y="313"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="6" language="java" name="edu.txstate.pos.AddUserActivity" project="POS" 
+    file="/POS/src/edu/txstate/pos/AddUserActivity.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="52" width="135" x="1770" y="221"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="7" language="java" name="edu.txstate.pos.AddUserActivity.UpdateUserTask" project="POS" 
+    file="/POS/src/edu/txstate/pos/AddUserActivity.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="116" width="267" x="1799" y="313"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="8" language="java" name="edu.txstate.pos.CartActivity" project="POS" 
+    file="/POS/src/edu/txstate/pos/CartActivity.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="52" width="104" x="2732" y="129"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="9" language="java" name="edu.txstate.pos.CartActivity.SellCartTask" project="POS" 
+    file="/POS/src/edu/txstate/pos/CartActivity.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="52" width="110" x="2723" y="313"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="10" language="java" name="edu.txstate.pos.CartFieldFragment.CancelCartTask" project="POS" 
+    file="/POS/src/edu/txstate/pos/CartFieldFragment.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="52" width="132" x="2551" y="313"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="11" language="java" name="edu.txstate.pos.CartFieldFragment" project="POS" 
+    file="/POS/src/edu/txstate/pos/CartFieldFragment.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="52" width="151" x="2345" y="221"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="12" language="java" name="edu.txstate.pos.CartItemListFragment" project="POS" 
+    file="/POS/src/edu/txstate/pos/CartItemListFragment.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="52" width="172" x="2979" y="221"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="13" language="java" name="edu.txstate.pos.FakeAddItem.FakeAddItemActivityTask" project="POS" 
+    file="/POS/src/edu/txstate/pos/FakeAddItem.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="52" width="199" x="725" y="313"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="14" language="java" name="edu.txstate.pos.FakeAddItem" project="POS" 
+    file="/POS/src/edu/txstate/pos/FakeAddItem.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="52" width="114" x="1036" y="221"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="15" language="java" name="edu.txstate.pos.FakeloginActivity" project="POS" 
+    file="/POS/src/edu/txstate/pos/FakeloginActivity.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="52" width="144" x="349" y="221"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="16" language="java" name="edu.txstate.pos.FakeloginActivity.FakeLoginActivityTask" project="POS" 
+    file="/POS/src/edu/txstate/pos/FakeloginActivity.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="52" width="182" x="349" y="313"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="17" language="java" name="edu.txstate.pos.HomeActivity" project="POS" 
+    file="/POS/src/edu/txstate/pos/HomeActivity.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="52" width="115" x="44" y="221"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="18" language="java" name="edu.txstate.pos.InventoryActivity" project="POS" 
+    file="/POS/src/edu/txstate/pos/InventoryActivity.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="52" width="141" x="1030" y="129"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="19" language="java" name="edu.txstate.pos.InventoryFieldFragment" project="POS" 
+    file="/POS/src/edu/txstate/pos/InventoryFieldFragment.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="52" width="188" x="2096" y="221"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="20" language="java" name="edu.txstate.pos.InventoryListFragment.DeleteItemTask" project="POS" 
+    file="/POS/src/edu/txstate/pos/InventoryListFragment.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="52" width="129" x="3191" y="313"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="21" language="java" name="edu.txstate.pos.InventoryListFragment.GetItemsTask" project="POS" 
+    file="/POS/src/edu/txstate/pos/InventoryListFragment.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="52" width="118" x="3033" y="313"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="22" language="java" name="edu.txstate.pos.InventoryListFragment" project="POS" 
+    file="/POS/src/edu/txstate/pos/InventoryListFragment.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="52" width="180" x="3191" y="221"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="23" language="java" name="edu.txstate.pos.LoginActivity" project="POS" 
+    file="/POS/src/edu/txstate/pos/LoginActivity.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="52" width="116" x="1211" y="221"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="24" language="java" name="edu.txstate.pos.LoginActivity.LoginActivityTask" project="POS" 
+    file="/POS/src/edu/txstate/pos/LoginActivity.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="52" width="149" x="1102" y="313"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="25" language="java" name="edu.txstate.pos.MainActivity" project="POS" 
+    file="/POS/src/edu/txstate/pos/MainActivity.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="52" width="109" x="724" y="221"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="26" language="java" name="edu.txstate.pos.ManualPayActivity" project="POS" 
+    file="/POS/src/edu/txstate/pos/ManualPayActivity.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="52" width="151" x="533" y="221"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="27" language="java" name="edu.txstate.pos.OfflineLogin" project="POS" 
+    file="/POS/src/edu/txstate/pos/OfflineLogin.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="52" width="110" x="1186" y="37"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="28" language="java" name="edu.txstate.pos.PayAnywhereTestActivity" project="POS" 
+    file="/POS/src/edu/txstate/pos/PayAnywhereTestActivity.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="52" width="199" x="2027" y="37"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="29" language="java" name="edu.txstate.pos.POSActivity" project="POS" 
+    file="/POS/src/edu/txstate/pos/POSActivity.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="52" width="105" x="1211" y="129"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="30" language="java" name="edu.txstate.pos.POSActivity.PingTask" project="POS" 
+    file="/POS/src/edu/txstate/pos/POSActivity.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="52" width="98" x="964" y="313"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="31" language="java" name="edu.txstate.pos.POSApplication" project="POS" 
+    file="/POS/src/edu/txstate/pos/POSApplication.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="52" width="132" x="44" y="129"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="32" language="java" name="edu.txstate.pos.POSControl" project="POS" 
+    file="/POS/src/edu/txstate/pos/POSControl.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="52" width="104" x="1609" y="37"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="33" language="java" name="edu.txstate.pos.POSFieldFragment" project="POS" 
+    file="/POS/src/edu/txstate/pos/POSFieldFragment.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="52" width="152" x="2345" y="129"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="34" language="java" name="edu.txstate.pos.POSFieldFragment.PingTask" project="POS" 
+    file="/POS/src/edu/txstate/pos/POSFieldFragment.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="52" width="98" x="2413" y="313"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="35" language="java" name="edu.txstate.pos.POSFragmentActivity" project="POS" 
+    file="/POS/src/edu/txstate/pos/POSFragmentActivity.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="52" width="170" x="2541" y="37"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="36" language="java" name="edu.txstate.pos.POSListFragment" project="POS" 
+    file="/POS/src/edu/txstate/pos/POSListFragment.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="52" width="169" x="3048" y="129"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="37" language="java" name="edu.txstate.pos.POSTask" project="POS" 
+    file="/POS/src/edu/txstate/pos/POSTask.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="52" width="111" x="1945" y="221"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <interface id="38" language="java" name="edu.txstate.pos.POSTaskParent" project="POS" 
+    file="/POS/src/edu/txstate/pos/POSTaskParent.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="52" width="130" x="3360" y="313"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </interface>  
+  <class id="39" language="java" name="edu.txstate.pos.ResendActivity" project="POS" 
+    file="/POS/src/edu/txstate/pos/ResendActivity.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="52" width="128" x="1568" y="221"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="40" language="java" name="edu.txstate.pos.ResendActivity.GetCartTask" project="POS" 
+    file="/POS/src/edu/txstate/pos/ResendActivity.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="52" width="109" x="1650" y="313"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="41" language="java" name="edu.txstate.pos.ScanActivity.ScanActivityTask" project="POS" 
+    file="/POS/src/edu/txstate/pos/ScanActivity.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="52" width="143" x="166" y="313"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="42" language="java" name="edu.txstate.pos.ScanActivity" project="POS" 
+    file="/POS/src/edu/txstate/pos/ScanActivity.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="52" width="110" x="199" y="221"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="43" language="java" name="edu.txstate.pos.SplashActivity" project="POS" 
+    file="/POS/src/edu/txstate/pos/SplashActivity.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="52" width="123" x="873" y="221"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="44" language="java" name="edu.txstate.pos.SplashActivity.SplashAsync" project="POS" 
+    file="/POS/src/edu/txstate/pos/SplashActivity.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="52" width="114" x="571" y="313"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="45" language="java" name="edu.txstate.pos.SwipeActivity" project="POS" 
+    file="/POS/src/edu/txstate/pos/SwipeActivity.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="52" width="117" x="757" y="37"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="46" language="java" name="edu.txstate.pos.UserAdminActivity" project="POS" 
+    file="/POS/src/edu/txstate/pos/UserAdminActivity.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="52" width="151" x="2541" y="129"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="47" language="java" name="edu.txstate.pos.UserFieldFragment" project="POS" 
+    file="/POS/src/edu/txstate/pos/UserFieldFragment.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="52" width="154" x="2557" y="221"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="48" language="java" name="edu.txstate.pos.UserListFragment.GetUsersTask" project="POS" 
+    file="/POS/src/edu/txstate/pos/UserListFragment.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="52" width="120" x="2873" y="313"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="49" language="java" name="edu.txstate.pos.UserListFragment" project="POS" 
+    file="/POS/src/edu/txstate/pos/UserListFragment.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="52" width="146" x="2793" y="221"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="50" language="java" name="edu.txstate.pos.UserListFragment.UserAdapter" project="POS" 
+    file="/POS/src/edu/txstate/pos/UserListFragment.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="52" width="109" x="3530" y="313"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <generalization id="51">    
+    <end type="SOURCE" refId="47"/>    
+    <end type="TARGET" refId="33"/>  
+  </generalization>  
+  <nesting id="52">    
+    <end type="SOURCE" refId="49"/>    
+    <end type="TARGET" refId="50"/>  
+  </nesting>  
+  <generalization id="53">    
+    <end type="SOURCE" refId="3"/>    
+    <end type="TARGET" refId="37"/>  
+  </generalization>  
+  <nesting id="54">    
+    <end type="SOURCE" refId="23"/>    
+    <end type="TARGET" refId="24"/>  
+  </nesting>  
+  <association id="55">    
+    <end type="SOURCE" refId="15" navigable="false">      
+      <attribute id="56" name="mFakeTask"/>      
+      <multiplicity id="57" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="16" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="58">    
+    <end type="SOURCE" refId="5"/>    
+    <end type="TARGET" refId="37"/>  
+  </generalization>  
+  <generalization id="59">    
+    <end type="SOURCE" refId="2"/>    
+    <end type="TARGET" refId="37"/>  
+  </generalization>  
+  <generalization id="60">    
+    <end type="SOURCE" refId="42"/>    
+    <end type="TARGET" refId="29"/>  
+  </generalization>  
+  <association id="61">    
+    <bendpoint x="3401" y="221"/>    
+    <end type="SOURCE" refId="36" navigable="false">      
+      <attribute id="62" name="parent"/>      
+      <multiplicity id="63" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="38" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="64">    
+    <end type="SOURCE" refId="31" navigable="false">      
+      <attribute id="65" name="mHome"/>      
+      <multiplicity id="66" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="17" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="67">    
+    <end type="SOURCE" refId="39"/>    
+    <end type="TARGET" refId="29"/>  
+  </generalization>  
+  <generalization id="68">    
+    <end type="SOURCE" refId="7"/>    
+    <end type="TARGET" refId="37"/>  
+  </generalization>  
+  <generalization id="69">    
+    <end type="SOURCE" refId="19"/>    
+    <end type="TARGET" refId="33"/>  
+  </generalization>  
+  <association id="70">    
+    <end type="SOURCE" refId="29" navigable="false">      
+      <attribute id="71" name="tasks"/>      
+      <multiplicity id="72" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="37" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <nesting id="73">    
+    <end type="SOURCE" refId="6"/>    
+    <end type="TARGET" refId="5"/>  
+  </nesting>  
+  <nesting id="74">    
+    <bendpoint x="1180" y="221"/>    
+    <end type="SOURCE" refId="29"/>    
+    <end type="TARGET" refId="30"/>  
+  </nesting>  
+  <nesting id="75">    
+    <end type="SOURCE" refId="39"/>    
+    <end type="TARGET" refId="40"/>  
+  </nesting>  
+  <nesting id="76">    
+    <end type="SOURCE" refId="6"/>    
+    <end type="TARGET" refId="7"/>  
+  </nesting>  
+  <nesting id="77">    
+    <end type="SOURCE" refId="42"/>    
+    <end type="TARGET" refId="41"/>  
+  </nesting>  
+  <association id="78">    
+    <end type="SOURCE" refId="46" navigable="false">      
+      <attribute id="79" name="mListFragment"/>      
+      <multiplicity id="80" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="49" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <nesting id="81">    
+    <bendpoint x="2741" y="221"/>    
+    <end type="SOURCE" refId="8"/>    
+    <end type="TARGET" refId="9"/>  
+  </nesting>  
+  <generalization id="82">    
+    <end type="SOURCE" refId="25"/>    
+    <end type="TARGET" refId="29"/>  
+  </generalization>  
+  <association id="83">    
+    <end type="SOURCE" refId="37" navigable="false">      
+      <attribute id="84" name="parent"/>      
+      <multiplicity id="85" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="38" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="86">    
+    <end type="SOURCE" refId="46" navigable="false">      
+      <attribute id="87" name="mFieldFragment"/>      
+      <multiplicity id="88" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="47" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <nesting id="89">    
+    <bendpoint x="2314" y="221"/>    
+    <end type="SOURCE" refId="33"/>    
+    <end type="TARGET" refId="34"/>  
+  </nesting>  
+  <generalization id="90">    
+    <end type="SOURCE" refId="10"/>    
+    <end type="TARGET" refId="37"/>  
+  </generalization>  
+  <generalization id="91">    
+    <end type="SOURCE" refId="6"/>    
+    <end type="TARGET" refId="29"/>  
+  </generalization>  
+  <generalization id="92">    
+    <end type="SOURCE" refId="24"/>    
+    <end type="TARGET" refId="37"/>  
+  </generalization>  
+  <association id="93">    
+    <end type="SOURCE" refId="29" navigable="false">      
+      <attribute id="94" name="mPingTask"/>      
+      <multiplicity id="95" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="37" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <nesting id="96">    
+    <end type="SOURCE" refId="14"/>    
+    <end type="TARGET" refId="13"/>  
+  </nesting>  
+  <nesting id="97">    
+    <end type="SOURCE" refId="49"/>    
+    <end type="TARGET" refId="48"/>  
+  </nesting>  
+  <generalization id="98">    
+    <end type="SOURCE" refId="48"/>    
+    <end type="TARGET" refId="37"/>  
+  </generalization>  
+  <generalization id="99">    
+    <end type="SOURCE" refId="8"/>    
+    <end type="TARGET" refId="35"/>  
+  </generalization>  
+  <generalization id="100">    
+    <end type="SOURCE" refId="43"/>    
+    <end type="TARGET" refId="29"/>  
+  </generalization>  
+  <nesting id="101">    
+    <end type="SOURCE" refId="43"/>    
+    <end type="TARGET" refId="44"/>  
+  </nesting>  
+  <generalization id="102">    
+    <end type="SOURCE" refId="26"/>    
+    <end type="TARGET" refId="29"/>  
+  </generalization>  
+  <generalization id="103">    
+    <end type="SOURCE" refId="21"/>    
+    <end type="TARGET" refId="37"/>  
+  </generalization>  
+  <association id="104">    
+    <end type="SOURCE" refId="35" navigable="false">      
+      <attribute id="105" name="mListFragment"/>      
+      <multiplicity id="106" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="36" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="107">    
+    <end type="SOURCE" refId="34"/>    
+    <end type="TARGET" refId="37"/>  
+  </generalization>  
+  <generalization id="108">    
+    <end type="SOURCE" refId="11"/>    
+    <end type="TARGET" refId="33"/>  
+  </generalization>  
+  <generalization id="109">    
+    <end type="SOURCE" refId="22"/>    
+    <end type="TARGET" refId="36"/>  
+  </generalization>  
+  <nesting id="110">    
+    <end type="SOURCE" refId="15"/>    
+    <end type="TARGET" refId="16"/>  
+  </nesting>  
+  <generalization id="111">    
+    <end type="SOURCE" refId="4"/>    
+    <end type="TARGET" refId="29"/>  
+  </generalization>  
+  <generalization id="112">    
+    <end type="SOURCE" refId="14"/>    
+    <end type="TARGET" refId="29"/>  
+  </generalization>  
+  <nesting id="113">    
+    <end type="SOURCE" refId="4"/>    
+    <end type="TARGET" refId="2"/>  
+  </nesting>  
+  <realization id="114">    
+    <bendpoint x="2526" y="221"/>    
+    <end type="SOURCE" refId="29"/>    
+    <end type="TARGET" refId="38"/>  
+  </realization>  
+  <generalization id="115">    
+    <end type="SOURCE" refId="17"/>    
+    <end type="TARGET" refId="29"/>  
+  </generalization>  
+  <association id="116">    
+    <end type="SOURCE" refId="35" navigable="false">      
+      <attribute id="117" name="mFieldFragment"/>      
+      <multiplicity id="118" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="33" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="119">    
+    <end type="SOURCE" refId="30"/>    
+    <end type="TARGET" refId="37"/>  
+  </generalization>  
+  <association id="120">    
+    <end type="SOURCE" refId="33" navigable="false">      
+      <attribute id="121" name="mPingTask"/>      
+      <multiplicity id="122" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="37" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="123">    
+    <end type="SOURCE" refId="14" navigable="false">      
+      <attribute id="124" name="mFakeTask"/>      
+      <multiplicity id="125" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="13" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="126">    
+    <end type="SOURCE" refId="18"/>    
+    <end type="TARGET" refId="35"/>  
+  </generalization>  
+  <generalization id="127">    
+    <end type="SOURCE" refId="20"/>    
+    <end type="TARGET" refId="37"/>  
+  </generalization>  
+  <generalization id="128">    
+    <end type="SOURCE" refId="40"/>    
+    <end type="TARGET" refId="37"/>  
+  </generalization>  
+  <generalization id="129">    
+    <end type="SOURCE" refId="49"/>    
+    <end type="TARGET" refId="36"/>  
+  </generalization>  
+  <association id="130">    
+    <end type="SOURCE" refId="42" navigable="false">      
+      <attribute id="131" name="mScanTask"/>      
+      <multiplicity id="132" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="41" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <nesting id="133">    
+    <end type="SOURCE" refId="11"/>    
+    <end type="TARGET" refId="10"/>  
+  </nesting>  
+  <generalization id="134">    
+    <end type="SOURCE" refId="9"/>    
+    <end type="TARGET" refId="37"/>  
+  </generalization>  
+  <association id="135">    
+    <bendpoint x="2762" y="221"/>    
+    <end type="SOURCE" refId="33" navigable="false">      
+      <attribute id="136" name="parent"/>      
+      <multiplicity id="137" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="38" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="138">    
+    <bendpoint x="2252" y="129"/>    
+    <end type="SOURCE" refId="35" navigable="false">      
+      <attribute id="139" name="tasks"/>      
+      <multiplicity id="140" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="37" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="141">    
+    <end type="SOURCE" refId="12"/>    
+    <end type="TARGET" refId="36"/>  
+  </generalization>  
+  <nesting id="142">    
+    <end type="SOURCE" refId="4"/>    
+    <end type="TARGET" refId="3"/>  
+  </nesting>  
+  <generalization id="143">    
+    <end type="SOURCE" refId="46"/>    
+    <end type="TARGET" refId="35"/>  
+  </generalization>  
+  <nesting id="144">    
+    <end type="SOURCE" refId="22"/>    
+    <end type="TARGET" refId="21"/>  
+  </nesting>  
+  <generalization id="145">    
+    <end type="SOURCE" refId="23"/>    
+    <end type="TARGET" refId="29"/>  
+  </generalization>  
+  <realization id="146">    
+    <bendpoint x="3422" y="129"/>    
+    <bendpoint x="3422" y="221"/>    
+    <end type="SOURCE" refId="35"/>    
+    <end type="TARGET" refId="38"/>  
+  </realization>  
+  <generalization id="147">    
+    <end type="SOURCE" refId="15"/>    
+    <end type="TARGET" refId="29"/>  
+  </generalization>  
+  <nesting id="148">    
+    <end type="SOURCE" refId="22"/>    
+    <end type="TARGET" refId="20"/>  
+  </nesting>  
+  <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+    accessors="true" visibility="true">    
+    <attributes public="false" package="false" protected="false" private="false" static="true"/>    
+    <operations public="false" package="false" protected="false" private="false" static="true"/>  
+  </classifier-display>  
+  <association-display labels="true" multiplicity="true"/>
+</class-diagram>
